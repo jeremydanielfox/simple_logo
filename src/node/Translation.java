@@ -16,7 +16,7 @@ public class Translation extends Node {
     }
 
     private Node getChild () {
-        return getChildren().get(0);
+        return getChildren().get("child");
     }
 
     private boolean isPositive () {

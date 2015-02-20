@@ -1,18 +1,18 @@
 package node;
 
-import java.util.List;
+import java.util.Map;
 
 public abstract class Node {
 
-    private List<Node> children;
+    private Map<String, Node> children;
     
     public abstract double evaluate();
     
-    public void addChild(Node child){
-        children.add(child);
+    public void addChild(String key, Node child){
+        children.put(key, child);
     }
     
-    protected List<Node> getChildren(){
+    protected Map<String, Node> getChildren(){
         return children;
     }
 }
