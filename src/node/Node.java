@@ -8,6 +8,10 @@ public abstract class Node {
     
     public abstract double evaluate();
     
+    public void addChild(Node child){
+        children.add(child);
+    }
+    
     protected List<Node> getChildren(){
         return children;
     }

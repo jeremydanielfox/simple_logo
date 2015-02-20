@@ -1,6 +1,5 @@
 package node;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -14,8 +13,7 @@ public class MathOperation extends Node {
     private String myOp;
     
 
-    public MathOperation (Node arg1, Node arg2, String op) {
-        Collections.addAll(getChildren(), arg1, arg2);
+    public MathOperation (String op) {
         buildTwoArgsMap();
         myOp = op;
     }

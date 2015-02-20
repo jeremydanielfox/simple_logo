@@ -4,8 +4,7 @@ public class Translation extends Node {
 
     private boolean positive;
 
-    public Translation (Node child, boolean positive) {
-        getChildren().add(child);
+    public Translation (boolean positive) {
         this.positive = positive;
 
     }
