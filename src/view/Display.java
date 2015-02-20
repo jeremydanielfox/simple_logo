@@ -5,7 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class Display {
+public class Display  {
 	private static Display instance;
 	private Stage myStage;
 	private Scene myScene;
