@@ -24,9 +24,9 @@ public class Display {
 	private Workspace myWorkspace;
 	private static Feed myFeed;
 	private static final ResourceBundle myValues = ResourceBundle.getBundle(
-			"resources/display/values", new Locale("display"));
+			"view.resources.Values_display", new Locale("en", "US"));
 
-	public Display(Stage stage, Receiver myReceiver) {
+	private Display(Stage stage, Receiver myReceiver) {
 		myStage = stage;
 		myRoot = new BorderPane();
 		myRoot.setBottom(myFeed.getInstance(myReceiver));

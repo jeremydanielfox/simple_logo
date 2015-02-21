@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 public class Workspace extends BorderPane {
 	private Node myTurtleView;
 	private static final ResourceBundle myValues = ResourceBundle.getBundle(
-			"resources/workspace/values", new Locale("workspace"));
+			"view.resources.Values_workspace", new Locale("en", "US"));
 
 	protected Workspace() {
 		myTurtleView = makeTurtleView();
