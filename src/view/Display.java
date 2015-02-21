@@ -26,16 +26,12 @@ public class Display {
 	private static final ResourceBundle myValues = ResourceBundle.getBundle(
 			"resources/display/values", new Locale("display"));
 
-	// private static final int WINDOW_WIDTH = 1000;
-	// private static final int WINDOW_HEIGHT = 1000;
-
-	private Display(Stage stage, Receiver myReceiver) {
+	public Display(Stage stage, Receiver myReceiver) {
 		myStage = stage;
 		myRoot = new BorderPane();
 		myRoot.setBottom(myFeed.getInstance(myReceiver));
 		myRoot.setTop(makeMenuBar());
-		//setupMenuBar();
-		myRoot.setCenter(makeTurtleView());
+		// setupMenuBar();
 		myRoot.setCenter(makeWorkspace());
 		myScene = new Scene(myRoot, Integer.parseInt(myValues
 				.getString("Width")), Integer.parseInt(myValues
@@ -49,12 +45,13 @@ public class Display {
 			instance = new Display(stage, myReceiver);
 		return instance;
 	}
-//
-//	private void setupMenuBar() {
-//		MenuBarBuilder myMBBuilder = new MenuBarBuilder();
-//		myMenuBar = myMBBuilder.getMenuBar();
-//		myRoot.setTop(myMenuBar);
-//	}
+
+	//
+	// private void setupMenuBar() {
+	// MenuBarBuilder myMBBuilder = new MenuBarBuilder();
+	// myMenuBar = myMBBuilder.getMenuBar();
+	// myRoot.setTop(myMenuBar);
+	// }
 
 	private Node makeMenuBar() {
 
@@ -86,7 +83,7 @@ public class Display {
 			MenuItem item = new MenuItem();
 			Method m = Display.class.getDeclaredMethod(getMethodName(s));
 			// not sure why I'm getting this error
-		//	item.setOnAction(e -> m.invoke(null, null));
+			// item.setOnAction(e -> m.invoke(null, null));
 			menu.getItems().add(item);
 		}
 		return menu;
@@ -103,15 +100,8 @@ public class Display {
 		return this.myScene;
 	}
 
-	private Node makeTurtleView() {
-		Canvas tv = new Canvas(
-				Integer.parseInt(myValues.getString("TV_Width")),
-				Integer.parseInt(myValues.getString("TV_Height")));
-		return tv;
-	}
-	
+
 	private Workspace makeWorkspace() {
 		return new Workspace();
 	}
 }
-

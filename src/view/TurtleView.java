@@ -16,13 +16,10 @@ public class TurtleView {
 	private static final String TURTLE_X_POSITION = "Turtle xpos";
 	private static final String TURTLE_Y_POSITION = "Turtle ypos";
 
-	Group myGroup;
-	Stage myStage;
-	Scene myScene;
+	private Group myGroup;
+	private Stage myStage;
+	private Scene myScene;
 
-	public TurtleView() {
-
-	}
 
 	public Scene init(Stage s, double width, double height) {
 		myGroup = new Group();
