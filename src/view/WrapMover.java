@@ -1,9 +1,11 @@
 package view;
 
-public class NormalMoveStrategy implements TurtleMoveStrategy {
+import javafx.geometry.Point2D;
+
+public class WrapMover implements TurtleMover {
 
 	@Override
-	public void moveTurtle() {
+	public void moveTurtle(Turtle turtle, Point2D translation) {
 		// TODO Auto-generated method stub
 
 	}

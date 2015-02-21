@@ -3,6 +3,7 @@ package view;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -22,6 +23,7 @@ public class TurtleView {
 	private Group myTurtles = new Group();
 	private Rectangle myBackground;
 	private Image turtleImage = new Image("Images/plain-turtle-small.png");
+	private TurtleMover myMover;
 	private static final int WIDTH = Integer.parseInt(myValues
 			.getString("TV_Width"));
 	private static final int HEIGHT = Integer.parseInt(myValues
@@ -37,6 +39,7 @@ public class TurtleView {
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myCanvas, myTurtles);
+		myMover = (TurtleMover) new NormalMover();
 		addTurtle(TURTLE_START_X, TURTLE_START_Y);
 	}
 
@@ -45,14 +48,21 @@ public class TurtleView {
 	}
 
 	protected void addTurtle(int x, int y) {
-		// Turtle turtle = new Turtle(Integer.parseInt(myValues
-		// .getString("Turtle xpos")), Integer.parseInt(myValues
-		// .getString("Turtle ypos")), turtleImage);
 		Turtle turtle = new Turtle(x, y, turtleImage);
 		myTurtles.getChildren().add(turtle);
 	}
 
 	protected Node getView() {
 		return myLayers;
+	}
+
+	protected void moveTurtle(Point2D changepos, int ID) {
+		for (Node current : myTurtles.getChildren()) {
+			Turtle toMove = (Turtle) current;
+			if (toMove.getID() == ID) {
+				myMover.moveTurtle(toMove, changepos);
+				break;
+			}
+		}
 	}
 }
