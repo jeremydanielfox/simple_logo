@@ -1,4 +1,4 @@
-package node;
+package model.node;
 
 public class Constant extends Node {
 
