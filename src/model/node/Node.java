@@ -1,4 +1,4 @@
-package node;
+package model.node;
 
 import java.util.Map;
 
@@ -12,7 +12,11 @@ public abstract class Node {
         children.put(key, child);
     }
     
-    protected Map<String, Node> getChildren(){
-        return children;
+    protected Node getChild(String key){
+        return children.get(key);
+    }
+    
+    protected int getChildrenSize(){
+        return children.size();
     }
 }

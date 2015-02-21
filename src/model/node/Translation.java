@@ -1,4 +1,4 @@
-package node;
+package model.node;
 
 public class Translation extends Node {
 
@@ -10,13 +10,13 @@ public class Translation extends Node {
     }
 
     public double evaluate () {
-        double distance = isPositive() ? getChild().evaluate() : -getChild().evaluate();
+        double distance = isPositive() ? getDistance().evaluate() : -getDistance().evaluate();
         // update TurtleData
         return distance;
     }
 
-    private Node getChild () {
-        return getChildren().get("child");
+    private Node getDistance () {
+        return getChild("distance");
     }
 
     private boolean isPositive () {

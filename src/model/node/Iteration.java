@@ -1,4 +1,4 @@
-package node;
+package model.node;
 
 public class Iteration extends Node {
 
@@ -10,6 +10,7 @@ public class Iteration extends Node {
         double temp = 0;
         for (double i = getVar(); i < getMax(); i += getIncrement()) {
             temp = getCommandsChild().evaluate();
+            // update local variable by increment
         }
         // remove local variable from database
         return temp;
@@ -32,18 +33,19 @@ public class Iteration extends Node {
     }
 
     private Node getVarChild () {
-        return getChildren().get("var");
+        // just a string will do
+        return getChild("var");
     }
 
     private Node getMaxChild () {
-        return getChildren().get("max");
+        return getChild("max");
     }
 
     private Node getIncrementChild () {
-        return getChildren().get("increment");
+        return getChild("increment");
     }
 
     private Node getCommandsChild () {
-        return getChildren().get("commands");
+        return getChild("commands");
     }
 }
