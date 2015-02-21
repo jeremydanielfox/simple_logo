@@ -83,7 +83,7 @@ public class Display {
 			MenuItem item = new MenuItem();
 			Method m = Display.class.getDeclaredMethod(getMethodName(s));
 			// not sure why I'm getting this error
-			// item.setOnAction(e -> m.invoke(null, null));
+//			 item.setOnAction(e -> m.invoke(null, null));
 			menu.getItems().add(item);
 		}
 		return menu;
