@@ -1,4 +1,5 @@
 package model;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -7,18 +8,24 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-public class Model {
+
+public class Model implements Receiver {
     private List<Entry<String, Pattern>> myPatterns;
-    
-    public Model (){
+
+    public Model () {
     }
-    
-    public void updateModel(String feed){
+
+    public void giveText (String text) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void updateModel (String feed) {
         Parser parser = new Parser(myPatterns);
         parser.parse(feed);
     }
-    
-    public void setLanguage(String language){
+
+    public void setLanguage (String language) {
         myPatterns = makePatterns(language);
         myPatterns.addAll(makePatterns("resources/languages/Syntax"));
     }
@@ -31,8 +38,8 @@ public class Model {
             String key = iter.nextElement();
             String regex = resources.getString(key);
             patterns.add(new SimpleEntry<String, Pattern>(key,
-                         // THIS IS THE KEY LINE
-                         Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+                              // THIS IS THE KEY LINE
+                               Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
         }
         return patterns;
     }
