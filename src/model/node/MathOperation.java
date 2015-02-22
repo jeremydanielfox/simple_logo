@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-public class MathOperation extends Node {
+public class MathOperation extends TreeNode {
 
     private static Random random = new Random();
 
@@ -54,11 +54,11 @@ public class MathOperation extends Node {
         return bound * random.nextDouble();
     }
 
-    private Node getFirstArg () {
+    private TreeNode getFirstArg () {
         return getChild("first");
     }
 
-    private Node getSecondArg () {
+    private TreeNode getSecondArg () {
         return getChild("second");
     }
 }

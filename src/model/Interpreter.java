@@ -1,16 +1,16 @@
 package model;
 
 import java.util.List;
-import model.node.Node;
+import model.node.TreeNode;
 
 
 public class Interpreter {
 
-    private List<Node> TreeList;
+    private List<TreeNode> TreeList;
 
     // get Syntax Trees in list
     public void interpret () {
-        for (Node n : TreeList) {
+        for (TreeNode n : TreeList) {
             n.evaluate();
         }
     }

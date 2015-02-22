@@ -1,6 +1,6 @@
 package model.node;
 
-public class Iteration extends Node {
+public class Iteration extends TreeNode {
 
     // no arguments since default values handle all 3 iteration types
     public Iteration () {
@@ -32,20 +32,20 @@ public class Iteration extends Node {
         return 1;
     }
 
-    private Node getVarChild () {
+    private TreeNode getVarChild () {
         // just a string will do
         return getChild("var");
     }
 
-    private Node getMaxChild () {
+    private TreeNode getMaxChild () {
         return getChild("max");
     }
 
-    private Node getIncrementChild () {
+    private TreeNode getIncrementChild () {
         return getChild("increment");
     }
 
-    private Node getCommandsChild () {
+    private TreeNode getCommandsChild () {
         return getChild("commands");
     }
 }

@@ -2,17 +2,17 @@ package model.node;
 
 import java.util.Map;
 
-public abstract class Node {
+public abstract class TreeNode {
 
-    private Map<String, Node> children;
+    private Map<String, TreeNode> children;
     
     public abstract double evaluate();
     
-    public void addChild(String key, Node child){
+    public void addChild(String key, TreeNode child){
         children.put(key, child);
     }
     
-    protected Node getChild(String key){
+    protected TreeNode getChild(String key){
         return children.get(key);
     }
     

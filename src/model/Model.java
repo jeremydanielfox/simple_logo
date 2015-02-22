@@ -16,7 +16,7 @@ public class Model implements Receiver {
     }
 
     public void giveText (String text) {
-        // TODO Auto-generated method stub
+        updateModel(text);
 
     }
 
