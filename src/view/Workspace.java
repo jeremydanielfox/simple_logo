@@ -5,7 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 
-public class Workspace extends BorderPane {
+public class Workspace {
 
 	BorderPane myRoot;
 	TurtleView myTurtleView;
@@ -18,8 +18,8 @@ public class Workspace extends BorderPane {
 
 	public BorderPane init() {
 		myRoot = new BorderPane();
-		myRoot.setRight(makeTurtleView());
-		myRoot.setCenter(makeHistory());
+		myRoot.setRight(makeHistory());
+		myRoot.setCenter(makeTurtleView());
 		myRoot.setLeft(makeVariables());
 		return myRoot;
 	}

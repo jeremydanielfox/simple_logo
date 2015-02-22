@@ -27,9 +27,9 @@ public class TurtleView {
 	}
 
 	public void addTurtle() {
-		Turtle turtle = new Turtle(
-				Integer.parseInt(myValues.getString("Turtle xpos")), 
-				Integer.parseInt(myValues.getString("Turtle ypos")));
+		Turtle turtle = new Turtle(Integer.parseInt(myValues
+				.getString("Turtle xpos")), Integer.parseInt(myValues
+				.getString("Turtle ypos")));
 
 	}
 

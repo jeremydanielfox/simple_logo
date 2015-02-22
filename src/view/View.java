@@ -10,13 +10,13 @@ public class View {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/view");
 
-	Stage myStage;
-	// Model myModel;
-	Display myDisplay;
+	private Stage myStage;
+	private Model myModel;
+	private Display myDisplay;
 
 	public View(Stage s) {
 		myStage = s;
-		// myModel = new Model();
+		myModel = new Model();
 	}
 
 	public void init() {

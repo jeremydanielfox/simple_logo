@@ -27,10 +27,11 @@ public class Display {
 				.getString("Width")), Integer.parseInt(myValues
 				.getString("Height")));
 	}
-	
+
 	private Node makeWorkspace() {
 		Workspace w = new Workspace();
-		return w;
+		BorderPane workspaceNode = w.init();
+		return workspaceNode;
 	}
 
 	private Node makeMenuBar() {
@@ -55,7 +56,7 @@ public class Display {
 		return menu;
 	}
 
-	private Method getMethodName(String s){
+	private Method getMethodName(String s) {
 		s.replaceAll(" ", "");
 		String first = String.valueOf(s.charAt(0));
 		s.replaceFirst("%c", first.toLowerCase());
