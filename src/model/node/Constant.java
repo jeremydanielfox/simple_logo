@@ -1,6 +1,6 @@
 package model.node;
 
-public class Constant extends Node {
+public class Constant extends TreeNode {
 
     private double value;
     

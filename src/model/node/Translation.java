@@ -1,6 +1,6 @@
 package model.node;
 
-public class Translation extends Node {
+public class Translation extends TreeNode {
 
     private boolean positive;
 
@@ -11,11 +11,11 @@ public class Translation extends Node {
 
     public double evaluate () {
         double distance = isPositive() ? getDistance().evaluate() : -getDistance().evaluate();
-        // update TurtleData
+        //myTurtle.getId(0).translate(distance);
         return distance;
     }
 
-    private Node getDistance () {
+    private TreeNode getDistance () {
         return getChild("distance");
     }
 
