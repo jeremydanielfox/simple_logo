@@ -7,13 +7,13 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    @Override
-    public void start (Stage s) {
-    	View view = new View(s);
-    	view.init();
-    }
+	@Override
+	public void start(Stage s) {
+		View view = new View(s);
+		view.init();
+	}
 
-    public static void main (String[] args) {
-        launch(args);
-    }
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
