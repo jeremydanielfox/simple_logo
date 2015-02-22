@@ -1,10 +1,11 @@
 package model.node;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class TreeNode {
 
-    private Map<String, TreeNode> children;
+    private Map<String, TreeNode> children = new HashMap<String, TreeNode>();
     
     public abstract double evaluate();
     

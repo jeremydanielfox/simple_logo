@@ -8,8 +8,8 @@ public class Interpreter {
 
     private List<TreeNode> TreeList;
 
-    // get Syntax Trees in list
-    public void interpret () {
+    // evaluate all Syntax Trees in list
+    public void interpret (List<TreeNode> list) {
         for (TreeNode n : TreeList) {
             n.evaluate();
         }
