@@ -1,5 +1,6 @@
 package view;
 
+import view.turtleview.TurtleView;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 

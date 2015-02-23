@@ -1,14 +1,13 @@
-package view;
+package view.turtleview;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Turtle extends ImageView {
-	private static final ResourceBundle myValues = ResourceBundle.getBundle(
-			"view.resources.Values_turtle", new Locale("en", "US"));
+	private static final ResourceBundle myValues = ResourceBundle
+			.getBundle("resources/values/turtleview");
 	private static final int WIDTH = Integer.parseInt(myValues
 			.getString("Width"));
 	private static int ID = 0;

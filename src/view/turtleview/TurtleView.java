@@ -1,4 +1,4 @@
-package view;
+package view.turtleview;
 
 import java.util.ResourceBundle;
 
@@ -21,17 +21,17 @@ public class TurtleView {
 	private StackPane myLayers;
 	private Group myTurtles = new Group();
 	private Rectangle myBackground;
-	private Image turtleImage = new Image("Images/plain-turtle-small.png");
+	private Image turtleImage = new Image("images/plain-turtle-small.png");
 	private TurtleMover myMover;
 	private static final int WIDTH = Integer.parseInt(myValues
-			.getString("TV_Width"));
+			.getString("Width"));
 	private static final int HEIGHT = Integer.parseInt(myValues
-			.getString("TV_Height"));
+			.getString("Height"));
 	private static final int TURTLE_START_X = WIDTH / 2;
 	private static final int TURTLE_START_Y = HEIGHT / 2;
 	private static final Color BACKGROUND_COLOR = Color.PURPLE;
 
-	protected TurtleView() {
+	public TurtleView() {
 		myCanvas = new Canvas(WIDTH, HEIGHT);
 		myGC = myCanvas.getGraphicsContext2D();
 		myBackground = new Rectangle(WIDTH, HEIGHT);
@@ -51,7 +51,7 @@ public class TurtleView {
 		myTurtles.getChildren().add(turtle);
 	}
 
-	protected Node getView() {
+	public Node getView() {
 		return myLayers;
 	}
 

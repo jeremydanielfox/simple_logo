@@ -30,7 +30,7 @@ public class Display {
 		myRoot.setCenter(makeWorkspace());
 		myScene = new Scene(myRoot, Integer.parseInt(myValues
 				.getString("Width")), Integer.parseInt(myValues
-						.getString("Height")));
+				.getString("Height")));
 	}
 
 	private Node makeWorkspace() {

@@ -19,6 +19,7 @@ public class View {
 	public View(Stage s) {
 		myStage = s;
 		myModel = new Model();
+		myModel.setLanguage(myValues.getString("Language"));
 	}
 
 	public void init() {
