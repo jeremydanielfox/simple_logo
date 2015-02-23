@@ -46,6 +46,7 @@ public class Iteration extends TreeNode {
     }
 
     private TreeNode getCommandsChild () {
+        // TODO: could hold multiple Nodes (e.g repeat 10 [fd 10 rt 90] )
         return getChild("commands");
     }
 }
