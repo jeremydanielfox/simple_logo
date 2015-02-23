@@ -22,6 +22,7 @@ public class Feed extends Parent {
 	private Feed(Receiver receiver) {
 		myReceiver = receiver;
 		myObjects = new HBox();
+		myObjects.setMaxWidth(Double.MAX_VALUE);
 		setupPrompter();
 		setupAdd();
 		setupEnter();
