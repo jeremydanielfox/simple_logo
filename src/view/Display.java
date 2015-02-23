@@ -1,5 +1,6 @@
 package view;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 
@@ -9,13 +10,13 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-
 import model.Receiver;
 
 public class Display {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/display");
 	private static Display instance;
+	
 	private Scene myScene;
 	private BorderPane myRoot;
 	private MenuBar myMenuBar;
@@ -60,29 +61,76 @@ public class Display {
 		Menu menu = new Menu(name);
 		String[] arrayCharles = myValues.getString(name).split(", ");
 		for (String s : arrayCharles) {
-			MenuItem item = new MenuItem();
-			item.setOnAction(e -> getMethodName(s));
+			MenuItem item = new MenuItem(s);
+			item.setOnAction(e -> runMethodFromName(s));
 			menu.getItems().add(item);
 		}
 		return menu;
 	}
 
-	private Method getMethodName(String s) {
-		s.replaceAll(" ", "");
-		String first = String.valueOf(s.charAt(0));
-		s.replaceFirst("%c", first.toLowerCase());
-		Method m;
+	private void runMethodFromName(String s) {
+		s = s.replaceAll(" ", "");
+		s = s.replaceFirst(s.substring(0, 1), s.substring(0, 1).toLowerCase());
 		try {
-			m = Display.class.getDeclaredMethod(s, (Class<?>[]) null);
-		} catch (NoSuchMethodException | SecurityException e) {
+			Method m = Display.class.getDeclaredMethod(s, (Class<?>[]) null);
+			m.invoke(this, (Object[]) null);
+		} catch (NoSuchMethodException | SecurityException
+				| IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
 			e.printStackTrace();
-			m = null;
 		}
-		return m;
 	}
 
 	public Scene getScene() {
 		return this.myScene;
+	}
+
+	private void loadCommand() {
+		System.out.println("Not Implemented");
+	}
+
+	private void saveCommand() {
+		System.out.println("Not Implemented");
+	}
+
+	private void quit() {
+		System.exit(0);
+	}
+	
+	private void undo() {
+		System.out.println("Not Implemented");
+	}
+	
+	private void redo() {
+		System.out.println("Not Implemented");
+	}
+	
+	private void cut() {
+		System.out.println("Not Implemented");
+	}
+	
+	private void copy() {
+		System.out.println("Not Implemented");
+	}
+	
+	private void paste() {
+		System.out.println("Not Implemented");
+	}
+	
+	private void chooseBackgroudColor() {
+		System.out.println("Not Implemented");
+	}
+	
+	private void choosePenColor() {
+		System.out.println("Not Implemented");
+	}
+
+	private void chooseLanguage() {
+		System.out.println("Not Implemented");
+	}
+	
+	private void showHelp() {
+		System.out.println("Not Implemented");
 	}
 
 }
