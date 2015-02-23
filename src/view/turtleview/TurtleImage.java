@@ -5,9 +5,9 @@ import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Turtle extends ImageView {
+public class TurtleImage extends ImageView {
 	private static final ResourceBundle myValues = ResourceBundle
-			.getBundle("resources/values/turtleview");
+			.getBundle("resources/values/turtle");
 	private static final int WIDTH = Integer.parseInt(myValues
 			.getString("Width"));
 	private static int ID = 0;
@@ -15,7 +15,7 @@ public class Turtle extends ImageView {
 	private boolean penDown;
 	private boolean hidden;
 
-	protected Turtle(double xpos, double ypos, Image img) {
+	protected TurtleImage(double xpos, double ypos, Image img) {
 		this.setTranslateX(xpos);
 		this.setTranslateY(ypos);
 		this.setImage(img);

@@ -2,6 +2,8 @@ package view.turtleview;
 
 import java.util.ResourceBundle;
 
+import model.NormalMover;
+import model.TurtleMover;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -47,7 +49,7 @@ public class TurtleView {
 	}
 
 	protected void addTurtle(int x, int y) {
-		Turtle turtle = new Turtle(x, y, turtleImage);
+		TurtleImage turtle = new TurtleImage(x, y, turtleImage);
 		myTurtles.getChildren().add(turtle);
 	}
 
@@ -57,7 +59,7 @@ public class TurtleView {
 
 	protected void moveTurtle(Point2D changepos, int ID) {
 		for (Node current : myTurtles.getChildren()) {
-			Turtle toMove = (Turtle) current;
+			TurtleImage toMove = (TurtleImage) current;
 			if (toMove.getID() == ID) {
 				myMover.moveTurtle(toMove, changepos);
 				break;
