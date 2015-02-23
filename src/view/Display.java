@@ -1,117 +1,88 @@
 package view;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+
 import model.Receiver;
 
 public class Display {
+	private static final ResourceBundle myValues = ResourceBundle
+			.getBundle("resources/values/display");
 	private static Display instance;
-	private Stage myStage;
 	private Scene myScene;
 	private BorderPane myRoot;
 	private MenuBar myMenuBar;
 	private Workspace myWorkspace;
 	private static Feed myFeed;
-	private static final ResourceBundle myValues = ResourceBundle.getBundle(
-			"resources/display/values", new Locale("display"));
 
-	// private static final int WINDOW_WIDTH = 1000;
-	// private static final int WINDOW_HEIGHT = 1000;
-
-	private Display(Stage stage, Receiver myReceiver) {
-		myStage = stage;
+	private Display(Receiver myReceiver) {
 		myRoot = new BorderPane();
-		myRoot.setBottom(myFeed.getInstance(myReceiver));
+		myFeed = Feed.getInstance(myReceiver);
+		myRoot.setBottom(myFeed);
 		myRoot.setTop(makeMenuBar());
-		//setupMenuBar();
-		myRoot.setCenter(makeTurtleView());
 		myRoot.setCenter(makeWorkspace());
 		myScene = new Scene(myRoot, Integer.parseInt(myValues
 				.getString("Width")), Integer.parseInt(myValues
-				.getString("Height")));
-		myStage.setScene(myScene);
-		myStage.show();
+						.getString("Height")));
 	}
 
-	protected static Display getInstance(Stage stage, Receiver myReceiver) {
+	private Node makeWorkspace() {
+		myWorkspace = new Workspace();
+		BorderPane workspaceNode = myWorkspace.init();
+		return workspaceNode;
+	}
+
+	protected static Display getInstance(Receiver myReceiver) {
 		if (instance == null)
-			instance = new Display(stage, myReceiver);
+			instance = new Display(myReceiver);
 		return instance;
 	}
-//
-//	private void setupMenuBar() {
-//		MenuBarBuilder myMBBuilder = new MenuBarBuilder();
-//		myMenuBar = myMBBuilder.getMenuBar();
-//		myRoot.setTop(myMenuBar);
-//	}
 
 	private Node makeMenuBar() {
 
-		MenuBar menuBar = new MenuBar();
-		try {
-			menuBar.getMenus().add(makeMenu("File"));
-			menuBar.getMenus().add(makeMenu("Edit"));
-			menuBar.getMenus().add(makeMenu("View"));
-			menuBar.getMenus().add(makeMenu("Options"));
-			menuBar.getMenus().add(makeMenu("Help"));
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return menuBar;
+		myMenuBar = new MenuBar();
+		myMenuBar.getMenus().add(makeMenu("File"));
+		myMenuBar.getMenus().add(makeMenu("Edit"));
+		myMenuBar.getMenus().add(makeMenu("View"));
+		myMenuBar.getMenus().add(makeMenu("Options"));
+		myMenuBar.getMenus().add(makeMenu("Help"));
+		return myMenuBar;
 	}
 
-	private Menu makeMenu(String name) throws NoSuchMethodException,
-			IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException {
+	private Menu makeMenu(String name) {
 		Menu menu = new Menu(name);
 		String[] arrayCharles = myValues.getString(name).split(", ");
 		for (String s : arrayCharles) {
 			MenuItem item = new MenuItem();
-			Method m = Display.class.getDeclaredMethod(getMethodName(s));
-			// not sure why I'm getting this error
-		//	item.setOnAction(e -> m.invoke(null, null));
+			item.setOnAction(e -> getMethodName(s));
 			menu.getItems().add(item);
 		}
 		return menu;
 	}
 
-	private String getMethodName(String s) {
+	private Method getMethodName(String s) {
 		s.replaceAll(" ", "");
 		String first = String.valueOf(s.charAt(0));
 		s.replaceFirst("%c", first.toLowerCase());
-		return s;
+		Method m;
+		try {
+			m = Display.class.getDeclaredMethod(s, (Class<?>[]) null);
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+			m = null;
+		}
+		return m;
 	}
 
 	public Scene getScene() {
 		return this.myScene;
 	}
 
-	private Node makeTurtleView() {
-		Canvas tv = new Canvas(
-				Integer.parseInt(myValues.getString("TV_Width")),
-				Integer.parseInt(myValues.getString("TV_Height")));
-		return tv;
-	}
-	
-	private Workspace makeWorkspace() {
-		return new Workspace();
-	}
 }
-

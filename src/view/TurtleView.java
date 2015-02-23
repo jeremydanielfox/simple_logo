@@ -1,34 +1,25 @@
 package view;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.canvas.Canvas;
 
 public class TurtleView {
 
-	private static final ResourceBundle myValues = ResourceBundle.getBundle(
-			"resources/display/values", new Locale("turtleview"));
-	private static final String TURTLE_X_POSITION = "Turtle xpos";
-	private static final String TURTLE_Y_POSITION = "Turtle ypos";
+	private static final ResourceBundle myValues = ResourceBundle
+			.getBundle("resources/values/turtleview");
 
-	Group myGroup;
-	Stage myStage;
-	Scene myScene;
+	Canvas myRoot;
 
 	public TurtleView() {
 
 	}
 
-	public Scene init(Stage s, double width, double height) {
-		myGroup = new Group();
-		myStage = s;
-		myScene = new Scene(myGroup, width, height);
-		return myScene;
+	public Canvas init() {
+		myRoot = new Canvas(Integer.parseInt(myValues.getString("Width")),
+				Integer.parseInt(myValues.getString("Height")));
+		return myRoot;
 	}
 
 	public void addNode(Node toAdd) {
@@ -37,8 +28,13 @@ public class TurtleView {
 
 	public void addTurtle() {
 		Turtle turtle = new Turtle(Integer.parseInt(myValues
-				.getString(TURTLE_X_POSITION)), Integer.parseInt(myValues
-				.getString(TURTLE_Y_POSITION)));
-		myGroup.getChildren().add(turtle);
+				.getString("Turtle xpos")), Integer.parseInt(myValues
+				.getString("Turtle ypos")));
+
 	}
+
+	public void addTurtle(int x, int y) {
+		Turtle turtle = new Turtle(x, y);
+	}
+
 }
