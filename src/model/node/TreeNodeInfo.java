@@ -31,10 +31,6 @@ public class TreeNodeInfo {
         return myNode;
     }
 
-    public int getChildNumber () {
-        return myChildNames.size();
-    }
-
     public String getNextChildName () {
         return myChildNames.remove();
     }
