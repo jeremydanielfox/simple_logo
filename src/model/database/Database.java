@@ -1,13 +1,20 @@
 package model.database;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.collections.FXCollections;
 
 public final class Database {
 
     private static Database instance;
-    private Map<String, String[]> varsMap;
-    private Map<String, String[][]> cmdsMap;
+    private static Map<String, String[]> varsMap = new HashMap<String, String[]>();
+    private static Map<String, String[][]> cmdsMap = new HashMap<String, String[][]>();
+    private static List<Turtle> turtleList = new ArrayList<Turtle>();
+    
+    private static Map<String, String> viewerVarsMap = FXCollections.observableMap(new HashMap<String, String>());
+    private static Map<String, String> viewerCmdsMap = FXCollections.observableMap(new HashMap<String, String>());
+    
 
     private Database () {
     }
@@ -20,11 +27,13 @@ public final class Database {
 
     public void addVariable (String name, String[] value) {
         varsMap.put(name, value);
+        viewerVarsMap.put(name, join(value, " "));
     }
 
     public void addCommand (String name, String[] args, String[] value) {
         String[][] mapValue = { args, value };
         cmdsMap.put(name, mapValue);
+        // add to cmdsMap;
     }
 
     public String[] getVariable (String name) {
@@ -35,21 +44,18 @@ public final class Database {
         return cmdsMap.get(name);
     }
     
-    public Map<String, String> getViewerVarsMap(){
-        Map<String, String> result = new HashMap<String,String>();
-        for (String key: varsMap.keySet()){
-            result.put(key, join(varsMap.get(key), " "));
-        }
-        return result;
+    public Turtle getTurtle(int id){
+        return TurtleList.get(id);
     }
     
-//    public Map<String, String> getViewerCmdsMap(){
-//        Map<String, String> result = new HashMap<String,String>();
-//        for (String key: cmdsMap.keySet()){
-//            result.put(key, join(cmdsMap.get(key), " "));
-//        }
-//        return result;
-//    }
+    public Map<String, String> getViewerVarsMap(){
+      return viewerVarsMap;
+    }
+    
+    public Map<String, String> getViewerCmdsMap(){
+        return viewerCmdsMap;
+    }
+
     
     private String join(String[] parts, String delim){
         StringBuilder result = new StringBuilder();
