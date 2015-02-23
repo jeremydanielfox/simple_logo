@@ -10,39 +10,50 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 
-public class Display {
+import model.Receiver;
 
+public class Display {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/display");
+	private static Display instance;
+	private Scene myScene;
+	private BorderPane myRoot;
+	private MenuBar myMenuBar;
+	private Workspace myWorkspace;
+	private static Feed myFeed;
 
-	Scene myScene;
-	BorderPane myRoot;
-
-	public Display() {
+	private Display(Receiver myReceiver) {
 		myRoot = new BorderPane();
-
+		myFeed = Feed.getInstance(myReceiver);
+		myRoot.setBottom(myFeed);
 		myRoot.setTop(makeMenuBar());
 		myRoot.setCenter(makeWorkspace());
 		myScene = new Scene(myRoot, Integer.parseInt(myValues
 				.getString("Width")), Integer.parseInt(myValues
-				.getString("Height")));
+						.getString("Height")));
 	}
 
 	private Node makeWorkspace() {
-		Workspace w = new Workspace();
-		BorderPane workspaceNode = w.init();
+		myWorkspace = new Workspace();
+		BorderPane workspaceNode = myWorkspace.init();
 		return workspaceNode;
+	}
+
+	protected static Display getInstance(Receiver myReceiver) {
+		if (instance == null)
+			instance = new Display(myReceiver);
+		return instance;
 	}
 
 	private Node makeMenuBar() {
 
-		MenuBar menuBar = new MenuBar();
-		menuBar.getMenus().add(makeMenu("File"));
-		menuBar.getMenus().add(makeMenu("Edit"));
-		menuBar.getMenus().add(makeMenu("View"));
-		menuBar.getMenus().add(makeMenu("Options"));
-		menuBar.getMenus().add(makeMenu("Help"));
-		return menuBar;
+		myMenuBar = new MenuBar();
+		myMenuBar.getMenus().add(makeMenu("File"));
+		myMenuBar.getMenus().add(makeMenu("Edit"));
+		myMenuBar.getMenus().add(makeMenu("View"));
+		myMenuBar.getMenus().add(makeMenu("Options"));
+		myMenuBar.getMenus().add(makeMenu("Help"));
+		return myMenuBar;
 	}
 
 	private Menu makeMenu(String name) {
@@ -73,4 +84,5 @@ public class Display {
 	public Scene getScene() {
 		return this.myScene;
 	}
+
 }

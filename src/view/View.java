@@ -2,6 +2,8 @@ package view;
 
 import java.util.ResourceBundle;
 
+import model.Model;
+import model.Receiver;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,7 +14,7 @@ public class View {
 
 	private Stage myStage;
 	private Model myModel;
-	private Display myDisplay;
+	private static Display myDisplay;
 
 	public View(Stage s) {
 		myStage = s;
@@ -21,7 +23,7 @@ public class View {
 
 	public void init() {
 		myStage.setTitle(myValues.getString("Title"));
-		myDisplay = new Display();
+		myDisplay = Display.getInstance((Receiver) myModel);
 		Scene scene = myDisplay.getScene();
 		myStage.setScene(scene);
 		myStage.show();

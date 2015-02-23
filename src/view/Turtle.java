@@ -4,8 +4,8 @@ import javafx.scene.image.ImageView;
 
 public class Turtle extends ImageView {
 
-	boolean penDown;
-	boolean hidden;
+	private boolean penDown;
+	private boolean hidden;
 
 	public Turtle(double xpos, double ypos) {
 		this.setTranslateX(xpos);
