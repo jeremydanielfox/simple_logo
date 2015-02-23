@@ -104,7 +104,7 @@ public class Parser {
 
         if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
             // handle making new variable or udc
-            // -- use [ ] as stopping and ending conditions
+            // -- use [ ] as ending conditions
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("Variable") || tokenProp[0].equals("Command")) {
