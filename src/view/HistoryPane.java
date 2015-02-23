@@ -1,5 +1,6 @@
 package view;
 
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 
@@ -8,10 +9,10 @@ public class HistoryPane {
 	ScrollPane myRoot;
 
 	public HistoryPane() {
-		myRoot = new ScrollPane();
 	}
 
-	public ScrollPane init() {
+	public Node init() {
+		myRoot = new ScrollPane();
 		return myRoot;
 	}
 

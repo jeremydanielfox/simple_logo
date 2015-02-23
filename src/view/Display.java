@@ -35,7 +35,7 @@ public class Display {
 
 	private Node makeWorkspace() {
 		myWorkspace = new Workspace();
-		BorderPane workspaceNode = myWorkspace.init();
+		Node workspaceNode = myWorkspace.init();
 		return workspaceNode;
 	}
 

@@ -1,5 +1,6 @@
 package view;
 
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 
@@ -11,7 +12,7 @@ public class VariablePane {
 		myRoot = new ScrollPane();
 	}
 
-	public ScrollPane init() {
+	public Node init() {
 		return myRoot;
 	}
 

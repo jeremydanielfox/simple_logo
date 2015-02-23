@@ -1,8 +1,6 @@
 package view;
 
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 
 public class Workspace {
@@ -16,7 +14,7 @@ public class Workspace {
 
 	}
 
-	public BorderPane init() {
+	public Node init() {
 		myRoot = new BorderPane();
 		myRoot.setRight(makeHistory());
 		myRoot.setCenter(makeTurtleView());
@@ -26,19 +24,19 @@ public class Workspace {
 
 	private Node makeHistory() {
 		myHistory = new HistoryPane();
-		ScrollPane histNode = myHistory.init();
+		Node histNode = myHistory.init();
 		return histNode;
 	}
 
 	private Node makeVariables() {
 		myVariables = new VariablePane();
-		ScrollPane varNode = myVariables.init();
+		Node varNode = myVariables.init();
 		return varNode;
 	}
 
 	private Node makeTurtleView() {
 		myTurtleView = new TurtleView();
-		Canvas tvNode = myTurtleView.init();
+		Node tvNode = myTurtleView.getView();
 		return tvNode;
 	}
 

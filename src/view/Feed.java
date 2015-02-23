@@ -19,11 +19,19 @@ public class Feed extends Parent {
 	private static final String ADD_TEXT = "Add";
 	private static final String ENTER_TEXT = "Return";
 
-	private Feed() {
+	private Feed(Receiver receiver) {
+		myReceiver = receiver;
 		myObjects = new HBox();
-		prompter = new TextField();
-		prompter.setPromptText(PROMPT_TEXT);
-		add = new Button(ADD_TEXT);
+		setupPrompter();
+		setupAdd();
+		setupEnter();
+		myObjects.getChildren().addAll(add, prompter, enter);
+	}
+
+	/**
+	 * 
+	 */
+	public void setupEnter() {
 		enter = new Button(ENTER_TEXT);
 		enter.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -32,13 +40,26 @@ public class Feed extends Parent {
 					myReceiver.giveText(prompter.getText());
 			}
 		});
-		myObjects.getChildren().addAll(add, prompter, enter);
+	}
+
+	/**
+	 * 
+	 */
+	public void setupAdd() {
+		add = new Button(ADD_TEXT);
+	}
+
+	/**
+	 * 
+	 */
+	public void setupPrompter() {
+		prompter = new TextField();
+		prompter.setPromptText(PROMPT_TEXT);
 	}
 
 	protected static Feed getInstance(Receiver receiver) {
 		if (instance == null) {
-			instance = new Feed();
-			myReceiver = receiver;
+			instance = new Feed(receiver);
 			setupFeed();
 		}
 		return instance;
