@@ -2,8 +2,8 @@ package view.turtleview;
 
 import java.util.ResourceBundle;
 
-import model.NormalMover;
-import model.TurtleMover;
+import model.UnboundedMover;
+import model.Mover;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -24,7 +24,7 @@ public class TurtleView {
 	private Group myTurtles = new Group();
 	private Rectangle myBackground;
 	private Image turtleImage = new Image("images/plain-turtle-small.png");
-	private TurtleMover myMover;
+	private Mover myMover;
 	private static final int WIDTH = Integer.parseInt(myValues
 			.getString("Width"));
 	private static final int HEIGHT = Integer.parseInt(myValues
@@ -40,7 +40,7 @@ public class TurtleView {
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myCanvas, myTurtles);
-		myMover = (TurtleMover) new NormalMover();
+		myMover = (Mover) new UnboundedMover();
 		addTurtle(TURTLE_START_X, TURTLE_START_Y);
 	}
 

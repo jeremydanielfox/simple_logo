@@ -2,8 +2,12 @@ package model.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import model.Turtle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 public final class Database {
 
@@ -12,8 +16,9 @@ public final class Database {
     private static Map<String, String[][]> cmdsMap = new HashMap<String, String[][]>();
     private static List<Turtle> turtleList = new ArrayList<Turtle>();
     
-    private static Map<String, String> viewerVarsMap = FXCollections.observableMap(new HashMap<String, String>());
-    private static Map<String, String> viewerCmdsMap = FXCollections.observableMap(new HashMap<String, String>());
+    private static ObservableList<String> feedHistory = FXCollections.observableArrayList(new ArrayList<String>());
+    private static ObservableMap<String, String> varsHistory = FXCollections.observableMap(new HashMap<String, String>());
+    private static ObservableMap<String, String> cmdsHistory = FXCollections.observableMap(new HashMap<String, String>());
     
 
     private Database () {
@@ -24,16 +29,23 @@ public final class Database {
             instance = new Database();
         return instance;
     }
+    
+    public void addTurtle(Turtle turtle){
+        turtleList.add(turtle);
+    }
 
+    public void addFeed (String feed){
+        feedHistory.add(feed);
+    }
     public void addVariable (String name, String[] value) {
         varsMap.put(name, value);
-        viewerVarsMap.put(name, join(value, " "));
+        varsHistory.put(name, join(value, " "));
     }
 
     public void addCommand (String name, String[] args, String[] value) {
         String[][] mapValue = { args, value };
         cmdsMap.put(name, mapValue);
-        // add to cmdsMap;
+        // add to cmdsHistory;
     }
 
     public String[] getVariable (String name) {
@@ -45,17 +57,22 @@ public final class Database {
     }
     
     public Turtle getTurtle(int id){
-        return TurtleList.get(id);
+        return turtleList.get(id);
     }
     
-    public Map<String, String> getViewerVarsMap(){
-      return viewerVarsMap;
+    // should somehow restrict modification with all Histories..
+    public List<String> getFeedHistory(){
+        FXCollections.unmodifiableObservableList(feedHistory);
+        return null;
     }
     
-    public Map<String, String> getViewerCmdsMap(){
-        return viewerCmdsMap;
+    public Map<String, String> getVarsHistory(){
+      return varsHistory;
     }
-
+    
+    public Map<String, String> getCmdsHistory(){
+        return cmdsHistory;
+    }
     
     private String join(String[] parts, String delim){
         StringBuilder result = new StringBuilder();
