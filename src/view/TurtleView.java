@@ -2,9 +2,6 @@ package view;
 
 import java.util.ResourceBundle;
 
-import model.NormalMover;
-import model.TurtleMover;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -13,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import model.NormalMover;
+import model.TurtleMover;
 
 public class TurtleView {
 
@@ -65,4 +64,8 @@ public class TurtleView {
 	// break;
 	// }
 	// }
+	
+	protected void setTurtleImage(Image img) {
+		turtleImage = img;
+	}
 }
