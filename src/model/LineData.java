@@ -19,4 +19,8 @@ public class LineData {
 	protected Point2D getFinish() {
 		return finish;
 	}
+	
+	public String toString(){
+		return "Start = " + start.toString() + ". Finish =  " + finish.toString();
+	}
 }

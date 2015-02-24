@@ -138,20 +138,12 @@ public class Display {
 		System.out.println("Not Implemented");
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void chooseBackgroundColor() {
-		System.out.println("Not Implemented");
 		myRoot.getChildren().add(myColorPicker);
-		myColorPicker.setOnAction(new EventHandler() {
-
-			@Override
-			public void handle(Event event) {
-				myTurtleView.setBackgroundColor(myColorPicker.getValue());
-				myRoot.getChildren().remove(myColorPicker);
-			}
-
-		});
+		myColorPicker.setOnAction(e -> setBackgroundColor());
 	}
+
+	
 
 	private void choosePenColor() {
 		System.out.println("Not Implemented");
@@ -192,5 +184,10 @@ public class Display {
 			System.out.println("Error caught");
 			return null;
 		}
+	}
+	
+	private void setBackgroundColor() {
+		myTurtleView.setBackgroundColor(myColorPicker.getValue());
+		myRoot.getChildren().remove(myColorPicker);
 	}
 }
