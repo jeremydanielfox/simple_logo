@@ -23,8 +23,8 @@ public class Turtle {
     public static void reset () {
         ourId = -1;
     }
-
-    protected Turtle () {
+    
+    public Turtle () {
         myId = ourId++;
         myPosition = HOME;
         myPreviousPosition = HOME; // seems sloppy...

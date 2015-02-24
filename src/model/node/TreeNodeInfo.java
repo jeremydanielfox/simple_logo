@@ -15,6 +15,9 @@ public class TreeNodeInfo {
         if (childNames.length > 0) { // would be for a Constant
             myChildNames = new LinkedList<String>(Arrays.asList(childNames));
         }
+        else{
+        	myChildNames = new LinkedList<String>();
+        }
     }
 
     public TreeNode getNode () {
