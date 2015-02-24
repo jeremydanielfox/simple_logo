@@ -19,7 +19,6 @@ public class Model implements Receiver {
     public Model () {
         myTurtle = new Turtle();
         myScreenData = new ScreenData(myTurtle);
-        Database.getInstance().addTurtle(myTurtle);
     }
 
     public void giveText (String text) {
@@ -29,12 +28,11 @@ public class Model implements Receiver {
 
     public ScreenData updateModel (String feed) {
         Database.getInstance().addFeed(feed);
-        Parser parser = new Parser(myPatterns);
+        Parser parser = new Parser(myPatterns, myTurtle);
         List<TreeNode> trees = parser.parse(feed);
         Interpreter interpreter = new Interpreter(trees);
         interpreter.interpret();
         myScreenData.addLines(myTurtle.getLineDatas());
-        //myScreenData.addTurtles(...)
         return myScreenData;
     }
 
