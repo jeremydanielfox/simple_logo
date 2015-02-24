@@ -10,8 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import model.NormalMover;
-import model.TurtleMover;
 
 public class TurtleView {
 
@@ -23,7 +21,7 @@ public class TurtleView {
 	private Group myTurtles = new Group();
 	private Rectangle myBackground;
 	private Image turtleImage = new Image("images/plain-turtle-small.png");
-	private TurtleMover myMover;
+	//private Mover myMover;
 	private static final int WIDTH = Integer.parseInt(myValues
 			.getString("Width"));
 	private static final int HEIGHT = Integer.parseInt(myValues
@@ -39,8 +37,8 @@ public class TurtleView {
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myCanvas, myTurtles);
-		myMover = (TurtleMover) new NormalMover();
-		addTurtle(TURTLE_START_X, TURTLE_START_Y);
+		//myMover = (Mover) new UnboundedMover();
+		//addTurtle(TURTLE_START_X, TURTLE_START_Y);
 	}
 
 	protected void setBackgroundColor(Color color) {

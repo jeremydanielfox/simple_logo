@@ -22,6 +22,7 @@ public class Parser {
     private List<Entry<String, Pattern>> myPatterns;
     private Deque<String[]> tokenProperties;
 
+    // Jk!! won't work... 2 Forwards would refer to the same node... :(
     private void buildParserMap () {
         parserMap = new HashMap<String, TreeNodeInfo>();
         parserMap.put("Forward", new TreeNodeInfo("Forward", new String[] { "distance" }));
@@ -36,20 +37,18 @@ public class Parser {
         buildParserMap(); // could be called in Model if static method
     }
 
-    public void parse (String feed) {
+    public List<TreeNode> parse (String feed) {
         List<String> tokens = Arrays.asList(feed.split("\\p{Z}"));
 
-        // read Resource Bundle, convert tokens to Queue
+        // read Resource Bundle, convert tokens to Deque
         tokenProperties = new LinkedList<String[]>(tokens.stream()
                 .map(this::getMatch)
                 .collect(Collectors.toList()));
-
-        Interpreter i = new Interpreter();
-        i.interpret(buildTrees());
+        return buildTrees();
     }
 
     private List<TreeNode> buildTrees () {
-        List<TreeNode> TreeList = new ArrayList<TreeNode>(); // to be returned
+        List<TreeNode> treeList = new ArrayList<TreeNode>(); // to be returned
 
         // build trees for all tokenProperties
         while (!tokenProperties.isEmpty()) {
@@ -84,9 +83,9 @@ public class Parser {
             }
 
             // nodeInfo will have all children
-            TreeList.add(nodeInfo.getNode());
+            treeList.add(nodeInfo.getNode());
         }
-        return TreeList;
+        return treeList;
     }
 
     private TreeNodeInfo getNextNodeInfo () {

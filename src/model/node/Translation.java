@@ -1,5 +1,7 @@
 package model.node;
 
+import model.database.Database;
+
 public class Translation extends TreeNode {
 
     private boolean positive;
@@ -11,8 +13,8 @@ public class Translation extends TreeNode {
 
     public double evaluate () {
         double distance = isPositive() ? getDistance().evaluate() : -getDistance().evaluate();
-        //myTurtle.getId(0).translate(distance);
-        return distance;
+        return Database.getInstance().getTurtle(0).translateTurtle(distance); 
+        // to be refactored later.. 
     }
 
     private TreeNode getDistance () {

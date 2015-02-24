@@ -6,13 +6,18 @@ import model.node.TreeNode;
 
 public class Interpreter {
 
-    private List<TreeNode> TreeList;
+    private List<TreeNode> treeList;
+    
+    public Interpreter(List<TreeNode> trees){
+        treeList = trees;
+    }
 
     // evaluate all Syntax Trees in list
-    public void interpret (List<TreeNode> list) {
-        for (TreeNode n : TreeList) {
+    public void interpret () {
+        for (TreeNode n : treeList) {
             n.evaluate();
         }
+        
     }
 
 }
