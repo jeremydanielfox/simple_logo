@@ -1,6 +1,5 @@
 package view;
 
-import view.turtleview.TurtleView;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
@@ -11,8 +10,8 @@ public class Workspace {
 	HistoryPane myHistory;
 	VariablePane myVariables;
 
-	public Workspace() {
-
+	public Workspace(TurtleView myTV) {
+		myTurtleView = myTV;
 	}
 
 	public Node init() {
@@ -36,7 +35,7 @@ public class Workspace {
 	}
 
 	private Node makeTurtleView() {
-		myTurtleView = new TurtleView();
+		// myTurtleView = new TurtleView();
 		Node tvNode = myTurtleView.getView();
 		return tvNode;
 	}

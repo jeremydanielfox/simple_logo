@@ -1,4 +1,4 @@
-package view.turtleview;
+package view;
 
 import java.util.ResourceBundle;
 
@@ -57,14 +57,12 @@ public class TurtleView {
 		return myLayers;
 	}
 
-	protected void moveTurtle(Point2D changepos, int ID) {
-		for (Node current : myTurtles.getChildren()) {
-			TurtleImage toMove = (TurtleImage) current;
-			if (toMove.getID() == ID) {
-				myMover.moveTurtle(toMove, changepos);
-				break;
-			}
-		}
-	}
-
+	// protected void moveTurtle(Point2D changepos, int ID) {
+	// for (Node current : myTurtles.getChildren()) {
+	// TurtleImage toMove = (TurtleImage) current;
+	// if (toMove.getID() == ID) {
+	// myMover.moveTurtle(toMove, changepos);
+	// break;
+	// }
+	// }
 }
