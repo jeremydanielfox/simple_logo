@@ -1,23 +1,35 @@
 package model;
 
 import java.util.Collection;
-
+import java.util.List;
 import javafx.collections.FXCollections;
 
+
 public class ScreenData {
-	private static ScreenData instance;
-	private static Collection<LineData> myLines;
-	private static Collection<TurtleData> myTurtles;
+    private Collection<LineData> myLines;
+    //private Collection<Turtle> myTurtles;
+    private Turtle myTurtle;
 
-	private ScreenData() {
-		myLines = FXCollections.observableArrayList();
-		myTurtles = FXCollections.observableArrayList();
-	}
-
-	protected static ScreenData getInstance() {
-		if (instance == null)
-			instance = new ScreenData();
-		return instance;
-	}
+    public ScreenData (Turtle turtle) {
+        myLines = FXCollections.observableArrayList();
+        //myTurtles = FXCollections.observableArrayList();
+        myTurtle = turtle;
+    }
+    
+    public void addLines(List<LineData> data){
+        myLines.addAll(data);
+    }
+    
+//    public void addTurtles(List<Turtle> turtles){
+//        myTurtles.addAll(turtles);
+//    }
+    
+    public Collection<LineData> getLines() {
+        return myLines;
+    }
+    
+    public Turtle getTurtle(){
+        return myTurtle;
+    }
 
 }

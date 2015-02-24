@@ -7,12 +7,18 @@ import java.util.ResourceBundle;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import model.database.Database;
+import model.node.TreeNode;
 
 
 public class Model implements Receiver {
     private List<Entry<String, Pattern>> myPatterns;
+    private Turtle myTurtle;
+    private ScreenData myScreenData;
 
     public Model () {
+        myTurtle = new Turtle();
+        myScreenData = new ScreenData(myTurtle);
     }
 
     public void giveText (String text) {
@@ -20,9 +26,14 @@ public class Model implements Receiver {
 
     }
 
-    public void updateModel (String feed) {
-        Parser parser = new Parser(myPatterns);
-        parser.parse(feed);
+    public ScreenData updateModel (String feed) {
+        Database.getInstance().addFeed(feed);
+        Parser parser = new Parser(myPatterns, myTurtle);
+        List<TreeNode> trees = parser.parse(feed);
+        Interpreter interpreter = new Interpreter(trees);
+        interpreter.interpret();
+        myScreenData.addLines(myTurtle.getLineDatas());
+        return myScreenData;
     }
 
     public void setLanguage (String language) {
