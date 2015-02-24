@@ -39,12 +39,12 @@ public class Turtle {
         // update TurtleData, add to list somewhere...
     }
 
-    public double translateTurtle (double distance) {
+    public double translate (double distance) {
         move(new PolarVector(distance, 0));
         return distance;
     }
 
-    public double rotateTurtle (double angle) {
+    public double rotate (double angle) {
         move(new PolarVector(0, angle));
         return angle;
 

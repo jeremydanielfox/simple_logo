@@ -3,38 +3,26 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import model.node.Constant;
+import model.node.NodeInfoFactory;
 import model.node.TreeNode;
 import model.node.TreeNodeInfo;
 
 
 public class Parser {
 
-    private Map<String, TreeNodeInfo> parserMap;
     private List<Entry<String, Pattern>> myPatterns;
+    private Turtle myTurtle;
     private Deque<String[]> tokenProperties;
 
-    // Jk!! won't work... 2 Forwards would refer to the same node... :(
-    private void buildParserMap () {
-        parserMap = new HashMap<String, TreeNodeInfo>();
-        parserMap.put("Forward", new TreeNodeInfo("Forward", new String[] { "distance" }));
-        parserMap.put("Backward", new TreeNodeInfo("Backward", new String[] { "distance" }));
-        parserMap.put("Sum", new TreeNodeInfo("Sum", new String[] { "arg1", "arg2" }));
-        parserMap.put("Repeat", new TreeNodeInfo("Iteration", new String[] { "max" }));
-        parserMap.put("Constant", new TreeNodeInfo("Constant", new String[0]));
-    }
-
-    public Parser (List<Entry<String, Pattern>> patterns) {
+    public Parser (List<Entry<String, Pattern>> patterns, Turtle turtle) {
         myPatterns = patterns;
-        buildParserMap(); // could be called in Model if static method
+        myTurtle = turtle;
     }
 
     public List<TreeNode> parse (String feed) {
@@ -90,12 +78,13 @@ public class Parser {
 
     private TreeNodeInfo getNextNodeInfo () {
         String[] tokenProp = getNextTokenProperty();
-        TreeNodeInfo nodeInfo = parserMap.get(tokenProp[0]);
         // special case of creating a constant node
         if (tokenProp[0].equals("Constant")) {
-            nodeInfo.setConstant(new Constant(Double.parseDouble(tokenProp[1])));
+            return NodeInfoFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
         }
-        return nodeInfo;
+        else{
+            return NodeInfoFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
+        }
     }
 
     private String[] getNextTokenProperty () {

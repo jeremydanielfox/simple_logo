@@ -14,7 +14,6 @@ public final class Database {
     private static Database instance;
     private static Map<String, String[]> varsMap = new HashMap<String, String[]>();
     private static Map<String, String[][]> cmdsMap = new HashMap<String, String[][]>();
-    private static List<Turtle> turtleList = new ArrayList<Turtle>();
     
     private static ObservableList<String> feedHistory = FXCollections.observableArrayList(new ArrayList<String>());
     private static ObservableMap<String, String> varsHistory = FXCollections.observableMap(new HashMap<String, String>());
@@ -30,10 +29,6 @@ public final class Database {
         return instance;
     }
     
-    public void addTurtle(Turtle turtle){
-        turtleList.add(turtle);
-    }
-
     public void addFeed (String feed){
         feedHistory.add(feed);
     }
@@ -54,10 +49,6 @@ public final class Database {
 
     public String[][] getCommand (String name) {
         return cmdsMap.get(name);
-    }
-    
-    public Turtle getTurtle(int id){
-        return turtleList.get(id);
     }
     
     // should somehow restrict modification with all Histories..
