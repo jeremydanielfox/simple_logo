@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import model.Receiver;
 
-public class Feed extends Parent {
+public class Feed {
 	private static Receiver myReceiver;
 	private static Feed instance;
 	private static HBox myObjects;
@@ -18,11 +18,11 @@ public class Feed extends Parent {
 	private static final String PROMPT_TEXT = "Input command here";
 	private static final String ADD_TEXT = "Add";
 	private static final String ENTER_TEXT = "Return";
+	private static final double PROMPT_WIDTH = 900;
 
 	private Feed(Receiver receiver) {
 		myReceiver = receiver;
 		myObjects = new HBox();
-		myObjects.setMaxWidth(Double.MAX_VALUE);
 		setupPrompter();
 		setupAdd();
 		setupEnter();
@@ -38,7 +38,9 @@ public class Feed extends Parent {
 			@Override
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
-					myReceiver.giveText(prompter.getText());
+					CommandSender.send(prompter.getText());
+				// myReceiver.giveText(prompter.getText());
+				prompter.clear();
 			}
 		});
 	}
@@ -56,18 +58,23 @@ public class Feed extends Parent {
 	public void setupPrompter() {
 		prompter = new TextField();
 		prompter.setPromptText(PROMPT_TEXT);
+		prompter.setPrefWidth(PROMPT_WIDTH);
 	}
 
 	protected static Feed getInstance(Receiver receiver) {
 		if (instance == null) {
 			instance = new Feed(receiver);
-			setupFeed();
 		}
 		return instance;
 	}
 
-	private static void setupFeed() {
-		instance.getChildren().addAll(myObjects);
+	//
+	// private static void setupFeed() {
+	// instance.getChildren().addAll(myObjects);
+	// }
+
+	protected HBox getFeed() {
+		return myObjects;
 	}
 
 }

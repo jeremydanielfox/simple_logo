@@ -1,4 +1,4 @@
-package view.turtleview;
+package view;
 
 import java.util.ResourceBundle;
 

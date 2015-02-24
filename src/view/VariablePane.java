@@ -29,7 +29,7 @@ public class VariablePane {
 		Label title = new Label("Variables");
 		title.setFont(new Font(30));
 //		myMap = Database.getViewerVarsMap();
-		myList = FXCollections.observableArrayList(myMap.keySet());
+		myList = FXCollections.observableArrayList();//myMap.keySet());
 		myListView = new ListView<String>(myList);
 		myListView.setPrefHeight(0);
 		VBox.setVgrow(myListView, Priority.ALWAYS);
