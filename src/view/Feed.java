@@ -38,7 +38,8 @@ public class Feed {
 			@Override
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
-					myReceiver.giveText(prompter.getText());
+					CommandSender.send(prompter.getText());
+				// myReceiver.giveText(prompter.getText());
 				prompter.clear();
 			}
 		});
@@ -66,10 +67,11 @@ public class Feed {
 		}
 		return instance;
 	}
-//
-//	private static void setupFeed() {
-//		instance.getChildren().addAll(myObjects);
-//	}
+
+	//
+	// private static void setupFeed() {
+	// instance.getChildren().addAll(myObjects);
+	// }
 
 	protected HBox getFeed() {
 		return myObjects;
