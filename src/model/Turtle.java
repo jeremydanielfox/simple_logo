@@ -8,7 +8,7 @@ import javafx.geometry.Point2D;
 
 public class Turtle {
     private static int ourId = -1; // first new turtle will have id of 0
-    
+
     private Point2D myPosition;
     private Point2D myPreviousPosition;
     private double myHeading;
@@ -21,15 +21,15 @@ public class Turtle {
     private static final Mover MOVER = new UnboundedMover();
 
     public static void reset () {
-          ourId = -1; 
-       }
-    // remember to change back to protected
+        ourId = -1;
+    }
+    
     public Turtle () {
         myId = ourId++;
         myPosition = HOME;
-        myPreviousPosition = HOME; //seems sloppy... 
+        myPreviousPosition = HOME; // seems sloppy...
         myHeading = 0;
-        myLines = new ArrayList<LineData> ();
+        myLines = new ArrayList<LineData>();
         visible = true;
         penUp = false;
     }
@@ -50,13 +50,20 @@ public class Turtle {
 
     }
 
+    public double towards (Point2D target) {
+        Point2D deltaVector = myPosition.subtract(target);
+        // must generate cases for each quadrant type... also cases if angle is multiple of 90 deg
+        return 0;
+    }
+
+    // arguing that it shouldn't go through MOVER? algorithm for goHome doesn't change
     public double goHome (Turtle turtle) {
         double r = HOME.distance(turtle.getPosition());
-        double theta = turtle.getPosition().angle(HOME);
-        move(new PolarVector(r, theta));
+        towards(HOME);
+        setPosition(HOME);
         return r;
     }
-    
+
     public int getId () {
         return myId;
     }
@@ -66,18 +73,28 @@ public class Turtle {
         myPosition = position;
     }
 
+    // heading must be between 0 and 360
     protected void setHeading (double heading) {
-        myHeading = heading;
+        if (heading >= 0 && heading < 360) {
+            myHeading = heading;
+            return;
+        }
+        if (heading < 0) {
+            setHeading(heading + 360);
+        }
+        else { // heading must be greater than 360
+            setHeading(heading - 360);
+        }
     }
-    
-    protected void addLine(LineData data){
+
+    protected void addLine (LineData data) {
         myLines.add(data);
     }
 
     public Point2D getPosition () {
         return myPosition;
     }
-    
+
     protected Point2D getPreviousPosition () {
         return myPreviousPosition;
     }
@@ -85,8 +102,8 @@ public class Turtle {
     public double getHeading () {
         return myHeading;
     }
-    
-    protected List<LineData> getLineDatas(){
+
+    protected List<LineData> getLineDatas () {
         return Collections.unmodifiableList(myLines);
     }
 
