@@ -34,12 +34,15 @@ public class VariablePane {
 		Button editButton = new Button("Edit");
 		editButton.setOnMouseClicked(e -> handleMouseInput());
 		editButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		Button addButton = new Button("Add");
+		addButton.setOnMouseClicked(e -> handleMouseInput());
+		addButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		myMap = myData.getVarsHistory();
 		myList = FXCollections.observableArrayList(myMap.keySet());
 		myListView = new ListView<String>(myList);
 		myListView.setPrefHeight(0);
 		VBox.setVgrow(myListView, Priority.ALWAYS);
-		titleBox.getChildren().addAll(title, editButton);
+		titleBox.getChildren().addAll(title, editButton, addButton);
 		myRoot.getChildren().addAll(titleBox, myListView);
 		return myRoot;
 	}
