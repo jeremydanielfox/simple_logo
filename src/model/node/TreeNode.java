@@ -13,10 +13,10 @@ public abstract class TreeNode {
 
     public abstract double evaluate();
     
-    public void addChild(String key, TreeNode child){
-        children.put(key, child);
+    public void addChild (TreeNode node) {
+        children.put(myChildNames.poll(), node);
     }
-    
+
     protected TreeNode getChild(String key){
         return children.get(key);
     }

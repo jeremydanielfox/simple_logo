@@ -9,9 +9,8 @@ import java.util.Map.Entry;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import model.node.NodeInfoFactory;
+import model.node.NodeFactory;
 import model.node.TreeNode;
-import model.node.TreeNodeInfo;
 
 
 public class Parser {
@@ -44,17 +43,17 @@ public class Parser {
             // TODO: must handle list starts/ends for iterators/conditionals
             // -- recognize them (error-check) but not put in tree
 
-            // nodeInfo initializes appropriate node, uses tokenProperties
-            TreeNodeInfo nodeInfo = getNextNodeInfo();
+            // node initializes appropriate node, uses tokenProperties
+            TreeNode node = getNextNode();
 
-            // push nodeInfo onto stack
-            Stack<TreeNodeInfo> nodeInfoStack = new Stack<TreeNodeInfo>();
-            nodeInfoStack.push(nodeInfo);
+            // push node onto stack
+            Stack<TreeNode> nodeStack = new Stack<TreeNode>();
+            nodeStack.push(node);
 
-            // continue to add children until node in nodeInfo is filled
-            while (!nodeInfoStack.empty()) {
-                if (nodeInfoStack.peek().allChildrenPresent()) {
-                    nodeInfoStack.pop();
+            // continue to add children until node in node is filled
+            while (!nodeStack.empty()) {
+                if (nodeStack.peek().allChildrenPresent()) {
+                    nodeStack.pop();
                     continue;
                 }
                 if (tokenProperties.isEmpty()) {
@@ -62,28 +61,28 @@ public class Parser {
                     // -- e.g. fd sum 50
                 }
 
-                TreeNodeInfo childNodeInfo = getNextNodeInfo();
-                nodeInfoStack.peek().addChild(childNodeInfo.getNode());
+                TreeNode childNode = getNextNode();
+                nodeStack.peek().addChild(childNode);
 
-                if (!childNodeInfo.allChildrenPresent()) {
-                    nodeInfoStack.add(childNodeInfo); // currentNodeInfo
+                if (!childNode.allChildrenPresent()) {
+                    nodeStack.add(childNode); // currentNode
                 }
             }
 
-            // nodeInfo will have all children
-            treeList.add(nodeInfo.getNode());
+            // node will have all children
+            treeList.add(node);
         }
         return treeList;
     }
 
-    private TreeNodeInfo getNextNodeInfo () {
+    private TreeNode getNextNode () {
         String[] tokenProp = getNextTokenProperty();
         // special case of creating a constant node
         if (tokenProp[0].equals("Constant")) {
-            return NodeInfoFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
+            return NodeFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
         }
         else{
-            return NodeInfoFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
+            return NodeFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
         }
     }
 
