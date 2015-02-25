@@ -1,23 +1,21 @@
 package model;
 
-import java.util.List;
 import model.node.TreeNode;
-
 
 public class Interpreter {
 
-    private List<TreeNode> treeList;
-    
-    public Interpreter(List<TreeNode> trees){
-        treeList = trees;
-    }
+	private TreeNode tree;
 
-    // evaluate all Syntax Trees in list
-    public void interpret () {
-        for (TreeNode n : treeList) {
-            n.evaluate();
-        }
-        
-    }
+	public Interpreter(TreeNode treeInfo){
+		tree = treeInfo;
+	}
 
+	// evaluate all Syntax Trees in list
+	public void interpret () {
+		while (tree.hasNeighbor()){
+			tree.evaluate();
+			tree = tree.getNeighbor();
+		}
+	}	
 }
+

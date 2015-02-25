@@ -6,12 +6,14 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import model.node.NodeInfoFactory;
+import model.node.NodeFactory;
 import model.node.TreeNode;
-import model.node.TreeNodeInfo;
+import model.node.iteration.DoTimes;
+import model.node.iteration.For;
 
 
 public class Parser {
@@ -19,13 +21,15 @@ public class Parser {
     private List<Entry<String, Pattern>> myPatterns;
     private Turtle myTurtle;
     private Deque<String[]> tokenProperties;
+    private Queue<String> tokenTracker = new LinkedList<String>();
+    private Stack<String> openBrackets;
 
     public Parser (List<Entry<String, Pattern>> patterns, Turtle turtle) {
         myPatterns = patterns;
         myTurtle = turtle;
     }
 
-    public List<TreeNode> parse (String feed) {
+    public TreeNode parse (String feed) {
         List<String> tokens = Arrays.asList(feed.split("\\p{Z}"));
 
         // read Resource Bundle, convert tokens to Deque
@@ -35,78 +39,101 @@ public class Parser {
         return buildTrees();
     }
 
-    private List<TreeNode> buildTrees () {
-        List<TreeNode> treeList = new ArrayList<TreeNode>(); // to be returned
-
+    private TreeNode buildTrees () {
         // build trees for all tokenProperties
+        TreeNode root = null;
+        TreeNode last = null;
+        boolean needRoot = true;
         while (!tokenProperties.isEmpty()) {
 
             // TODO: must handle list starts/ends for iterators/conditionals
             // -- recognize them (error-check) but not put in tree
 
-            // nodeInfo initializes appropriate node, uses tokenProperties
-            TreeNodeInfo nodeInfo = getNextNodeInfo();
+            // appropriate node generated using tokenProperties
+            TreeNode node = getNextNode();
 
-            // push nodeInfo onto stack
-            Stack<TreeNodeInfo> nodeInfoStack = new Stack<TreeNodeInfo>();
-            nodeInfoStack.push(nodeInfo);
+            addChildren(node);
 
-            // continue to add children until node in nodeInfo is filled
-            while (!nodeInfoStack.empty()) {
-                if (nodeInfoStack.peek().allChildrenPresent()) {
-                    nodeInfoStack.pop();
-                    continue;
-                }
-                if (tokenProperties.isEmpty()) {
-                    // throw "unexpected end of instructions" error
-                    // -- e.g. fd sum 50
-                }
-
-                TreeNodeInfo childNodeInfo = getNextNodeInfo();
-                nodeInfoStack.peek().addChild(childNodeInfo.getNode());
-
-                if (!childNodeInfo.allChildrenPresent()) {
-                    nodeInfoStack.add(childNodeInfo); // currentNodeInfo
-                }
+            // node will have all children
+            if (needRoot) {
+                root = node;
+                last = node;
+                needRoot = false;
             }
-
-            // nodeInfo will have all children
-            treeList.add(nodeInfo.getNode());
+            else {
+                last.setNeighbor(node);
+                last = last.getNeighbor();
+            }
         }
-        return treeList;
+        return root;
     }
 
-    private TreeNodeInfo getNextNodeInfo () {
+    private void addChildren (TreeNode node) {
+        if (node.allChildrenPresent()) { return; }
+        if (tokenProperties.isEmpty()) {
+            // throw "unexpected end of instructions" error
+            // -- e.g. fd sum 50
+        }
+        TreeNode childNode = getNextNode();
+        addChildren(childNode);
+
+        if (!tokenTracker.isEmpty() && (node instanceof DoTimes || node instanceof For)) {
+            tokenTracker.poll();
+        }
+        node.addChild(childNode);
+        return;
+    }
+    
+
+    private TreeNode getNextNode () {
         String[] tokenProp = getNextTokenProperty();
+        TreeNode tempNode;
         // special case of creating a constant node
         if (tokenProp[0].equals("Constant")) {
-            return NodeInfoFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
+            tempNode = NodeFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
         }
-        else{
-            return NodeInfoFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
+        else {
+            tempNode = NodeFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
         }
+        tokenTracker = tempNode.getTokenTracker();
+        return tempNode;
     }
 
     private String[] getNextTokenProperty () {
         String[] tokenProp = tokenProperties.poll();
 
-        if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
+        if (tokenProp[0].equals("Comment")) {
+            // TODO: recognize comments, must know when lines end
+            return getNextTokenProperty();
+        }
+        else if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
             // handle making new variable or udc
             // -- use [ ] as ending conditions
             return getNextTokenProperty();
         }
-        else if (tokenProp[0].equals("Variable") || tokenProp[0].equals("Command")) {
+        else if (tokenProp[0].equals("Variable")) {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
-            // otherwise throw command/variable not found exception
+            // otherwise throw variable not found exception
+            testForVar();
+            return getNextTokenProperty();
+        }
+        else if (tokenProp[0].equals("Command")) {
+            // check database if variable/udc exists, replace with value
+            // -- use deque functionality: addFirst
+            // otherwise throw command not found exception
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("ListStart")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
+            testForOpenBracket();
+            openBrackets.push("Open");
             return null;
         }
         else if (tokenProp[0].equals("ListEnd")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
+            testForClosedBracket();
+            openBrackets.pop(); // need
             return null;
         }
         else {
@@ -136,5 +163,29 @@ public class Parser {
 
     private boolean match (String input, Pattern regex) {
         return regex.matcher(input).matches();
+    }
+
+    private void testForOpenBracket () {
+        if (!tokenTracker.poll().equals("ListStart")) {
+            // Throw incorrect input error
+        }
+    }
+
+    private void testForClosedBracket () {
+        if (!tokenTracker.poll().equals("ListEnd")) {
+            // Throw incorrect input error
+        }
+    }
+
+    private void testForVar () {
+        if (!tokenTracker.poll().equals("Variable")) {
+            // Throw incorrect input error
+        }
+    }
+
+    private void testForOther () {
+        String token = tokenTracker.poll();
+        if (token.equals("ListStart") || token.equals("ListEnd") || token.equals("Variable"))
+        ;
     }
 }

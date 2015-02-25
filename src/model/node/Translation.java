@@ -1,7 +1,6 @@
 package model.node;
 
 import model.Turtle;
-import model.database.Database;
 
 public class Translation extends TreeNode {
 
@@ -9,6 +8,7 @@ public class Translation extends TreeNode {
     private Turtle turtle;
 
     public Translation (boolean positive, Turtle t) {
+        addChildNames(new String[] {"distance"});
         this.positive = positive;
         turtle = t;
 

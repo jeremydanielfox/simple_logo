@@ -32,12 +32,12 @@ public final class Database {
     public void addFeed (String feed){
         feedHistory.add(feed);
     }
-    public void addVariable (String name, String[] value) {
+    public void putVariable (String name, String[] value) {
         varsMap.put(name, value);
         varsHistory.put(name, join(value, " "));
     }
 
-    public void addCommand (String name, String[] args, String[] value) {
+    public void putCommand (String name, String[] args, String[] value) {
         String[][] mapValue = { args, value };
         cmdsMap.put(name, mapValue);
         // add to cmdsHistory;
@@ -52,12 +52,12 @@ public final class Database {
     }
     
     // should somehow restrict modification with all Histories..
-    public List<String> getFeedHistory(){
+    public ObservableList<String> getFeedHistory(){
         FXCollections.unmodifiableObservableList(feedHistory);
-        return null;
+        return feedHistory;
     }
     
-    public Map<String, String> getVarsHistory(){
+    public ObservableMap<String, String> getVarsHistory(){
       return varsHistory;
     }
     
