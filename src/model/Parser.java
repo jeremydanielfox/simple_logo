@@ -89,8 +89,12 @@ public class Parser {
 
     private String[] getNextTokenProperty () {
         String[] tokenProp = tokenProperties.poll();
-
-        if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
+        
+        if (tokenProp[0].equals("Comment")){
+            // TODO: recognize comments, must know when lines end
+            return getNextTokenProperty(); 
+        }
+        else if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
             // handle making new variable or udc
             // -- use [ ] as ending conditions
             return getNextTokenProperty();
