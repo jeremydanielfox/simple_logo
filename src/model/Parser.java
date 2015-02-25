@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -83,7 +82,6 @@ public class Parser {
         node.addChild(childNode);
         return;
     }
-    
 
     private TreeNode getNextNode () {
         String[] tokenProp = getNextTokenProperty();
@@ -187,5 +185,9 @@ public class Parser {
         String token = tokenTracker.poll();
         if (token.equals("ListStart") || token.equals("ListEnd") || token.equals("Variable"))
         ;
+    }
+
+    protected int multiply (int x, int y){
+        return x*y;
     }
 }
