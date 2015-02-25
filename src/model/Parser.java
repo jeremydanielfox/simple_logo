@@ -43,36 +43,32 @@ public class Parser {
             // TODO: must handle list starts/ends for iterators/conditionals
             // -- recognize them (error-check) but not put in tree
 
-            // node initializes appropriate node, uses tokenProperties
+            // appropriate node generated using tokenProperties
             TreeNode node = getNextNode();
 
-            // push node onto stack
-            Stack<TreeNode> nodeStack = new Stack<TreeNode>();
-            nodeStack.push(node);
-
-            // continue to add children until node in node is filled
-            while (!nodeStack.empty()) {
-                if (nodeStack.peek().allChildrenPresent()) {
-                    nodeStack.pop();
-                    continue;
-                }
-                if (tokenProperties.isEmpty()) {
-                    // throw "unexpected end of instructions" error
-                    // -- e.g. fd sum 50
-                }
-
-                TreeNode childNode = getNextNode();
-                nodeStack.peek().addChild(childNode);
-
-                if (!childNode.allChildrenPresent()) {
-                    nodeStack.add(childNode); // currentNode
-                }
-            }
+            addChildren(node);
 
             // node will have all children
             treeList.add(node);
         }
         return treeList;
+    }
+    
+    private void addChildren(TreeNode node){
+        if (node.allChildrenPresent()){
+            return;
+        }
+        if (tokenProperties.isEmpty()) {
+            // throw "unexpected end of instructions" error
+            // -- e.g. fd sum 50
+        }
+        TreeNode childNode = getNextNode();
+        node.addChild(childNode);
+        
+        if (!childNode.allChildrenPresent()) {
+            addChildren(childNode); // currentNode
+        }       
+        return;
     }
 
     private TreeNode getNextNode () {
