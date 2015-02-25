@@ -11,12 +11,12 @@ public class LineData {
 		finish = f;
 	}
 
-	protected Point2D getStart() {
+	public Point2D getStart() {
 		return start;
 
 	}
 
-	protected Point2D getFinish() {
+	public Point2D getFinish() {
 		return finish;
 	}
 	

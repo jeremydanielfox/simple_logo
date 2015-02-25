@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 import javafx.scene.Group;
@@ -10,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import model.LineData;
+import model.TurtleData;
 
 public class TurtleView {
 
@@ -25,6 +28,10 @@ public class TurtleView {
 			.getString("Width"));
 	private static final int HEIGHT = Integer.parseInt(myValues
 			.getString("Height"));
+	private static final int TURTLE_WIDTH = Integer.parseInt(myValues
+			.getString("TurtleWidth"));
+	private static final int TURTLE_HEIGHT = Integer.parseInt(myValues
+			.getString("TurtleHeight"));
 	private static final int TURTLE_START_X = WIDTH / 2;
 	private static final int TURTLE_START_Y = HEIGHT / 2;
 	private static final Color BACKGROUND_COLOR = Color.PURPLE;
@@ -35,9 +42,7 @@ public class TurtleView {
 		myBackground = new Rectangle(WIDTH, HEIGHT);
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
-		myLayers.getChildren().addAll(myBackground, myCanvas, myTurtles);
-		//myMover = (Mover) new UnboundedMover();
-		//addTurtle(TURTLE_START_X, TURTLE_START_Y);
+		myLayers.getChildren().addAll(myBackground, myCanvas);
 	}
 
 	public void setBackgroundColor(Color color) {
@@ -53,16 +58,22 @@ public class TurtleView {
 		return myLayers;
 	}
 
-	// protected void moveTurtle(Point2D changepos, int ID) {
-	// for (Node current : myTurtles.getChildren()) {
-	// TurtleImage toMove = (TurtleImage) current;
-	// if (toMove.getID() == ID) {
-	// myMover.moveTurtle(toMove, changepos);
-	// break;
-	// }
-	// }
-	
 	public void setTurtleImage(Image img) {
 		turtleImage = img;
+	}
+
+	private void drawLines(Collection<LineData> lineData) {
+		for (LineData current : lineData) {
+			myGC.strokeLine(current.getStart().getX(), current.getStart()
+					.getY(), current.getFinish().getX(), current.getFinish()
+					.getY());
+		}
+	}
+
+	private void drawTurtles(Collection<TurtleData> td) {
+		for (TurtleData current : td) {
+			myGC.drawImage(turtleImage, current.getX(), current.getY(),
+					TURTLE_WIDTH, TURTLE_HEIGHT);
+		}
 	}
 }
