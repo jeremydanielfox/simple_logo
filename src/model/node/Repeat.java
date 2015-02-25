@@ -1,14 +1,16 @@
 package model.node;
 
-public class Iteration extends TreeNode {
+import java.util.Queue;
+
+public class Repeat extends TreeNode {
 
     // no arguments since default values handle all 3 iteration types
-    public Iteration () {
+    public Repeat () {
     }
 
     public double evaluate () {
         double temp = 0;
-        for (double i = getVar(); i < getMax(); i += getIncrement()) {
+        for (double i = getVar(); i < getMax(); i += 1) {
             temp = getCommandsChild().evaluate();
             // update local variable by increment
         }
@@ -16,36 +18,27 @@ public class Iteration extends TreeNode {
         return temp;
     }
 
-    private double getVar () {
+    protected double getVar () {
         if (getVarChild() != null) { return getVarChild().evaluate();
         // add local variable to database
         }
         return 0;
     }
 
-    private double getMax () {
+    protected double getMax () {
         return getMaxChild().evaluate(); // will be present for every iteration type
     }
 
-    private double getIncrement () {
-        if (getIncrementChild() != null) { return getIncrementChild().evaluate(); }
-        return 1;
-    }
-
-    private TreeNode getVarChild () {
+    protected TreeNode getVarChild () {
         // just a string will do
         return getChild("var");
     }
 
-    private TreeNode getMaxChild () {
+    protected TreeNode getMaxChild () {
         return getChild("max");
     }
 
-    private TreeNode getIncrementChild () {
-        return getChild("increment");
-    }
-
-    private TreeNode getCommandsChild () {
+    protected TreeNode getCommandsChild () {
         // TODO: could hold multiple Nodes (e.g repeat 10 [fd 10 rt 90] )
         return getChild("commands");
     }

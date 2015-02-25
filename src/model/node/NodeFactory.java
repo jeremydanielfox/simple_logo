@@ -26,7 +26,7 @@ public final class NodeFactory {
             case "Sum":
                 return new TwoArgMathOperation("+");
             case "Repeat":
-                return new Iteration();
+                return new Repeat();
             default:
                 // throw "key not found" exception... shouldn't happen though
                 return null;

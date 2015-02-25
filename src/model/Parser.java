@@ -6,7 +6,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import model.node.NodeFactory;
@@ -18,13 +17,16 @@ public class Parser {
     private List<Entry<String, Pattern>> myPatterns;
     private Turtle myTurtle;
     private Deque<String[]> tokenProperties;
+    private boolean needRoot = true;
+    private TreeNode root = null;
+    private TreeNode last = null;
 
     public Parser (List<Entry<String, Pattern>> patterns, Turtle turtle) {
         myPatterns = patterns;
         myTurtle = turtle;
     }
 
-    public List<TreeNode> parse (String feed) {
+    public TreeNode parse (String feed) {
         List<String> tokens = Arrays.asList(feed.split("\\p{Z}"));
 
         // read Resource Bundle, convert tokens to Deque
@@ -34,7 +36,7 @@ public class Parser {
         return buildTrees();
     }
 
-    private List<TreeNode> buildTrees () {
+    private TreeNode buildTrees () {
         List<TreeNode> treeList = new ArrayList<TreeNode>(); // to be returned
 
         // build trees for all tokenProperties
@@ -49,9 +51,17 @@ public class Parser {
             addChildren(node);
 
             // node will have all children
-            treeList.add(node);
+            if (needRoot){
+            	root = node;
+            	last = root;
+            	needRoot = false;
+            }
+            else {
+	            last.setNeighbor(node);
+	            last = last.getNeighbor();
+            }
         }
-        return treeList;
+        return root;
     }
     
     private void addChildren(TreeNode node){
