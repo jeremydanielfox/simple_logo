@@ -21,7 +21,11 @@ public class CommandSender {
 	}
 
 	protected static void send(String text) {
+		try {
 		myReceiver.giveText(text);
+		} catch (Exception e) {
+			ErrorDisplay.getInstance().displayError(e);
+		}
 	}
 	
 	protected static void updateLanguage(String language) {
