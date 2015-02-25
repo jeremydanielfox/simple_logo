@@ -10,8 +10,7 @@ public class Workspace {
 	HistoryPane myHistory;
 	VariablePane myVariables;
 
-	public Workspace(TurtleView myTV) {
-		myTurtleView = myTV;
+	public Workspace() {
 	}
 
 	public Node init() {
@@ -35,9 +34,13 @@ public class Workspace {
 	}
 
 	private Node makeTurtleView() {
-		// myTurtleView = new TurtleView();
+		myTurtleView = new TurtleView();
 		Node tvNode = myTurtleView.getView();
 		return tvNode;
+	}
+	
+	public TurtleView getTV() {
+		return this.myTurtleView;
 	}
 
 }

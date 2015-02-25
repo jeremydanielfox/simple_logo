@@ -52,12 +52,12 @@ public final class Database {
     }
     
     // should somehow restrict modification with all Histories..
-    public List<String> getFeedHistory(){
+    public ObservableList<String> getFeedHistory(){
         FXCollections.unmodifiableObservableList(feedHistory);
-        return null;
+        return feedHistory;
     }
     
-    public Map<String, String> getVarsHistory(){
+    public ObservableMap<String, String> getVarsHistory(){
       return varsHistory;
     }
     
