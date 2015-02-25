@@ -40,7 +40,7 @@ public class TurtleView {
 		//addTurtle(TURTLE_START_X, TURTLE_START_Y);
 	}
 
-	protected void setBackgroundColor(Color color) {
+	public void setBackgroundColor(Color color) {
 		myBackground.setFill(color);
 	}
 
@@ -62,7 +62,7 @@ public class TurtleView {
 	// }
 	// }
 	
-	protected void setTurtleImage(Image img) {
+	public void setTurtleImage(Image img) {
 		turtleImage = img;
 	}
 }

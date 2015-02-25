@@ -13,9 +13,11 @@ public class View {
 
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/view");
+	
+	private static View instance;
 
 	private Stage myStage;
-	private Model myModel;
+	private static Model myModel;
 	private static Display myDisplay;
 
 	public View(Stage s) {
@@ -33,8 +35,18 @@ public class View {
 		myStage.show();
 	}
 	
+	public static View getInstance(Stage s) {
+		if (instance == null)
+			instance = new View(s);
+		return instance;
+	}
+	
 	private ScreenData setupScreenData() {
 		return new ScreenData(new Turtle());
+	}
+	
+	public static Model getModel() {
+		return myModel;
 	}
 
 }

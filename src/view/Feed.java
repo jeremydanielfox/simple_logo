@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import model.Receiver;
 
 public class Feed {
@@ -57,7 +58,8 @@ public class Feed {
 	public void setupPrompter() {
 		prompter = new TextField();
 		prompter.setPromptText(PROMPT_TEXT);
-		prompter.setPrefWidth(PROMPT_WIDTH);
+		prompter.setPrefWidth(0);
+		HBox.setHgrow(prompter, Priority.ALWAYS);
 	}
 
 	protected static Feed getInstance(Receiver receiver) {
