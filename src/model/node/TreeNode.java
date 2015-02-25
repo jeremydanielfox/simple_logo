@@ -19,12 +19,16 @@ public abstract class TreeNode {
         children.put(key, child);
     }
     
-    public void setNext(TreeNode node) {
+    public void setNeighbor(TreeNode node) {
     	neighbor = node;
     }
     
-    public TreeNode getNext() {
+    public TreeNode getNeighbor() {
     	return this.neighbor;
+    }
+    
+    public boolean hasNeighbor(){
+    	return (this.getNeighbor() != null);
     }
     
     protected TreeNode getChild(String key){

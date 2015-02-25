@@ -29,8 +29,8 @@ public class Model implements Receiver {
 	public ScreenData updateModel(String feed) {
 		Database.getInstance().addFeed(feed);
 		Parser parser = new Parser(myPatterns, myTurtle);
-		List<TreeNode> trees = parser.parse(feed);
-		Interpreter interpreter = new Interpreter(trees);
+		TreeNode tree = parser.parse(feed);
+		Interpreter interpreter = new Interpreter(tree);
 		interpreter.interpret();
 		myScreenData.addLines(myTurtle.getLineDatas());
 		return myScreenData;

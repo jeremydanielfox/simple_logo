@@ -19,13 +19,16 @@ public class Parser {
     private List<Entry<String, Pattern>> myPatterns;
     private Turtle myTurtle;
     private Deque<String[]> tokenProperties;
+    private boolean needRoot = true;
+    private TreeNode root = null;
+    private TreeNode last = null;
 
     public Parser (List<Entry<String, Pattern>> patterns, Turtle turtle) {
         myPatterns = patterns;
         myTurtle = turtle;
     }
 
-    public List<TreeNode> parse (String feed) {
+    public TreeNode parse (String feed) {
         List<String> tokens = Arrays.asList(feed.split("\\p{Z}"));
 
         // read Resource Bundle, convert tokens to Deque
@@ -35,9 +38,8 @@ public class Parser {
         return buildTrees();
     }
 
-    private List<TreeNode> buildTrees () {
-        List<TreeNode> treeList = new ArrayList<TreeNode>(); // to be returned
-
+    private TreeNode buildTrees () {
+        
         // build trees for all tokenProperties
         while (!tokenProperties.isEmpty()) {
 
@@ -71,9 +73,16 @@ public class Parser {
             }
 
             // nodeInfo will have all children
-            treeList.add(nodeInfo.getNode());
+            if (needRoot){
+            	root = nodeInfo.getNode();
+            	last = root;
+            }
+            else {
+	            last.setNeighbor(nodeInfo.getNode());
+	            last = last.getNeighbor();
+            }
         }
-        return treeList;
+        return root;
     }
 
     private TreeNodeInfo getNextNodeInfo () {
