@@ -10,9 +10,10 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import model.node.NodeFactory;
 import model.node.TreeNode;
+import model.node.iteration.DoTimes;
+import model.node.iteration.For;
 
 
 public class Parser {
@@ -20,9 +21,6 @@ public class Parser {
     private List<Entry<String, Pattern>> myPatterns;
     private Turtle myTurtle;
     private Deque<String[]> tokenProperties;
-    private boolean needRoot = true;
-    private TreeNode root = null;
-    private TreeNode last = null;
     private Queue<String> tokenTracker = new LinkedList<String>();
     private Stack<String> openBrackets;
 
@@ -43,6 +41,9 @@ public class Parser {
 
     private TreeNode buildTrees () {
         // build trees for all tokenProperties
+        TreeNode root = null;
+        TreeNode last = null;
+        boolean needRoot = true;
         while (!tokenProperties.isEmpty()) {
 
             // TODO: must handle list starts/ends for iterators/conditionals
@@ -54,50 +55,45 @@ public class Parser {
             addChildren(node);
 
             // node will have all children
-            if (needRoot){
-            	root = node;
-            	last = root;
-            	needRoot = false;
+            if (needRoot) {
+                root = node;
+                last = node;
+                needRoot = false;
             }
             else {
-	            last.setNeighbor(node);
-	            last = last.getNeighbor();
+                last.setNeighbor(node);
+                last = last.getNeighbor();
             }
         }
         return root;
     }
-    
-    private void addChildren(TreeNode node){
-        if (node.allChildrenPresent()){
-            return;
-        }
+
+    private void addChildren (TreeNode node) {
+        if (node.allChildrenPresent()) { return; }
         if (tokenProperties.isEmpty()) {
             // throw "unexpected end of instructions" error
             // -- e.g. fd sum 50
         }
         TreeNode childNode = getNextNode();
-        
-        if (!childNode.allChildrenPresent()) {
-        	if (!tokenTracker.isEmpty()){
-        		tokenTracker.poll();
-        	}
-            addChildren(childNode); // currentNode
-            
-        } 
-        
-        node.addChild(childNode);   
+        addChildren(childNode);
+
+        if (!tokenTracker.isEmpty() && (node instanceof DoTimes || node instanceof For)) {
+            tokenTracker.poll();
+        }
+        node.addChild(childNode);
         return;
     }
+    
 
     private TreeNode getNextNode () {
         String[] tokenProp = getNextTokenProperty();
         TreeNode tempNode;
         // special case of creating a constant node
         if (tokenProp[0].equals("Constant")) {
-        	tempNode = NodeFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
+            tempNode = NodeFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
         }
-        else{
-            tempNode = NodeFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);   
+        else {
+            tempNode = NodeFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
         }
         tokenTracker = tempNode.getTokenTracker();
         return tempNode;
@@ -105,10 +101,10 @@ public class Parser {
 
     private String[] getNextTokenProperty () {
         String[] tokenProp = tokenProperties.poll();
-        
+
         if (tokenProp[0].equals("Comment")) {
             // TODO: recognize comments, must know when lines end
-            return getNextTokenProperty(); 
+            return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
             // handle making new variable or udc
@@ -119,25 +115,25 @@ public class Parser {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
             // otherwise throw variable not found exception
-        	testForVar();
+            testForVar();
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("Command")) {
-        	// check database if variable/udc exists, replace with value
+            // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
             // otherwise throw command not found exception
-        	return getNextTokenProperty();
+            return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("ListStart")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
-        	testForOpenBracket();
-        	openBrackets.push("Open");
+            testForOpenBracket();
+            openBrackets.push("Open");
             return null;
         }
         else if (tokenProp[0].equals("ListEnd")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
-        	testForClosedBracket();
-        	openBrackets.pop(); //need
+            testForClosedBracket();
+            openBrackets.pop(); // need
             return null;
         }
         else {
@@ -168,27 +164,28 @@ public class Parser {
     private boolean match (String input, Pattern regex) {
         return regex.matcher(input).matches();
     }
-    
-    private void testForOpenBracket(){
-    	if (!tokenTracker.poll().equals("ListStart")) {
-    		//Throw incorrect input error
-    	}
+
+    private void testForOpenBracket () {
+        if (!tokenTracker.poll().equals("ListStart")) {
+            // Throw incorrect input error
+        }
     }
-    
-    private void testForClosedBracket(){
-    	if (!tokenTracker.poll().equals("ListEnd")) {
-    		//Throw incorrect input error
-    	}
+
+    private void testForClosedBracket () {
+        if (!tokenTracker.poll().equals("ListEnd")) {
+            // Throw incorrect input error
+        }
     }
-    
-    private void testForVar(){
-    	if (!tokenTracker.poll().equals("Variable")){
-    		//Throw incorrect input error
-    	}
+
+    private void testForVar () {
+        if (!tokenTracker.poll().equals("Variable")) {
+            // Throw incorrect input error
+        }
     }
-    
-    private void testForOther(){
-    	String token = tokenTracker.poll();
-    	if(token.equals("ListStart") || token.equals("ListEnd") || token.equals("Variable"));
+
+    private void testForOther () {
+        String token = tokenTracker.poll();
+        if (token.equals("ListStart") || token.equals("ListEnd") || token.equals("Variable"))
+        ;
     }
 }
