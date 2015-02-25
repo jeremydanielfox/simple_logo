@@ -23,4 +23,8 @@ public class CommandSender {
 	protected static void send(String text) {
 		myReceiver.giveText(text);
 	}
+	
+	protected static void updateLanguage(String language) {
+		myReceiver.setLanguage(language);
+	}
 }
