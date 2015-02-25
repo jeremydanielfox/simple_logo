@@ -15,7 +15,7 @@ public abstract class TreeNode {
     public abstract double evaluate();
     
     public Queue<String> getTokenTracker(){
-    	return null;
+    	return new LinkedList<String>();
     }
     
     public void setNeighbor(TreeNode node) {
