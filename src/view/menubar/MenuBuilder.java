@@ -44,7 +44,8 @@ public class MenuBuilder {
 		s = s.replaceFirst(s.substring(0, 1), s.substring(0, 1).toLowerCase());
 		try {
 			DefaultMenuMethods methodClass = DefaultMenuMethods.getInstance();
-//			myMethodClass = Class.forName("view.menubar."+mySource+"MenuMethods").getDeclaredMethod("getInstance", (Class<?>) null).;
+//			myMethodClass = Class.forName("view.menubar."+mySource+"MenuMethods");
+			
 			Method method = Class.forName("view.menubar."+mySource+"MenuMethods").getDeclaredMethod(s, (Class<?>[]) null);
 			method.invoke(methodClass, (Object[]) null);
 		} catch (NoSuchMethodException | SecurityException

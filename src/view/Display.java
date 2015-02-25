@@ -16,26 +16,24 @@ public class Display {
 	private static Display instance;
 
 	private Scene myScene;
-	private BorderPane myRoot;
-	private TurtleView myTurtleView;
+	private static BorderPane myRoot;
 	private MenuBar myMenuBar;
-	private Workspace myWorkspace;
+	private static Workspace myWorkspace;
 	private static Feed myFeed;
 
 	private Display(Receiver myReceiver) {
 		myRoot = new BorderPane();
-		myTurtleView = new TurtleView();
 		myFeed = Feed.getInstance(myReceiver);
 		myRoot.setBottom(myFeed.getFeed());
 		myRoot.setTop(makeMenuBar());
-		myRoot.setCenter(makeWorkspace(myTurtleView));
+		myRoot.setCenter(makeWorkspace());
 		myScene = new Scene(myRoot, Integer.parseInt(myValues
 				.getString("Width")), Integer.parseInt(myValues
 				.getString("Height")));
 	}
 
-	private Node makeWorkspace(TurtleView myTV) {
-		myWorkspace = new Workspace(myTV);
+	private Node makeWorkspace() {
+		myWorkspace = new Workspace();
 		Node workspaceNode = myWorkspace.init();
 		return workspaceNode;
 	}
@@ -54,6 +52,14 @@ public class Display {
 
 	public Scene getScene() {
 		return this.myScene;
+	}
+	
+	public static BorderPane getRoot() {
+		return myRoot;
+	}
+	
+	public static Workspace getWorkspace() {
+		return myWorkspace;
 	}
 
 }

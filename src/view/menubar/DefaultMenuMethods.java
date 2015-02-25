@@ -6,19 +6,19 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.embed.swing.SwingFXUtils;
-//import javafx.event.Event;
-//import javafx.event.EventHandler;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
 
+import view.Display;
+import view.View;
+
 public final class DefaultMenuMethods {
-	
+
 	private static DefaultMenuMethods instance;
 
-	private static final String HTML_FILE_PATH = "resources/help.html";
-	
 	protected static DefaultMenuMethods getInstance() {
 		if (instance == null)
 			instance = new DefaultMenuMethods();
@@ -57,23 +57,30 @@ public final class DefaultMenuMethods {
 		System.out.println("Not Implemented");
 	}
 
-//	@SuppressWarnings({ "rawtypes", "unchecked" })
-//	private void chooseBackgroundColor() {
-//		myRoot.getChildren().add(myColorPicker);
-//		myColorPicker.setOnAction(e -> setBackgroundColor());
-//	}
+	public void chooseBackgroundColor() {
+		ColorPicker myColorPicker = new ColorPicker();
+		Display.getRoot().getChildren().add(myColorPicker);
+		myColorPicker.setOnAction(e -> setBackgroundColor(myColorPicker));
+	}
 
 	public void choosePenColor() {
 		System.out.println("Not Implemented");
 	}
 
 	public void chooseLanguage() {
-		System.out.println("Not Implemented");
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+				"Resource files (*.properties)", "*.PROPERTIES");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showOpenDialog(null);
+		View.getModel().setLanguage(
+				file.getPath().replaceAll("^.*/src/", "")
+						.replaceAll(".properties", ""));
 	}
 
 	public void showHelp() {
 		System.out.println("Not Implemented");
-		File htmlFile = new File(HTML_FILE_PATH);
+		File htmlFile = new File("resources/help.html");
 		try {
 			Desktop.getDesktop().browse(htmlFile.toURI());
 		} catch (java.io.IOException e) {
@@ -86,7 +93,7 @@ public final class DefaultMenuMethods {
 		}
 	}
 
-	public Image chooseImage() {
+	public void chooseImage() {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter(
 				"JPG files (*.jpg)", "*.JPG");
@@ -97,16 +104,16 @@ public final class DefaultMenuMethods {
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-			return image;
+			Display.getWorkspace().getTV().setTurtleImage(image);
 		} catch (IOException ex) {
 			System.out.println("Error caught");
-			return null;
 		}
 	}
-	
-//	private void setBackgroundColor() {
-//		myTurtleView.setBackgroundColor(myColorPicker.getValue());
-//		myRoot.getChildren().remove(myColorPicker);
-//	}
+
+	private void setBackgroundColor(ColorPicker myColorPicker) {
+		Display.getWorkspace().getTV()
+				.setBackgroundColor(myColorPicker.getValue());
+		Display.getRoot().getChildren().remove(myColorPicker);
+	}
 
 }

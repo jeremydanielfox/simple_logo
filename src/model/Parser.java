@@ -6,12 +6,10 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import model.node.NodeInfoFactory;
+import model.node.NodeFactory;
 import model.node.TreeNode;
-import model.node.TreeNodeInfo;
 
 
 public class Parser {
@@ -39,67 +37,69 @@ public class Parser {
     }
 
     private TreeNode buildTrees () {
-        
+        List<TreeNode> treeList = new ArrayList<TreeNode>(); // to be returned
+
         // build trees for all tokenProperties
         while (!tokenProperties.isEmpty()) {
 
             // TODO: must handle list starts/ends for iterators/conditionals
             // -- recognize them (error-check) but not put in tree
 
-            // nodeInfo initializes appropriate node, uses tokenProperties
-            TreeNodeInfo nodeInfo = getNextNodeInfo();
+            // appropriate node generated using tokenProperties
+            TreeNode node = getNextNode();
 
-            // push nodeInfo onto stack
-            Stack<TreeNodeInfo> nodeInfoStack = new Stack<TreeNodeInfo>();
-            nodeInfoStack.push(nodeInfo);
+            addChildren(node);
 
-            // continue to add children until node in nodeInfo is filled
-            while (!nodeInfoStack.empty()) {
-                if (nodeInfoStack.peek().allChildrenPresent()) {
-                    nodeInfoStack.pop();
-                    continue;
-                }
-                if (tokenProperties.isEmpty()) {
-                    // throw "unexpected end of instructions" error
-                    // -- e.g. fd sum 50
-                }
-
-                TreeNodeInfo childNodeInfo = getNextNodeInfo();
-                nodeInfoStack.peek().addChild(childNodeInfo.getNode());
-
-                if (!childNodeInfo.allChildrenPresent()) {
-                    nodeInfoStack.add(childNodeInfo); // currentNodeInfo
-                }
-            }
-
-            // nodeInfo will have all children
+            // node will have all children
             if (needRoot){
-            	root = nodeInfo.getNode();
+            	root = node;
             	last = root;
+            	needRoot = false;
             }
             else {
-	            last.setNeighbor(nodeInfo.getNode());
+	            last.setNeighbor(node);
 	            last = last.getNeighbor();
             }
         }
         return root;
     }
+    
+    private void addChildren(TreeNode node){
+        if (node.allChildrenPresent()){
+            return;
+        }
+        if (tokenProperties.isEmpty()) {
+            // throw "unexpected end of instructions" error
+            // -- e.g. fd sum 50
+        }
+        TreeNode childNode = getNextNode();
+        node.addChild(childNode);
+        
+        if (!childNode.allChildrenPresent()) {
+            addChildren(childNode); // currentNode
+        }       
+        return;
+    }
 
-    private TreeNodeInfo getNextNodeInfo () {
+    private TreeNode getNextNode () {
         String[] tokenProp = getNextTokenProperty();
         // special case of creating a constant node
         if (tokenProp[0].equals("Constant")) {
-            return NodeInfoFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
+            return NodeFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
         }
         else{
-            return NodeInfoFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
+            return NodeFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
         }
     }
 
     private String[] getNextTokenProperty () {
         String[] tokenProp = tokenProperties.poll();
-
-        if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
+        
+        if (tokenProp[0].equals("Comment")){
+            // TODO: recognize comments, must know when lines end
+            return getNextTokenProperty(); 
+        }
+        else if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
             // handle making new variable or udc
             // -- use [ ] as ending conditions
             return getNextTokenProperty();
