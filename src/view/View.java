@@ -2,10 +2,12 @@ package view;
 
 import java.util.ResourceBundle;
 
-import model.Model;
-import model.Receiver;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Model;
+import model.Receiver;
+import model.ScreenData;
+import model.Turtle;
 
 public class View {
 
@@ -18,7 +20,7 @@ public class View {
 
 	public View(Stage s) {
 		myStage = s;
-		myModel = new Model();
+		myModel = new Model(setupScreenData());
 		myModel.setLanguage(myValues.getString("Language"));
 	}
 
@@ -29,6 +31,10 @@ public class View {
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
 		myStage.show();
+	}
+	
+	private ScreenData setupScreenData() {
+		return new ScreenData(new Turtle());
 	}
 
 }

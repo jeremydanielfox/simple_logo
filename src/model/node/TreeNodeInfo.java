@@ -7,23 +7,16 @@ import java.util.Queue;
 
 public class TreeNodeInfo {
 
-    private NodeFactory nodeFactory = new NodeFactory();
     private Queue<String> myChildNames;
     private TreeNode myNode;
 
-    public TreeNodeInfo (String key, String[] childNames) {
-        if (!key.equals("Constant")) { // would be for a constant
-            myNode = nodeFactory.get(key);
-        }
+    public TreeNodeInfo (TreeNode node, String[] childNames) {
+        myNode = node;
         if (childNames.length > 0) { // would be for a Constant
             myChildNames = new LinkedList<String>(Arrays.asList(childNames));
         }
-    }
-
-    // should only be set when a Constant needs to be initialized... to be refactored later
-    public void setConstant (TreeNode node) {
-        if (node instanceof Constant) {
-            myNode = node;
+        else{
+        	myChildNames = new LinkedList<String>();
         }
     }
 

@@ -21,7 +21,6 @@ public class TurtleView {
 	private Group myTurtles = new Group();
 	private Rectangle myBackground;
 	private Image turtleImage = new Image("images/plain-turtle-small.png");
-	//private Mover myMover;
 	private static final int WIDTH = Integer.parseInt(myValues
 			.getString("Width"));
 	private static final int HEIGHT = Integer.parseInt(myValues

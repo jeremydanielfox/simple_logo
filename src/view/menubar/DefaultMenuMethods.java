@@ -58,19 +58,10 @@ public final class DefaultMenuMethods {
 	}
 
 //	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void chooseBackgroundColor() {
-		System.out.println("Not Implemented");
+//	private void chooseBackgroundColor() {
 //		myRoot.getChildren().add(myColorPicker);
-//		myColorPicker.setOnAction(new EventHandler() {
-//
-//			@Override
-//			public void handle(Event event) {
-//				myTurtleView.setBackgroundColor(myColorPicker.getValue());
-//				myRoot.getChildren().remove(myColorPicker);
-//			}
-//
-//		});
-	}
+//		myColorPicker.setOnAction(e -> setBackgroundColor());
+//	}
 
 	public void choosePenColor() {
 		System.out.println("Not Implemented");
@@ -112,5 +103,10 @@ public final class DefaultMenuMethods {
 			return null;
 		}
 	}
+	
+//	private void setBackgroundColor() {
+//		myTurtleView.setBackgroundColor(myColorPicker.getValue());
+//		myRoot.getChildren().remove(myColorPicker);
+//	}
 
 }
