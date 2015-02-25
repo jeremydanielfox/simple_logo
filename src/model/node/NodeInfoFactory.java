@@ -25,7 +25,7 @@ public final class NodeInfoFactory {
             case "Sum":
                 return new TreeNodeInfo(new MathOperation("+"), new String[] { "arg1", "arg2" });
             case "Repeat":
-                return new TreeNodeInfo(new Iteration(), new String[] { "max" });
+                return new TreeNodeInfo(new Repeat(), new String[] { "max" });
             default:
                 // throw "key not found" exception... shouldn't happen though
                 return null;
