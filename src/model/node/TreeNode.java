@@ -1,6 +1,7 @@
 package model.node;
 
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Queue;
 public abstract class TreeNode {
 	
     private Map<String, TreeNode> children = new HashMap<String, TreeNode>();
-    private Queue<String> myChildNames = new LinkedList<String>();
+    private Deque<String> myChildNames = new LinkedList<String>();
     private TreeNode neighbor;
     
     public abstract double evaluate();
@@ -42,8 +43,13 @@ public abstract class TreeNode {
         return children.size();
     }
     
-    protected void setChildNames(String[] names){
+    protected void addChildNames(String[] names){
         myChildNames.addAll(Arrays.asList(names)); 
+    }
+    
+    // used specifically in DoTimes
+    protected void addChildNameFirst(String name){
+        myChildNames.addFirst(name);
     }
     
     public String getNextChildName () {

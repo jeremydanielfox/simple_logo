@@ -32,12 +32,12 @@ public final class Database {
     public void addFeed (String feed){
         feedHistory.add(feed);
     }
-    public void addVariable (String name, String[] value) {
+    public void putVariable (String name, String[] value) {
         varsMap.put(name, value);
         varsHistory.put(name, join(value, " "));
     }
 
-    public void addCommand (String name, String[] args, String[] value) {
+    public void putCommand (String name, String[] args, String[] value) {
         String[][] mapValue = { args, value };
         cmdsMap.put(name, mapValue);
         // add to cmdsHistory;
