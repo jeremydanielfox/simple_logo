@@ -8,7 +8,7 @@ public class Translation extends TreeNode {
     private Turtle turtle;
 
     public Translation (boolean positive, Turtle t) {
-        setChildNames(new String[] {"distance"});
+        addChildNames(new String[] {"distance"});
         this.positive = positive;
         turtle = t;
 

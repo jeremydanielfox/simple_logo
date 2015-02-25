@@ -9,7 +9,7 @@ public class OneArgMathOperation extends MathOperation {
 
     public OneArgMathOperation (String op) {
         super(op);
-        setChildNames(new String[] {"arg"});
+        addChildNames(new String[] {"arg"});
         // TODO Auto-generated constructor stub
     }
 

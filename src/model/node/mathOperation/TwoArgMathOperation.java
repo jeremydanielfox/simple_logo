@@ -6,7 +6,7 @@ public class TwoArgMathOperation extends MathOperation{
 
     public TwoArgMathOperation (String op) {
         super(op);
-        setChildNames(new String[] {"arg1", "arg2"});
+        addChildNames(new String[] {"arg1", "arg2"});
     }
     @Override
     protected void buildMap () {
