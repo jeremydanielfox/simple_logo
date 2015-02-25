@@ -1,6 +1,7 @@
 package model.node;
 
 import model.Turtle;
+import model.node.mathOperation.MathOperation;
 
 public final class NodeInfoFactory {
 
