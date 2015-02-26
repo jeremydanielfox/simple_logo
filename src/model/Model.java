@@ -20,6 +20,7 @@ public class Model implements Receiver {
 
 	public Model(Point2D offset) {
 		myTurtle = new Turtle(offset);
+		myScreenData.update(Arrays.asList((myTurtle)));
 	}
 
 	public void giveText(String text) {
