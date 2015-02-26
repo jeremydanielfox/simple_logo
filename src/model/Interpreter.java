@@ -14,6 +14,7 @@ public class Interpreter {
 
     // evaluate all Syntax Trees in list
     public void interpret () {
+    	//System.out.println(tree.toString());
         tree.evaluate();
         if (tree.hasNeighbor()){
             tree = tree.getNeighbor();

@@ -22,7 +22,7 @@ public final class NodeFactory {
     }
     
     public enum TurtleEnum {
-        FORWARD, BACKWARD, LEFT, RIGHT;
+        Forward, Backward, Left, Right, Sum;
     }
 
     // unfortunate that we have to use case/switch for every command. But alternative would be to
