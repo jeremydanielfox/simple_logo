@@ -7,7 +7,7 @@ import javafx.geometry.Point2D;
 
 
 public class Turtle {
-    private static int ourId = -1; // first new turtle will have id of 0
+    private static int ourId = 0;
 
     private Point2D myPosition;
     private Point2D myPreviousPosition;

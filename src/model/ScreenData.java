@@ -14,14 +14,14 @@ public class ScreenData {
         myLines = FXCollections.observableArrayList();
         myTurtleData = FXCollections.observableArrayList();
     }
-    
-    public void update(List<Turtle> turtles) {
+
+    public void update (List<Turtle> turtles) {
         addLines(turtles);
         setTurtleData(turtles);
     }
 
     private void addLines (List<Turtle> turtles) {
-        for (Turtle t: turtles){ // could possibly use lambda
+        for (Turtle t : turtles) { // could possibly use lambda
             myLines.addAll(t.getLineDatas());
         }
     }
@@ -37,8 +37,8 @@ public class ScreenData {
     public Collection<TurtleData> getTurtleData () {
         return myTurtleData;
     }
-    
-    private TurtleData makeTurtleData (Turtle t){
+
+    private TurtleData makeTurtleData (Turtle t) {
         return new TurtleData(t.getPosition().getX(), t.getPosition().getY(), t.getHeading(),
                               t.getId(), t.isVisible());
     }
