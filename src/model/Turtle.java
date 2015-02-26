@@ -7,7 +7,7 @@ import javafx.geometry.Point2D;
 
 
 public class Turtle {
-    private static int ourId = -1; // first new turtle will have id of 0
+    private static int ourId = 0;
 
     private Point2D myPosition;
     private Point2D myPreviousPosition;
@@ -23,7 +23,7 @@ public class Turtle {
     public static void reset () {
         ourId = -1;
     }
-    
+
     public Turtle () {
         myId = ourId++;
         myPosition = HOME;
@@ -47,7 +47,6 @@ public class Turtle {
     public double rotate (double angle) {
         move(new PolarVector(0, angle));
         return angle;
-
     }
 
     public double towards (Point2D target) {

@@ -1,6 +1,7 @@
-package model.node;
+package model.node.turtleCommand;
 
 import model.Turtle;
+import model.node.TreeNode;
 
 public class Translation extends TreeNode {
 
