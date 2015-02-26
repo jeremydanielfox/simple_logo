@@ -17,14 +17,15 @@ public class Turtle {
     private boolean penUp;
 
     private int myId;
-    private static final Point2D HOME = new Point2D(0, 0);
+    private static Point2D HOME = new Point2D(0, 0);
     private static final Mover MOVER = new UnboundedMover();
 
     public static void reset () {
         ourId = -1;
     }
 
-    public Turtle () {
+    public Turtle (Point2D offset) {
+    	HOME = offset;
         myId = ourId++;
         myPosition = HOME;
         myPreviousPosition = HOME; // seems sloppy...
