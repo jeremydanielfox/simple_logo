@@ -76,10 +76,10 @@ public class Feed {
 		add.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		add.setOnAction(e -> {
 			Database myData = Database.getInstance();
-
+			Stage myStage = new Stage();
 			myStage.setHeight(ADD_WIDTH);
 			myStage.setWidth(ADD_HEIGHT);
-			Stage myStage = new Stage();
+			
 			VBox myRoot = new VBox();
 			HBox myTitleBox = new HBox();
 			Label myTitle = new Label("Commands");
