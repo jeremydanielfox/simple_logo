@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -16,14 +17,12 @@ public class Model implements Receiver {
 	private ScreenData myScreenData;
 
 	public Model(ScreenData sd) {
-		// myTurtle = new Turtle();
 		myScreenData = sd;
-		myTurtle = myScreenData.getTurtle();
+		myTurtle = new Turtle();
 	}
 
 	public void giveText(String text) {
 		updateModel(text);
-
 	}
 
 	public ScreenData updateModel(String feed) {
@@ -32,7 +31,7 @@ public class Model implements Receiver {
 		List<TreeNode> tree = parser.parse(feed);
 		Interpreter interpreter = new Interpreter(tree);
 		interpreter.interpret();
-		myScreenData.addLines(myTurtle.getLineDatas());
+		myScreenData.update(Arrays.asList((myTurtle))); // will eventually take in a list of all turtles
 		return myScreenData;
 	}
 

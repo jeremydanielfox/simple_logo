@@ -42,7 +42,7 @@ public class View {
 	}
 	
 	private ScreenData setupScreenData() {
-		return new ScreenData(new Turtle());
+		return new ScreenData();
 	}
 	
 	public static Model getModel() {

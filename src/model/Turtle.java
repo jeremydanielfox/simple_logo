@@ -23,7 +23,7 @@ public class Turtle {
     public static void reset () {
         ourId = -1;
     }
-    
+
     public Turtle () {
         myId = ourId++;
         myPosition = HOME;
@@ -47,7 +47,6 @@ public class Turtle {
     public double rotate (double angle) {
         move(new PolarVector(0, angle));
         return angle;
-
     }
 
     public double towards (Point2D target) {
