@@ -35,8 +35,8 @@ public class Parser {
     }
 
     public TreeNode parse (String feed) {
-        List<String> tokens = Arrays.asList(feed.split("\\p{Z}"));
-
+        List<String> tokens = Arrays.asList(feed.trim().split("\\W+")); //"\\p{Z}"  //"\\W+"
+        
         // read Resource Bundle, convert tokens to Deque
         tokenProperties = new LinkedList<String[]>(tokens.stream()
                 .map(this::getMatch)
@@ -110,7 +110,7 @@ public class Parser {
     // TODO: refactor so not to have so many if-statements
     private String[] getNextTokenProperty () {
         String[] tokenProp = tokenProperties.poll();
-
+        System.out.println(tokenProp[0]);
         if (tokenProp[0].equals("Comment")) {
             // TODO: recognize comments, must know when lines end
             return getNextTokenProperty();
@@ -141,10 +141,10 @@ public class Parser {
         
         else if (tokenProp[0].equals("MakeVariable")){
             // handle making new variable
-            
-            
-            
-            
+        	List<String> vars = new ArrayList<String>();
+        	vars.add(tokenProperties.poll()[1]); //should add until the current expression is ended (what is there now is just for testing)
+        	Database.getInstance().putVariable(tokenProp[1], vars.toArray(new String[vars.size()]));
+           
             return getNextTokenProperty();
         }
         
@@ -156,18 +156,25 @@ public class Parser {
             }
             else {
                 // -- use deque functionality: addFirst
-            	
+            	testForVar();
+            	return Database.getInstance().getVariable(tokenProp[1]);
                 // TODO refactor how we testForVars within brackets
-                testForVar();
+                
             }
-
-            return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("Command")) {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
             // otherwise throw new CommandNotFoundException();
-            return getNextTokenProperty();
+        	if (Database.getInstance().getVariable(tokenProp[1]) == null) {
+                throw new VariableNotFoundException();
+            }
+            else {
+                // -- use deque functionality: addFirst
+            	testForVar();
+            	return Database.getInstance().getVariable(tokenProp[1]);
+                // TODO refactor how we testForVars within brackets
+            }
         }
         else if (tokenProp[0].equals("ListStart")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
