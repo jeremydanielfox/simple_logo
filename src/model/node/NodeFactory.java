@@ -24,6 +24,10 @@ public final class NodeFactory {
         switch (key) {
             case "Forward":
                 return new Translation(true, turtle);
+            case "Backward":
+                return new Translation(false, turtle);
+            case "Left":
+                //return new Rotation(false, turtle);
             case "Sum":
                 return new TwoArgMathOperation("+");
             case "Repeat":
