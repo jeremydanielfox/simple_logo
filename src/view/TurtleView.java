@@ -73,10 +73,10 @@ public class TurtleView {
 
 	public void drawTurtles(TurtleData current) {
 //		Image toDraw = new Image(turtleImage);
-		TurtleImage toAdd = new TurtleImage(current.getX(), current.getY(),current.getHeading(), turtleImage);
-		myTurtles.getChildren().add(toAdd);
+//		TurtleImage toAdd = new TurtleImage(current.getX(), current.getY(),current.getHeading(), turtleImage);
+//		myTurtles.getChildren().add(toAdd);
 		
-//		myGC.drawImage(turtleImage, current.getX(), current.getY(),
-//				TURTLE_WIDTH, TURTLE_HEIGHT);
+		myGC.drawImage(turtleImage, current.getX(), current.getY(),
+				TURTLE_WIDTH, TURTLE_HEIGHT);
 	}
 }

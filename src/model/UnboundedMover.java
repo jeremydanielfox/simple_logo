@@ -12,8 +12,10 @@ public class UnboundedMover implements Mover {
 	public void moveTurtle(Turtle turtle, PolarVector vector) {
 		double r = vector.getRadius();
 		double theta = vector.getTheta();
-		double x = r * Math.cos(Math.toRadians(theta));
-		double y = r * Math.sin(Math.toRadians(theta));
+		//switched sine and cosine to flip x and y axes
+		double x = r * Math.sin(Math.toRadians(theta));
+		// multiply by negative one to flip y axis.
+		double y = -1*r * Math.cos(Math.toRadians(theta));
 		Point2D CartesianVector = new Point2D(x, y);
 		turtle.setHeading(turtle.getHeading() + theta);
 		turtle.setPosition(turtle.getPosition().add(CartesianVector));
