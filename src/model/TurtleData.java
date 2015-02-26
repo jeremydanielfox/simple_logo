@@ -46,4 +46,8 @@ public class TurtleData {
 	public boolean getVisible () {
 	    return myVisible;
 	}
+	
+	public void setVisible (boolean visible) {
+	    myVisible = visible;
+	}
 }
