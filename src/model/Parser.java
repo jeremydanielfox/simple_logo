@@ -17,6 +17,7 @@ import model.node.iteration.For;
 import Exceptions.CommandNotFoundException;
 import Exceptions.UnexpectedEndOfInstructionsException;
 import Exceptions.VariableNotFoundException;
+import Exceptions.IncorrectNumberOfBracketsException;
 
 
 public class Parser {
@@ -25,7 +26,7 @@ public class Parser {
     private Turtle myTurtle;
     private Deque<String[]> tokenProperties;
     private Queue<String> tokenTracker = new LinkedList<String>();
-    private Stack<String> openBrackets;
+    private Stack<String> openBrackets = new Stack<String>();
 
     public Parser (List<Entry<String, Pattern>> patterns, Turtle turtle) {
         myPatterns = patterns;
@@ -68,7 +69,12 @@ public class Parser {
                 last = last.getNeighbor();
             }
         }
-        return root;
+        if (!openBrackets.empty()){
+        	return root;
+        }
+        else {
+        	throw new IncorrectNumberOfBracketsException();
+        }
     }
 
     private void addChildren (TreeNode node) {
@@ -78,7 +84,7 @@ public class Parser {
         }
         TreeNode childNode = getNextNode();
         addChildren(childNode);
-
+        
         if (!tokenTracker.isEmpty() && (node instanceof DoTimes || node instanceof For)) {
             tokenTracker.poll();
         }
@@ -108,6 +114,7 @@ public class Parser {
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
+        	//putVariable(tokenProp[1], /*getNextExpression()*/);
             // handle making new variable or udc
             // -- use [ ] as ending conditions
             return getNextTokenProperty();
@@ -120,7 +127,7 @@ public class Parser {
             }
             else {
                 // -- use deque functionality: addFirst
-
+            	
                 // TODO refactor how we testForVars within brackets
                 testForVar();
             }
@@ -143,7 +150,12 @@ public class Parser {
         else if (tokenProp[0].equals("ListEnd")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
             testForClosedBracket();
-            openBrackets.pop(); // need
+            if (!openBrackets.empty()){
+            	openBrackets.pop();
+            }
+            else {
+            	throw new IncorrectNumberOfBracketsException();
+            }
             return null;
         }
         else {
