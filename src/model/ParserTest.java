@@ -19,6 +19,6 @@ public class ParserTest {
     @Test
     public void testMultiply () {
         Parser tester = new Parser(myPatterns, new Turtle());
-        assertEquals("10 x 5 must be 50", 40, tester.multiply(10, 5));
+        assertEquals("10 x 5 must be 50", 50, tester.multiply(10, 5));
     }
 }
