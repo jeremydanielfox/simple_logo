@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.LineData;
@@ -30,7 +31,8 @@ public class View {
 
 	public void init() {
 		myStage.setTitle(myValues.getString("Title"));
-		myModel = new Model();
+		String[] offsetAR = myValues.getString("Initial_Offset").split(", ");
+		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]), Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
 		myDisplay = new Display((Receiver) myModel);
 		myModel.setScreenData(setupScreenData());

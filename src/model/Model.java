@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+
+import javafx.geometry.Point2D;
 import model.database.Database;
 import model.node.TreeNode;
 
@@ -16,8 +18,8 @@ public class Model implements Receiver {
 	private Turtle myTurtle;
 	private ScreenData myScreenData;
 
-	public Model() {
-		myTurtle = new Turtle();
+	public Model(Point2D offset) {
+		myTurtle = new Turtle(offset);
 	}
 
 	public void giveText(String text) {
