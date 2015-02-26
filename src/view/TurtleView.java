@@ -35,6 +35,7 @@ public class TurtleView {
 	private static final int TURTLE_START_X = WIDTH / 2;
 	private static final int TURTLE_START_Y = HEIGHT / 2;
 	private static final Color BACKGROUND_COLOR = Color.PURPLE;
+	private static final Color PEN_COLOR = Color.BLACK;
 
 	public TurtleView() {
 		myCanvas = new Canvas(WIDTH, HEIGHT);
@@ -43,6 +44,10 @@ public class TurtleView {
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myCanvas);
+	}
+	
+	public void setPenColor(Color color)	{
+		myGC.setFill(PEN_COLOR);
 	}
 
 	public void setBackgroundColor(Color color) {
