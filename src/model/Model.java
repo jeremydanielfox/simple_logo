@@ -15,10 +15,8 @@ public class Model implements Receiver {
 	private Turtle myTurtle;
 	private ScreenData myScreenData;
 
-	public Model(ScreenData sd) {
-		// myTurtle = new Turtle();
-		myScreenData = sd;
-		myTurtle = myScreenData.getTurtle();
+	public Model() {
+		myTurtle = new Turtle();
 	}
 
 	public void giveText(String text) {
@@ -53,5 +51,10 @@ public class Model implements Receiver {
 					Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
 		}
 		return patterns;
+	}
+
+	public void setScreenData(ScreenData sd) {
+		myScreenData = sd;
+//		myTurtle = myScreenData.getTurtle();
 	}
 }

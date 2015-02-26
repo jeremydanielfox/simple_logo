@@ -2,17 +2,15 @@ package model;
 
 import java.util.Collection;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ScreenData {
 	private ObservableList<LineData> myLines;
 	private ObservableList<TurtleData> myTurtles;
 
-	public ScreenData(Collection<LineData> ld, Collection<TurtleData> td) {
-		myLines = FXCollections.observableArrayList(ld);
-		myLines.addListener(new ChangeListener<LineData>() {public void changed(ObservableValue));
-		myTurtles = FXCollections.observableArrayList(td);
+	public ScreenData(ObservableList<LineData> ld, ObservableList<TurtleData> td) {
+		myLines = ld;
+		myTurtles = td;
 	}
 
 	public void addTurtles(Collection<TurtleData> data) {

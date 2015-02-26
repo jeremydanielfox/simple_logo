@@ -1,6 +1,5 @@
 package view;
 
-import java.util.Collection;
 import java.util.ResourceBundle;
 
 import javafx.scene.Group;
@@ -32,8 +31,8 @@ public class TurtleView {
 			.getString("TurtleWidth"));
 	private static final int TURTLE_HEIGHT = Integer.parseInt(myValues
 			.getString("TurtleHeight"));
-	private static final int TURTLE_START_X = WIDTH / 2;
-	private static final int TURTLE_START_Y = HEIGHT / 2;
+//	private static final int TURTLE_START_X = WIDTH / 2;
+//	private static final int TURTLE_START_Y = HEIGHT / 2;
 	private static final Color BACKGROUND_COLOR = Color.PURPLE;
 	private static final Color PEN_COLOR = Color.BLACK;
 
@@ -45,8 +44,8 @@ public class TurtleView {
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myCanvas);
 	}
-	
-	public void setPenColor(Color color)	{
+
+	public void setPenColor(Color color) {
 		myGC.setFill(PEN_COLOR);
 	}
 
@@ -67,18 +66,13 @@ public class TurtleView {
 		turtleImage = img;
 	}
 
-	private void drawLines(Collection<LineData> lineData) {
-		for (LineData current : lineData) {
-			myGC.strokeLine(current.getStart().getX(), current.getStart()
-					.getY(), current.getFinish().getX(), current.getFinish()
-					.getY());
-		}
+	public void drawLines(LineData current) {
+		myGC.strokeLine(current.getStart().getX(), current.getStart().getY(),
+				current.getFinish().getX(), current.getFinish().getY());
 	}
 
-	private void drawTurtles(Collection<TurtleData> td) {
-		for (TurtleData current : td) {
-			myGC.drawImage(turtleImage, current.getX(), current.getY(),
-					TURTLE_WIDTH, TURTLE_HEIGHT);
-		}
+	public void drawTurtles(TurtleData current) {
+		myGC.drawImage(turtleImage, current.getX(), current.getY(),
+				TURTLE_WIDTH, TURTLE_HEIGHT);
 	}
 }
