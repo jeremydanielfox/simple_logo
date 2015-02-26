@@ -20,7 +20,6 @@ import model.database.Database;
 public class Feed {
 	private Receiver myReceiver;
 	private HBox myObjects;
-	private VBox myButtons;
 	private Button add;
 	private Button enter;
 	private static TextArea prompter;
@@ -33,12 +32,10 @@ public class Feed {
 	protected Feed(Receiver receiver) {
 		myReceiver = receiver;
 		myObjects = new HBox();
-		myButtons = new VBox();
 		setupPrompter();
 		setupAdd();
 		setupEnter();
-		myButtons.getChildren().addAll(enter, add);
-		myObjects.getChildren().addAll(prompter, myButtons);
+		myObjects.getChildren().addAll(add, prompter, enter);
 	}
 
 	/**
@@ -54,10 +51,10 @@ public class Feed {
 					// CommandSender.send(prompter.getText());
 					try {
 						myReceiver.giveText(prompter.getText());
-						} catch (Exception ex) {
-							ErrorDisplay.getInstance().displayError(ex);
-						}
-					myReceiver.giveText(prompter.getText());
+					} catch (Exception ex) {
+						ErrorDisplay.getInstance().displayError(ex);
+					}
+				myReceiver.giveText(prompter.getText());
 				System.out.println(prompter.getText().toString());
 				prompter.clear();
 			}
