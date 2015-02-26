@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 import model.node.TreeNode;
 
+
 public class Interpreter {
 
     private TreeNode tree;
@@ -20,4 +21,3 @@ public class Interpreter {
         }
     }
 }
-

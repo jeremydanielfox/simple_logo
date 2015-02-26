@@ -3,20 +3,18 @@ package model.node.turtleCommand;
 import model.Turtle;
 import model.node.TreeNode;
 
-public class Forward extends TreeNode{
-
-    private Turtle turtle;
-
+public class Forward extends TurtleCommand{
+    
     public Forward(Turtle t){
+        super(t);
         addChildNames(new String[] {"distance"});
-        turtle = t;
     }
     
     public double evaluate () {
-        return turtle.translate(getDistance().evaluate()); 
+        return getTurtle().translate(getDistance().evaluate()); 
     }
 
-    private TreeNode getDistance () {
+    protected TreeNode getDistance () {
         return getChild("distance");
     }
 }
