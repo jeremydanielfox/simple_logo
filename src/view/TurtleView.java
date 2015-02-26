@@ -42,7 +42,7 @@ public class TurtleView {
 		myBackground = new Rectangle(WIDTH, HEIGHT);
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
-		myLayers.getChildren().addAll(myBackground, myCanvas);
+		myLayers.getChildren().addAll(myBackground, myCanvas,myTurtles);
 	}
 
 	public void setPenColor(Color color) {
@@ -53,10 +53,10 @@ public class TurtleView {
 		myBackground.setFill(color);
 	}
 
-	protected void addTurtle(int x, int y) {
-		TurtleImage turtle = new TurtleImage(x, y, turtleImage);
-		myTurtles.getChildren().add(turtle);
-	}
+//	protected void addTurtle(int x, int y) {
+//		TurtleImage turtle = new TurtleImage(x, y, turtleImage);
+//		myTurtles.getChildren().add(turtle);
+//	}
 
 	public Node getView() {
 		return myLayers;
@@ -72,7 +72,11 @@ public class TurtleView {
 	}
 
 	public void drawTurtles(TurtleData current) {
-		myGC.drawImage(turtleImage, current.getX(), current.getY(),
-				TURTLE_WIDTH, TURTLE_HEIGHT);
+//		Image toDraw = new Image(turtleImage);
+		TurtleImage toAdd = new TurtleImage(current.getX(), current.getY(),current.getHeading(), turtleImage);
+		myTurtles.getChildren().add(toAdd);
+		
+//		myGC.drawImage(turtleImage, current.getX(), current.getY(),
+//				TURTLE_WIDTH, TURTLE_HEIGHT);
 	}
 }
