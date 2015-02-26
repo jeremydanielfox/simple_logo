@@ -26,7 +26,6 @@ public class Feed {
 	private static final String PROMPT_TEXT = "Input command here";
 	private static final String ADD_TEXT = "Add";
 	private static final String ENTER_TEXT = "Return";
-	private Stage myStage;
 
 	protected Feed(Receiver receiver) {
 		myReceiver = receiver;
@@ -66,25 +65,29 @@ public class Feed {
 	public void setupAdd() {
 		add = new Button(ADD_TEXT);
 		add.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		add.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
+		add.setOnAction(e -> {
 				Database myData = Database.getInstance();
-				myStage= new Stage();
+				Stage myStage = new Stage();
 				myStage.setHeight(200);
 				myStage.setWidth(300);
 				VBox myRoot = new VBox();
-				Label myVarName = new Label("Commands");
-				ObservableMap<String, String> myMap = myData.getVarsHistory();
+				HBox myTitleBox = new HBox();
+				Label myTitle = new Label("Commands");
+				Button myAddButton = new Button("Add");
+				ObservableMap<String, String> myMap = myData.getCmdsHistory();
 				ObservableList<String> myList = FXCollections.observableArrayList(myMap.keySet());
 				ListView<String> myListView = new ListView<String>(myList);
 				myListView.setPrefHeight(0);
 				VBox.setVgrow(myListView, Priority.ALWAYS);
-				myRoot.getChildren().addAll(myVarName, myListView);
+				myAddButton.setOnMouseClicked(e2 -> {
+					Feed.addText(myListView.getSelectionModel().getSelectedItem());
+					myStage.close();
+				});
+				myTitleBox.getChildren().addAll(myTitle, myAddButton);
+				myRoot.getChildren().addAll(myTitleBox, myListView);
 				Scene myScene = new Scene(myRoot);
 				myStage.setScene(myScene);
 				myStage.show();
-			}
 		});
 	}
 
