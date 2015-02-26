@@ -18,6 +18,7 @@ import model.node.iteration.For;
 import Exceptions.CommandNotFoundException;
 import Exceptions.UnexpectedEndOfInstructionsException;
 import Exceptions.VariableNotFoundException;
+import Exceptions.IncorrectNumberOfBracketsException;
 
 
 public class Parser {
@@ -26,7 +27,7 @@ public class Parser {
     private Turtle myTurtle;
     private Deque<String[]> tokenProperties;
     private Queue<String> tokenTracker = new LinkedList<String>();
-    private Stack<String> openBrackets;
+    private Stack<String> openBrackets = new Stack<String>();
 
     public Parser (List<Entry<String, Pattern>> patterns, Turtle turtle) {
         myPatterns = patterns;
@@ -34,8 +35,8 @@ public class Parser {
     }
 
     public TreeNode parse (String feed) {
-        List<String> tokens = Arrays.asList(feed.split("\\p{Z}"));
-
+        List<String> tokens = Arrays.asList(feed.trim().split("\\W+")); //"\\p{Z}"  //"\\W+"
+        
         // read Resource Bundle, convert tokens to Deque
         tokenProperties = new LinkedList<String[]>(tokens.stream()
                 .map(this::getMatch)
@@ -69,7 +70,12 @@ public class Parser {
                 last = last.getNeighbor();
             }
         }
-        return root;
+        if (openBrackets.empty()){
+        	return root;
+        }
+        else {
+        	throw new IncorrectNumberOfBracketsException();
+        }
     }
 
     private void addChildren (TreeNode node) {
@@ -79,7 +85,7 @@ public class Parser {
         }
         TreeNode childNode = getNextNode();
         addChildren(childNode);
-
+        
         if (!tokenTracker.isEmpty() && (node instanceof DoTimes || node instanceof For)) {
             tokenTracker.poll();
         }
@@ -101,18 +107,47 @@ public class Parser {
         return tempNode;
     }
 
+    // TODO: refactor so not to have so many if-statements
     private String[] getNextTokenProperty () {
         String[] tokenProp = tokenProperties.poll();
-
+        System.out.println(tokenProp[0]);
         if (tokenProp[0].equals("Comment")) {
             // TODO: recognize comments, must know when lines end
             return getNextTokenProperty();
         }
-        else if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
-            // handle making new variable or udc
+        else if (tokenProp[0].equals("MakeUserInstruction")) {
+            // handle making new udc
             // -- use [ ] as ending conditions
+            
+            // TODO: error check tokens to be expected
+            
+            String name = tokenProperties.poll()[1]; // name of command
+            tokenProperties.poll(); // ListStart
+            
+            List<String> vars = new ArrayList<String>();
+            while (!tokenProperties.peek().equals("ListEnd")){
+                vars.add(tokenProperties.poll()[1]); // store each variable of the command
+            }
+            
+            tokenProperties.poll(); // ListEnd
+            tokenProperties.poll(); // ListStart
+            while (!tokenProperties.peek().equals("ListEnd")){
+                vars.add(tokenProperties.poll()[1]); // now get useful tokenProperties
+            }
+            
+    
             return getNextTokenProperty();
         }
+        
+        else if (tokenProp[0].equals("MakeVariable")){
+            // handle making new variable
+        	List<String> vars = new ArrayList<String>();
+        	vars.add(tokenProperties.poll()[1]); //should add until the current expression is ended (what is there now is just for testing)
+        	Database.getInstance().putVariable(tokenProp[1], vars.toArray(new String[vars.size()]));
+           
+            return getNextTokenProperty();
+        }
+        
         else if (tokenProp[0].equals("Variable")) {
             // check database if variable/udc exists, replace with value
 
@@ -121,18 +156,25 @@ public class Parser {
             }
             else {
                 // -- use deque functionality: addFirst
-
+            	testForVar();
+            	return Database.getInstance().getVariable(tokenProp[1]);
                 // TODO refactor how we testForVars within brackets
-                testForVar();
+                
             }
-
-            return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("Command")) {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
             // otherwise throw new CommandNotFoundException();
-            return getNextTokenProperty();
+        	if (Database.getInstance().getVariable(tokenProp[1]) == null) {
+                throw new VariableNotFoundException();
+            }
+            else {
+                // -- use deque functionality: addFirst
+            	testForVar();
+            	return Database.getInstance().getVariable(tokenProp[1]);
+                // TODO refactor how we testForVars within brackets
+            }
         }
         else if (tokenProp[0].equals("ListStart")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
@@ -143,7 +185,12 @@ public class Parser {
         else if (tokenProp[0].equals("ListEnd")) {
             // do something... should apply to MakeUserInstructions, iterators, conditionals
             testForClosedBracket();
-            openBrackets.pop(); // need
+            if (!openBrackets.empty()){
+            	openBrackets.pop();
+            }
+            else {
+            	throw new IncorrectNumberOfBracketsException();
+            }
             return null;
         }
         else {
