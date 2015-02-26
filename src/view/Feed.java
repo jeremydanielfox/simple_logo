@@ -55,7 +55,7 @@ public class Feed {
 			@Override
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
-					// CommandSender.send(prompter.getText());
+					 //CommandSender.send(prompter.getText());
 					try {
 						myReceiver.giveText(prompter.getText());
 					} catch (Exception ex) {

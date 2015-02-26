@@ -32,7 +32,6 @@ public final class NodeFactory {
         return instance;
     }
 
-
     // unfortunate that we have to use case/switch for every command. But alternative would be to
     // create unnecessary amount of classes, if reflection or oodesign factory pattern were used
     public TreeNode getNonConstant (String key, Turtle turtle) {
