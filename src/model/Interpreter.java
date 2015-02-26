@@ -5,21 +5,19 @@ import model.node.TreeNode;
 
 public class Interpreter {
 
-	private List<TreeNode> trees;
+    private TreeNode tree;
 
-	public Interpreter(List<TreeNode> treeInfo){
-		trees = treeInfo;
-	}
+    public Interpreter (TreeNode treeInfo) {
+        tree = treeInfo;
+    }
 
-	// evaluate all Syntax Trees in list
-	public void interpret () {
-//		while (tree.hasNeighbor()){
-//			tree.evaluate();
-//			tree = tree.getNeighbor();
-//		}
-	    for (TreeNode tree :trees){
-	        tree.evaluate();
-	    }
-	}	
+    // evaluate all Syntax Trees in list
+    public void interpret () {
+        tree.evaluate();
+        if (tree.hasNeighbor()){
+            tree = tree.getNeighbor();
+            interpret();
+        }
+    }
 }
 

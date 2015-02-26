@@ -28,14 +28,14 @@ public class Model implements Receiver {
 	}
 
 	public ScreenData updateModel(String feed) {
-		Database.getInstance().addFeed(feed);
-		Parser parser = new Parser(myPatterns, myTurtle);
-		List<TreeNode> tree = parser.parse(feed);
-		Interpreter interpreter = new Interpreter(tree);
-		interpreter.interpret();
-		myScreenData.update(Arrays.asList((myTurtle))); // will eventually take in a list of all turtles
-		return myScreenData;
-	}
+            Database.getInstance().addFeed(feed);
+            Parser parser = new Parser(myPatterns, myTurtle);
+            TreeNode tree = parser.parse(feed);
+            Interpreter interpreter = new Interpreter(tree);
+            interpreter.interpret();
+            myScreenData.update(Arrays.asList(myTurtle));
+            return myScreenData;
+        }
 
 	public void setLanguage(String language) {
 		myPatterns = makePatterns(language);
