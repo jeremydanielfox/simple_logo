@@ -56,7 +56,7 @@ public class Turtle {
         return 0;
     }
 
-    // arguing that it shouldn't go through MOVER? algorithm for goHome doesn't change
+    // it shouldn't go through MOVER. algorithm for goHome doesn't change
     public double goHome (Turtle turtle) {
         double r = HOME.distance(turtle.getPosition());
         towards(HOME);
