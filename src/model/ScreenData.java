@@ -3,16 +3,16 @@ package model;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 public class ScreenData {
-    private Collection<LineData> myLines;
-    private Collection<TurtleData> myTurtleData;
+    private ObservableList<LineData> myLines;
+    private ObservableList<TurtleData> myTurtleData;
 
-    public ScreenData () {
-        myLines = FXCollections.observableArrayList();
-        myTurtleData = FXCollections.observableArrayList();
+    public ScreenData (ObservableList<LineData> ld, ObservableList<TurtleData> td) {
+        myLines = ld;
+        myTurtleData = td;
     }
 
     public void update (List<Turtle> turtles) {
@@ -27,7 +27,9 @@ public class ScreenData {
     }
 
     private void setTurtleData (List<Turtle> turtles) {
-        myTurtleData = turtles.stream().map(this::makeTurtleData).collect(Collectors.toList());
+        myTurtleData =
+                (ObservableList<TurtleData>) turtles.stream().map(this::makeTurtleData)
+                        .collect(Collectors.toList());
     }
 
     public Collection<LineData> getLines () {

@@ -2,12 +2,16 @@ package view;
 
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.LineData;
 import model.Model;
 import model.Receiver;
 import model.ScreenData;
-import model.Turtle;
+import model.TurtleData;
 
 public class View {
 
@@ -22,13 +26,14 @@ public class View {
 
 	public View(Stage s) {
 		myStage = s;
-		myModel = new Model(setupScreenData());
-		myModel.setLanguage(myValues.getString("Language"));
 	}
 
 	public void init() {
 		myStage.setTitle(myValues.getString("Title"));
-		myDisplay = Display.getInstance((Receiver) myModel);
+		myModel = new Model();
+		myModel.setLanguage(myValues.getString("Language"));
+		myDisplay = new Display((Receiver) myModel);
+		myModel.setScreenData(setupScreenData());
 		Scene scene = myDisplay.getScene();
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
@@ -42,7 +47,31 @@ public class View {
 	}
 	
 	private ScreenData setupScreenData() {
-		return new ScreenData();
+		ObservableList<LineData> myLines = FXCollections.observableArrayList();
+		myLines.addListener(new ListChangeListener<LineData>() {
+			@Override
+			public void onChanged(Change<? extends LineData> c) {
+				while (c.next()) {
+					System.out.println("printing");
+					for (LineData addItem : c.getAddedSubList()) {
+						Display.getWorkspace().getTV().drawLines(addItem);
+					}
+				}
+			}
+		});
+		ObservableList<TurtleData> myTurtles = FXCollections.observableArrayList();
+		myTurtles.addListener(new ListChangeListener<TurtleData>() {
+			@Override
+			public void onChanged(Change<? extends TurtleData> c) {
+				while (c.next()) {
+					for (TurtleData addItem : c.getAddedSubList()) {
+						Display.getWorkspace().getTV().drawTurtles(addItem);
+					}
+				}
+			}
+		});
+
+		return new ScreenData(myLines, myTurtles);
 	}
 	
 	public static Model getModel() {
