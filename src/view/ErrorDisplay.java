@@ -11,18 +11,10 @@ public class ErrorDisplay {
 	private static Group myGroup;
 	private static Label myErrorLabel;
 
-	// private final Popup myPopup = new Popup();
 	private static final int WIDTH = 300;
 	private static final int HEIGHT = 200;
 	private static ErrorDisplay instance;
 
-	// private static Text myText = new Text();
-
-	// private void init() {
-	// myPopup.setX(WIDTH);
-	// myPopup.setY(HEIGHT);
-	// myPopup.getContent().addAll(myText);
-	// }
 	private ErrorDisplay() {
 		myStage = new Stage();
 		myStage.setHeight(HEIGHT);
@@ -32,12 +24,17 @@ public class ErrorDisplay {
 		myErrorLabel = new Label();
 		myGroup.getChildren().add(myErrorLabel);
 		myStage.setScene(myScene);
+		setupDisplay();
 	}
 
 	protected static ErrorDisplay getInstance() {
 		if (instance == null)
 			instance = new ErrorDisplay();
 		return instance;
+	}
+	
+	private void setupDisplay() {
+		myErrorLabel.setWrapText(true);;
 	}
 
 	/**

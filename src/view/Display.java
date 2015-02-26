@@ -13,39 +13,32 @@ import model.Receiver;
 public class Display {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/display");
-	private static Display instance;
-
 	private Scene myScene;
 	private static BorderPane myRoot;
 	private MenuBar myMenuBar;
 	private static Workspace myWorkspace;
-	private static Feed myFeed;
+	private Feed myFeed;
 
-	private Display(Receiver myReceiver) {
+	protected Display(Receiver receiver) {
 		myRoot = new BorderPane();
-		myFeed = Feed.getInstance(myReceiver);
+		myFeed = new Feed(receiver);
 		myRoot.setBottom(myFeed.getFeed());
 		myRoot.setTop(makeMenuBar());
-		myRoot.setCenter(makeWorkspace());
+		myRoot.setCenter(makeWorkspace(receiver));
 		myScene = new Scene(myRoot, Integer.parseInt(myValues
 				.getString("Width")), Integer.parseInt(myValues
 				.getString("Height")));
 	}
 
-	private Node makeWorkspace() {
+	private Node makeWorkspace(Receiver receiver) {
 		myWorkspace = new Workspace();
-		Node workspaceNode = myWorkspace.init();
+		Node workspaceNode = myWorkspace.init(receiver);
 		return workspaceNode;
 	}
 
-	protected static Display getInstance(Receiver myReceiver) {
-		if (instance == null)
-			instance = new Display(myReceiver);
-		return instance;
-	}
-
 	private Node makeMenuBar() {
-		MenuBuilder defaultMenuBuilder = new MenuBuilder(new MenuBar(), "Default");
+		MenuBuilder defaultMenuBuilder = new MenuBuilder(new MenuBar(),
+				"Default");
 		myMenuBar = defaultMenuBuilder.build();
 		return myMenuBar;
 	}
@@ -53,11 +46,11 @@ public class Display {
 	public Scene getScene() {
 		return this.myScene;
 	}
-	
+
 	public static BorderPane getRoot() {
 		return myRoot;
 	}
-	
+
 	public static Workspace getWorkspace() {
 		return myWorkspace;
 	}
