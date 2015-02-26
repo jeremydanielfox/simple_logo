@@ -46,7 +46,7 @@ public class TurtleView {
 	}
 
 	public void setPenColor(Color color) {
-		myGC.setFill(PEN_COLOR);
+		myGC.setStroke(color);
 	}
 
 	public void setBackgroundColor(Color color) {
