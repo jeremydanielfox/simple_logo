@@ -38,17 +38,6 @@ public class HistoryPane {
 		myList = myData.getFeedHistory();
 		myListView = new ListView<String>(myList);
 		myListView.setPrefHeight(0);
-		// Used to send command on selection, but couldn't repeat select cause
-		// there was no "change" for the ChangeListener
-		// myListView.getSelectionModel().selectedItemProperty()
-		// .addListener(new ChangeListener<String>() {
-		// public void changed(ObservableValue<? extends String> ov,
-		// String old_val, String new_val) {
-		// myListView.getSelectionModel().clearSelection();
-		// CommandSender.send(new_val);
-		//
-		// }
-		// });
 		VBox.setVgrow(myListView, Priority.ALWAYS);
 		titleBox.getChildren().addAll(title, runButton);
 		myRoot.getChildren().addAll(titleBox, myListView);
