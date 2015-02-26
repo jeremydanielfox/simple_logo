@@ -9,13 +9,14 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
+import model.database.Database;
 import model.node.NodeFactory;
 import model.node.TreeNode;
 import model.node.iteration.DoTimes;
 import model.node.iteration.For;
 import Exceptions.CommandNotFoundException;
 import Exceptions.UnexpectedEndOfInstructionsException;
+import Exceptions.VariableNotFoundException;
 
 
 public class Parser {
@@ -72,9 +73,8 @@ public class Parser {
 
     private void addChildren (TreeNode node) {
         if (node.allChildrenPresent()) { return; }
-        if (tokenProperties.isEmpty()) {
-        	throw new UnexpectedEndOfInstructionsException();
-            // -- e.g. fd sum 50
+        if (tokenProperties.isEmpty()) { throw new UnexpectedEndOfInstructionsException();
+        // -- e.g. fd sum 50
         }
         TreeNode childNode = getNextNode();
         addChildren(childNode);
@@ -85,7 +85,6 @@ public class Parser {
         node.addChild(childNode);
         return;
     }
-    
 
     private TreeNode getNextNode () {
         String[] tokenProp = getNextTokenProperty();
@@ -115,16 +114,23 @@ public class Parser {
         }
         else if (tokenProp[0].equals("Variable")) {
             // check database if variable/udc exists, replace with value
-            // -- use deque functionality: addFirst
-            // otherwise throw variable not found exception
-//        	throw new VariableNotFoundException();
-            testForVar();
+
+            if (Database.getInstance().getVariable(tokenProp[1]) == null) {
+                throw new VariableNotFoundException();
+            }
+            else {
+                // -- use deque functionality: addFirst
+
+                // TODO refactor how we testForVars within brackets
+                testForVar();
+            }
+
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("Command")) {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
-//        	throw new CommandNotFoundException();
+            // throw new CommandNotFoundException();
             // otherwise throw command not found exception
             return getNextTokenProperty();
         }
@@ -157,7 +163,8 @@ public class Parser {
                 }
             }
             if (!matched) {
-                // throw unrecognized token exception
+                // throw new UnrecognizedTokenException()
+                // would be called if regex couldnt classify command
                 System.out.println(String.format("%s not matched", token));
             }
         }
@@ -191,5 +198,9 @@ public class Parser {
         String token = tokenTracker.poll();
         if (token.equals("ListStart") || token.equals("ListEnd") || token.equals("Variable"))
         ;
+    }
+
+    protected int multiply (int x, int y) {
+        return x * y;
     }
 }
