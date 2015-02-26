@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+import model.node.iteration.ChildBuilder;
+
 public abstract class TreeNode {
 	
     private Map<String, TreeNode> children = new HashMap<String, TreeNode>();

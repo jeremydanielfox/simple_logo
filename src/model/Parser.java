@@ -25,7 +25,7 @@ public class Parser {
 
     private List<Entry<String, Pattern>> myPatterns;
     private Turtle myTurtle;
-    private Deque<String[]> tokenProperties;
+    private Queue<TreeNode> nodeList;
     private Queue<String> tokenTracker = new LinkedList<String>();
     private Stack<String> openBrackets = new Stack<String>();
 
@@ -35,10 +35,11 @@ public class Parser {
     }
 
     public TreeNode parse (String feed) {
+    	//TODO: change to get rid of comments
         List<String> tokens = Arrays.asList(feed.trim().split("\\W+")); //"\\p{Z}"  //"\\W+"
         
         // read Resource Bundle, convert tokens to Deque
-        tokenProperties = new LinkedList<String[]>(tokens.stream()
+        nodeList = new LinkedList<TreeNode>(tokens.stream()
                 .map(this::getMatch)
                 .collect(Collectors.toList()));
         return buildTrees();
@@ -49,7 +50,7 @@ public class Parser {
         TreeNode root = null;
         TreeNode last = null;
         boolean needRoot = true;
-        while (!tokenProperties.isEmpty()) {
+        while (!nodeList.isEmpty()) {
 
             // TODO: must handle list starts/ends for iterators/conditionals
             // -- recognize them (error-check) but not put in tree
@@ -70,143 +71,136 @@ public class Parser {
                 last = last.getNeighbor();
             }
         }
-        if (openBrackets.empty()){
-        	return root;
-        }
-        else {
-        	throw new IncorrectNumberOfBracketsException();
-        }
+        return root;
     }
 
     private void addChildren (TreeNode node) {
         if (node.allChildrenPresent()) { return; }
-        if (tokenProperties.isEmpty()) { throw new UnexpectedEndOfInstructionsException();
+        if (nodeList.isEmpty()) { throw new UnexpectedEndOfInstructionsException();
         // -- e.g. fd sum 50
         }
         TreeNode childNode = getNextNode();
         addChildren(childNode);
-        
-        if (!tokenTracker.isEmpty() && (node instanceof DoTimes || node instanceof For)) {
-            tokenTracker.poll();
-        }
+
         node.addChild(childNode);
         return;
     }
 
     private TreeNode getNextNode () {
-        String[] tokenProp = getNextTokenProperty();
-        TreeNode tempNode;
-        // special case of creating a constant node
-        if (tokenProp[0].equals("Constant")) {
-            tempNode = NodeFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
-        }
-        else {
-            tempNode = NodeFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
-        }
-        tokenTracker = tempNode.getTokenTracker();
-        return tempNode;
+//        String[] tokenProp = getNextTokenProperty();
+//        TreeNode tempNode;
+//        // special case of creating a constant node
+//        if (tokenProp[0].equals("Constant")) {
+//            tempNode = NodeFactory.getInstance().getConstant(Double.parseDouble(tokenProp[1]));
+//        }
+//        else {
+//            tempNode = NodeFactory.getInstance().getNonConstant(tokenProp[0], myTurtle);
+//        }
+//        tokenTracker = tempNode.getTokenTracker();
+//        return tempNode;
+    	return nodeList.poll();
     }
 
     // TODO: refactor so not to have so many if-statements
-    private String[] getNextTokenProperty () {
-        String[] tokenProp = tokenProperties.poll();
-        System.out.println(tokenProp[0]);
-        if (tokenProp[0].equals("Comment")) {
-            // TODO: recognize comments, must know when lines end
-            return getNextTokenProperty();
-        }
-        else if (tokenProp[0].equals("MakeUserInstruction")) {
-            // handle making new udc
-            // -- use [ ] as ending conditions
-            
-            // TODO: error check tokens to be expected
-            
-            String name = tokenProperties.poll()[1]; // name of command
-            tokenProperties.poll(); // ListStart
-            
-            List<String> vars = new ArrayList<String>();
-            while (!tokenProperties.peek().equals("ListEnd")){
-                vars.add(tokenProperties.poll()[1]); // store each variable of the command
-            }
-            
-            tokenProperties.poll(); // ListEnd
-            tokenProperties.poll(); // ListStart
-            while (!tokenProperties.peek().equals("ListEnd")){
-                vars.add(tokenProperties.poll()[1]); // now get useful tokenProperties
-            }
-            
-    
-            return getNextTokenProperty();
-        }
-        
-        else if (tokenProp[0].equals("MakeVariable")){
-            // handle making new variable
-        	List<String> vars = new ArrayList<String>();
-        	vars.add(tokenProperties.poll()[1]); //should add until the current expression is ended (what is there now is just for testing)
-        	Database.getInstance().putVariable(tokenProp[1], vars.toArray(new String[vars.size()]));
-           
-            return getNextTokenProperty();
-        }
-        
-        else if (tokenProp[0].equals("Variable")) {
-            // check database if variable/udc exists, replace with value
+//    private String[] getNextTokenProperty () {
+//        String[] tokenProp = nodeList.poll();
+//        System.out.println(tokenProp[0]);
+//        if (tokenProp[0].equals("Comment")) {
+//            // TODO: recognize comments, must know when lines end
+//            return getNextTokenProperty();
+//        }
+//        else if (tokenProp[0].equals("MakeUserInstruction")) {
+//            // handle making new udc
+//            // -- use [ ] as ending conditions
+//            
+//            // TODO: error check tokens to be expected
+//            
+//            String name = nodeList.poll()[1]; // name of command
+//            nodeList.poll(); // ListStart
+//            
+//            List<String> vars = new ArrayList<String>();
+//            while (!nodeList.peek().equals("ListEnd")){
+//                vars.add(nodeList.poll()[1]); // store each variable of the command
+//            }
+//            
+//            nodeList.poll(); // ListEnd
+//            nodeList.poll(); // ListStart
+//            while (!nodeList.peek().equals("ListEnd")){
+//                vars.add(nodeList.poll()[1]); // now get useful tokenProperties
+//            }
+//            
+//    
+//            return getNextTokenProperty();
+//        }
+//        
+//        else if (tokenProp[0].equals("MakeVariable")){
+//            // handle making new variable
+//        	List<String> vars = new ArrayList<String>();
+//        	vars.add(nodeList.poll()[1]); //should add until the current expression is ended (what is there now is just for testing)
+//        	Database.getInstance().putVariable(tokenProp[1], vars.toArray(new String[vars.size()]));
+//           
+//            return getNextTokenProperty();
+//        }
+//        
+//        else if (tokenProp[0].equals("Variable")) {
+//            // check database if variable/udc exists, replace with value
+//
+//            if (Database.getInstance().getVariable(tokenProp[1]) == null) {
+//                throw new VariableNotFoundException();
+//            }
+//            else {
+//                // -- use deque functionality: addFirst
+//            	testForVar();
+//            	return Database.getInstance().getVariable(tokenProp[1]);
+//                // TODO refactor how we testForVars within brackets
+//                
+//            }
+//        }
+//        else if (tokenProp[0].equals("Command")) {
+//            // check database if variable/udc exists, replace with value
+//            // -- use deque functionality: addFirst
+//            // otherwise throw new CommandNotFoundException();
+//        	if (Database.getInstance().getVariable(tokenProp[1]) == null) {
+//                throw new VariableNotFoundException();
+//            }
+//            else {
+//                // -- use deque functionality: addFirst
+//            	testForVar();
+//            	return Database.getInstance().getVariable(tokenProp[1]);
+//                // TODO refactor how we testForVars within brackets
+//            }
+//        }
+//        else if (tokenProp[0].equals("ListStart")) {
+//            // do something... should apply to MakeUserInstructions, iterators, conditionals
+//            testForOpenBracket();
+//            openBrackets.push("Open");
+//            return null;
+//        }
+//        else if (tokenProp[0].equals("ListEnd")) {
+//            // do something... should apply to MakeUserInstructions, iterators, conditionals
+//            testForClosedBracket();
+//            if (!openBrackets.empty()){
+//            	openBrackets.pop();
+//            }
+//            else {
+//            	throw new IncorrectNumberOfBracketsException();
+//            }
+//            return null;
+//        }
+//        else {
+//            return tokenProp;
+//        }
+//    }
 
-            if (Database.getInstance().getVariable(tokenProp[1]) == null) {
-                throw new VariableNotFoundException();
-            }
-            else {
-                // -- use deque functionality: addFirst
-            	testForVar();
-            	return Database.getInstance().getVariable(tokenProp[1]);
-                // TODO refactor how we testForVars within brackets
-                
-            }
-        }
-        else if (tokenProp[0].equals("Command")) {
-            // check database if variable/udc exists, replace with value
-            // -- use deque functionality: addFirst
-            // otherwise throw new CommandNotFoundException();
-        	if (Database.getInstance().getVariable(tokenProp[1]) == null) {
-                throw new VariableNotFoundException();
-            }
-            else {
-                // -- use deque functionality: addFirst
-            	testForVar();
-            	return Database.getInstance().getVariable(tokenProp[1]);
-                // TODO refactor how we testForVars within brackets
-            }
-        }
-        else if (tokenProp[0].equals("ListStart")) {
-            // do something... should apply to MakeUserInstructions, iterators, conditionals
-            testForOpenBracket();
-            openBrackets.push("Open");
-            return null;
-        }
-        else if (tokenProp[0].equals("ListEnd")) {
-            // do something... should apply to MakeUserInstructions, iterators, conditionals
-            testForClosedBracket();
-            if (!openBrackets.empty()){
-            	openBrackets.pop();
-            }
-            else {
-            	throw new IncorrectNumberOfBracketsException();
-            }
-            return null;
-        }
-        else {
-            return tokenProp;
-        }
-    }
-
-    private String[] getMatch (String token) {
+    private TreeNode getMatch (String token) {
         boolean matched = false;
         if (token.trim().length() > 0) {
             for (Entry<String, Pattern> p : myPatterns) {
                 if (match(token, p.getValue())) {
                     // System.out.println(String.format("%s matches %s", token, p.getKey()));
                     matched = true;
-                    return new String[] { p.getKey(), token }; // need token for Constant, Variable,
-                                                               // Command
+                    return NodeFactory.get(new String[] { p.getKey(), token }); // need token for Constant, Variable,
+                                                         // Command
                 }
             }
             if (!matched) {
