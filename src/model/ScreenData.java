@@ -1,21 +1,23 @@
 package model;
 
 import java.util.Collection;
-import java.util.List;
-import javafx.collections.FXCollections;
+
+import javafx.collections.ObservableList;
 
 public class ScreenData {
-	private Collection<LineData> myLines;
-	// private Collection<Turtle> myTurtles;
-	private Turtle myTurtle;
+	private ObservableList<LineData> myLines;
+	private ObservableList<TurtleData> myTurtles;
 
-	public ScreenData(Turtle turtle) {
-		myLines = FXCollections.observableArrayList();
-		// myTurtles = FXCollections.observableArrayList();
-		myTurtle = turtle;
+	public ScreenData(ObservableList<LineData> ld, ObservableList<TurtleData> td) {
+		myLines = ld;
+		myTurtles = td;
 	}
 
-	public void addLines(List<LineData> data) {
+	public void addTurtles(Collection<TurtleData> data) {
+		myTurtles.addAll(data);
+	}
+
+	public void addLines(Collection<LineData> data) {
 		myLines.addAll(data);
 	}
 
@@ -27,8 +29,8 @@ public class ScreenData {
 		return myLines;
 	}
 
-	public Turtle getTurtle() {
-		return myTurtle;
+	public Collection<TurtleData> getTurtles() {
+		return myTurtles;
 	}
 
 }

@@ -26,7 +26,6 @@ public class Feed {
 	private static final String PROMPT_TEXT = "Input command here";
 	private static final String ADD_TEXT = "Add";
 	private static final String ENTER_TEXT = "Return";
-	private static final double PROMPT_WIDTH = Double.MAX_VALUE;
 	private Stage myStage;
 
 	protected Feed(Receiver receiver) {
@@ -54,7 +53,7 @@ public class Feed {
 					} catch (Exception ex) {
 						ErrorDisplay.getInstance().displayError(ex);
 					}
-				myReceiver.giveText(prompter.getText());
+//				myReceiver.giveText(prompter.getText());
 				System.out.println(prompter.getText().toString());
 				prompter.clear();
 			}
