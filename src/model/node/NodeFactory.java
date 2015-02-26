@@ -3,6 +3,7 @@ package model.node;
 import model.Turtle;
 import model.node.iteration.Repeat;
 import model.node.mathOperation.TwoArgMathOperation;
+import model.node.turtleCommand.Translation;
 
 public final class NodeFactory {
 

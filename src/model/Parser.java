@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -106,6 +107,7 @@ public class Parser {
         return tempNode;
     }
 
+    // TODO: refactor so not to have so many if-statements
     private String[] getNextTokenProperty () {
         String[] tokenProp = tokenProperties.poll();
 
@@ -113,12 +115,39 @@ public class Parser {
             // TODO: recognize comments, must know when lines end
             return getNextTokenProperty();
         }
-        else if (tokenProp[0].equals("MakeVariable") || tokenProp[0].equals("MakeUserInstruction")) {
-        	//putVariable(tokenProp[1], /*getNextExpression()*/);
-            // handle making new variable or udc
+        else if (tokenProp[0].equals("MakeUserInstruction")) {
+            // handle making new udc
             // -- use [ ] as ending conditions
+            
+            // TODO: error check tokens to be expected
+            
+            String name = tokenProperties.poll()[1]; // name of command
+            tokenProperties.poll(); // ListStart
+            
+            List<String> vars = new ArrayList<String>();
+            while (!tokenProperties.peek().equals("ListEnd")){
+                vars.add(tokenProperties.poll()[1]); // store each variable of the command
+            }
+            
+            tokenProperties.poll(); // ListEnd
+            tokenProperties.poll(); // ListStart
+            while (!tokenProperties.peek().equals("ListEnd")){
+                vars.add(tokenProperties.poll()[1]); // now get useful tokenProperties
+            }
+            
+    
             return getNextTokenProperty();
         }
+        
+        else if (tokenProp[0].equals("MakeVariable")){
+            // handle making new variable
+            
+            
+            
+            
+            return getNextTokenProperty();
+        }
+        
         else if (tokenProp[0].equals("Variable")) {
             // check database if variable/udc exists, replace with value
 
