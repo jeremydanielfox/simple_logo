@@ -56,12 +56,12 @@ public class Feed {
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
 					 //CommandSender.send(prompter.getText());
-					try {
-						myReceiver.giveText(prompter.getText());
-					} catch (Exception ex) {
-						ErrorDisplay.getInstance().displayError(ex);
-					}
-				// myReceiver.giveText(prompter.getText());
+//					try {
+//						myReceiver.giveText(prompter.getText());
+//					} catch (Exception ex) {
+//						ErrorDisplay.getInstance().displayError(ex);
+//					}
+				myReceiver.giveText(prompter.getText());
 				System.out.println(prompter.getText().toString());
 				prompter.clear();
 			}

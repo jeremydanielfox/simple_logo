@@ -3,13 +3,14 @@ package model.node;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
 public abstract class TreeNode {
 	
-    private Map<String, TreeNode> children = new HashMap<String, TreeNode>();
+    private Map<String, TreeNode> children = new LinkedHashMap<String, TreeNode>();
     private Deque<String> myChildNames = new LinkedList<String>();
     private TreeNode neighbor;
     

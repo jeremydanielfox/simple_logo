@@ -31,13 +31,38 @@ public final class NodeFactory {
             instance = new NodeFactory();
         return instance;
     }
+    
+    public TreeNode get (String[] tokenProperty){
+        String type = tokenProperty[0];
+        String token = tokenProperty[1];
+        if (type.equals("Constant")||type.equals("Variable")||type.equals("Command")){
+            // call some method that deals with tokenProperty
+            return new Constant(9);
+        }
+        else{
+            // needs only type;
+            
+            // get correct package for the following
+            
+            // use map to determine:
+            // mathOperations
+            // turtleCommands
+            // Iteration
+            // booleans
+            // conditionals
+            // etc.
+            return new Constant(9);
+        }
+    }
+    
 
     // unfortunate that we have to use case/switch for every command. But alternative would be to
     // create unnecessary amount of classes, if reflection or oodesign factory pattern were used
     public TreeNode getNonConstant (String key, Turtle turtle) {
         if (isTurtleCommand(key)) { 
             try {
-                return reflectionFactory(key, turtle);
+                //return reflectionFactory(key, turtle);
+                
             }
             catch (Exception e) {
                 // not sure how to handle this one
@@ -61,9 +86,9 @@ public final class NodeFactory {
         return turtleCommands.contains(key);
     }
 
-    private TreeNode reflectionFactory (String key, Turtle turtle) throws Exception {
+    private TreeNode reflectionFactory (String folder, String type, Turtle turtle) throws Exception {
         try {
-            Class<?> targetClass = Class.forName(String.format("model.node.turtleCommand.%s", key));
+            Class<?> targetClass = Class.forName(String.format("model.node.%s.%s", folder, type));
             try {
                 Constructor<?> constructor = targetClass.getConstructor(Turtle.class);
                 return (TreeNode) constructor.newInstance(turtle);
