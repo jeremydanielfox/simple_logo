@@ -18,7 +18,7 @@ public class View {
 
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/view");
-	
+
 	private static View instance;
 
 	private Stage myStage;
@@ -32,7 +32,8 @@ public class View {
 	public void init() {
 		myStage.setTitle(myValues.getString("Title"));
 		String[] offsetAR = myValues.getString("Initial_Offset").split(", ");
-		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]), Integer.parseInt(offsetAR[1])));
+		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]),
+				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
 		myDisplay = new Display((Receiver) myModel);
 		myModel.setScreenData(setupScreenData());
@@ -41,13 +42,13 @@ public class View {
 		myStage.setScene(scene);
 		myStage.show();
 	}
-	
+
 	public static View getInstance(Stage s) {
 		if (instance == null)
 			instance = new View(s);
 		return instance;
 	}
-	
+
 	private ScreenData setupScreenData() {
 		ObservableList<LineData> myLines = FXCollections.observableArrayList();
 		myLines.addListener(new ListChangeListener<LineData>() {
@@ -61,13 +62,15 @@ public class View {
 				}
 			}
 		});
-		ObservableList<TurtleData> myTurtles = FXCollections.observableArrayList();
+		ObservableList<TurtleData> myTurtles = FXCollections
+				.observableArrayList();
 		myTurtles.addListener(new ListChangeListener<TurtleData>() {
 			@Override
 			public void onChanged(Change<? extends TurtleData> c) {
+				Display.getWorkspace().getTV().clearTurtles();
 				while (c.next()) {
 					for (TurtleData addItem : c.getAddedSubList()) {
-						Display.getWorkspace().getTV().drawTurtles(addItem);
+						Display.getWorkspace().getTV().drawTurtle(addItem);
 					}
 				}
 			}
@@ -75,7 +78,7 @@ public class View {
 
 		return new ScreenData(myLines, myTurtles);
 	}
-	
+
 	public static Model getModel() {
 		return myModel;
 	}
