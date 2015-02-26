@@ -21,10 +21,6 @@ public class ScreenData {
 		myLines.addAll(data);
 	}
 
-	// public void addTurtles(List<Turtle> turtles){
-	// myTurtles.addAll(turtles);
-	// }
-
 	public Collection<LineData> getLines() {
 		return myLines;
 	}
