@@ -28,7 +28,7 @@ public class View {
 
 	public void init() {
 		myStage.setTitle(myValues.getString("Title"));
-		myDisplay = Display.getInstance((Receiver) myModel);
+		myDisplay = new Display((Receiver) myModel);
 		Scene scene = myDisplay.getScene();
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);

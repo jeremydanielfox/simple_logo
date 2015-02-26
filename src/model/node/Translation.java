@@ -17,7 +17,6 @@ public class Translation extends TreeNode {
     public double evaluate () {
         double distance = isPositive() ? getDistance().evaluate() : -getDistance().evaluate();
         return turtle.translate(distance); 
-        // to be refactored later.. 
     }
 
     private TreeNode getDistance () {

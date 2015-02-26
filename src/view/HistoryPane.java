@@ -1,6 +1,5 @@
 package view;
 
-import model.database.Database;
 //import javafx.beans.value.ChangeListener;
 //import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -12,16 +11,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.Receiver;
+import model.database.Database;
 
 public class HistoryPane {
 	private static final int FONT_SIZE = 30;
+	private Receiver myReceiver;
 	Database myData;
 	VBox myRoot;
 	ListView<String> myListView;
 	ObservableList<String> myList;
 
-	public HistoryPane() {
-
+	public HistoryPane(Receiver receiver) {
+		myReceiver = receiver;
 	}
 
 	public Node init() {
@@ -55,7 +57,9 @@ public class HistoryPane {
 
 	private void handleMouseInput() {
 		if (myListView.getSelectionModel().getSelectedItem() != null) {
-			CommandSender.send(myListView.getSelectionModel().getSelectedItem());
+			myReceiver.giveText(myListView.getSelectionModel().getSelectedItem());
+//			CommandSender
+//					.send(myListView.getSelectionModel().getSelectedItem());
 			myListView.getSelectionModel().clearSelection();
 		}
 	}

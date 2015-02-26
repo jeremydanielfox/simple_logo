@@ -2,6 +2,7 @@ package view;
 
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
+import model.Receiver;
 
 public class Workspace {
 
@@ -13,16 +14,16 @@ public class Workspace {
 	public Workspace() {
 	}
 
-	public Node init() {
+	public Node init(Receiver receiver) {
 		myRoot = new BorderPane();
-		myRoot.setRight(makeHistory());
+		myRoot.setRight(makeHistory(receiver));
 		myRoot.setCenter(makeTurtleView());
 		myRoot.setLeft(makeVariables());
 		return myRoot;
 	}
 
-	private Node makeHistory() {
-		myHistory = new HistoryPane();
+	private Node makeHistory(Receiver receiver) {
+		myHistory = new HistoryPane(receiver);
 		Node histNode = myHistory.init();
 		return histNode;
 	}
@@ -38,7 +39,7 @@ public class Workspace {
 		Node tvNode = myTurtleView.getView();
 		return tvNode;
 	}
-	
+
 	public TurtleView getTV() {
 		return this.myTurtleView;
 	}
