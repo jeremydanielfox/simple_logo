@@ -27,9 +27,8 @@ public class ScreenData {
     }
 
     private void setTurtleData (List<Turtle> turtles) {
-        myTurtleData =
-                (ObservableList<TurtleData>) turtles.stream().map(this::makeTurtleData)
-                        .collect(Collectors.toList());
+        myTurtleData.addAll(turtles.stream().map(this::makeTurtleData)
+                        .collect(Collectors.toList()));
     }
 
     public Collection<LineData> getLines () {
