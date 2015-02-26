@@ -9,10 +9,13 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
 import model.node.NodeFactory;
 import model.node.TreeNode;
 import model.node.iteration.DoTimes;
 import model.node.iteration.For;
+import Exceptions.CommandNotFoundException;
+import Exceptions.UnexpectedEndOfInstructionsException;
 
 
 public class Parser {
@@ -70,7 +73,7 @@ public class Parser {
     private void addChildren (TreeNode node) {
         if (node.allChildrenPresent()) { return; }
         if (tokenProperties.isEmpty()) {
-            // throw "unexpected end of instructions" error
+        	throw new UnexpectedEndOfInstructionsException();
             // -- e.g. fd sum 50
         }
         TreeNode childNode = getNextNode();
@@ -113,12 +116,14 @@ public class Parser {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
             // otherwise throw variable not found exception
+//        	throw new VariableNotFoundException();
             testForVar();
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("Command")) {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
+//        	throw new CommandNotFoundException();
             // otherwise throw command not found exception
             return getNextTokenProperty();
         }

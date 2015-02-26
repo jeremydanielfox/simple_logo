@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class HistoryPane {
-
+	private static final int FONT_SIZE = 30;
 	Database myData;
 	VBox myRoot;
 	ListView<String> myListView;
@@ -29,7 +29,7 @@ public class HistoryPane {
 		myRoot = new VBox();
 		HBox titleBox = new HBox();
 		Label title = new Label("History");
-		title.setFont(new Font(30));
+		title.setFont(new Font(FONT_SIZE));
 		Button runButton = new Button("Run");
 		runButton.setOnMouseClicked(e -> handleMouseInput());
 		runButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

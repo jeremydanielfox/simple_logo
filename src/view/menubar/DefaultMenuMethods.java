@@ -79,7 +79,6 @@ public final class DefaultMenuMethods {
 	}
 
 	public void showHelp() {
-		System.out.println("Not Implemented");
 		File htmlFile = new File("help.html");
 		try {
 			Desktop.getDesktop().browse(htmlFile.toURI());
