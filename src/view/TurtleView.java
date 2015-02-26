@@ -42,7 +42,7 @@ public class TurtleView {
 		myBackground = new Rectangle(WIDTH, HEIGHT);
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
-		myLayers.getChildren().addAll(myBackground, myCanvas,myTurtles);
+		myLayers.getChildren().addAll(myBackground, myCanvas);//,myTurtles);
 	}
 
 	public void setPenColor(Color color) {
