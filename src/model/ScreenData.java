@@ -18,7 +18,6 @@ public class ScreenData {
     public void update (List<Turtle> turtles) {
         addLines(turtles);
         setTurtleData(turtles);
-        System.out.println("be");
     }
 
     private void addLines (List<Turtle> turtles) {
