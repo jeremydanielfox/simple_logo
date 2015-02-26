@@ -70,7 +70,7 @@ public class Parser {
                 last = last.getNeighbor();
             }
         }
-        if (!openBrackets.empty()){
+        if (openBrackets.empty()){
         	return root;
         }
         else {
