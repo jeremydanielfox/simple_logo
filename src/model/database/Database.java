@@ -2,9 +2,7 @@ package model.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import model.Turtle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -61,7 +59,7 @@ public final class Database {
       return varsHistory;
     }
     
-    public Map<String, String> getCmdsHistory(){
+    public ObservableMap<String, String> getCmdsHistory(){
         return cmdsHistory;
     }
     

@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
