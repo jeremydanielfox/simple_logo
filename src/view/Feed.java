@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -22,11 +24,18 @@ public class Feed {
 	private HBox myObjects;
 	private Button add;
 	private Button enter;
+	private static final ResourceBundle myValues = ResourceBundle
+			.getBundle("resources/values/feed");
 	private static TextArea prompter;
-	private static final String PROMPT_TEXT = "Input command here";
-	private static final String ADD_TEXT = "Add";
-	private static final String ENTER_TEXT = "Return";
+	private static final int ADD_WIDTH = Integer.parseInt(myValues
+			.getString("Add_Width"));
+	private static final int ADD_HEIGHT = Integer.parseInt(myValues
+			.getString("Add_Height"));
+	private static final String PROMPT_TEXT = myValues.getString("Prompt_Text");
+	private static final String ADD_TEXT = myValues.getString("Add_Text");
+	private static final String ENTER_TEXT = myValues.getString("Enter_Text");
 	private Stage myStage;
+	
 
 	protected Feed(Receiver receiver) {
 		myReceiver = receiver;
@@ -71,8 +80,8 @@ public class Feed {
 			public void handle(ActionEvent e) {
 				Database myData = Database.getInstance();
 				myStage= new Stage();
-				myStage.setHeight(200);
-				myStage.setWidth(300);
+				myStage.setHeight(ADD_WIDTH);
+				myStage.setWidth(ADD_HEIGHT);
 				VBox myRoot = new VBox();
 				Label myVarName = new Label("Commands");
 				ObservableMap<String, String> myMap = myData.getVarsHistory();
