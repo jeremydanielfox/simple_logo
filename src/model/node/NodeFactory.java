@@ -4,6 +4,7 @@ import java.util.Arrays;
 import model.Turtle;
 import model.node.iteration.Repeat;
 import model.node.mathOperation.TwoArgMathOperation;
+import model.node.turtleCommand.Rotation;
 import model.node.turtleCommand.Translation;
 
 public final class NodeFactory {
@@ -36,8 +37,10 @@ public final class NodeFactory {
                 return new Translation(true, turtle);
             case "Backward":
                 return new Translation(false, turtle);
+            case "Right":
+                return new Rotation(true, turtle);
             case "Left":
-                //return new Rotation(false, turtle);
+                return new Rotation(false, turtle);
             case "Sum":
                 return new TwoArgMathOperation("+");
             case "Repeat":

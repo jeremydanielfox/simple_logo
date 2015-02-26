@@ -4,7 +4,6 @@ import model.Turtle;
 
 public class Backward extends Forward {
     
-
     public Backward (Turtle t) {
         super(t);
     }
@@ -13,5 +12,4 @@ public class Backward extends Forward {
     public double evaluate () {
         return getTurtle().translate(-getDistance().evaluate()); 
     }
-    
 }

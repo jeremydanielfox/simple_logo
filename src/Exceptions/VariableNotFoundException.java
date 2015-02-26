@@ -1,5 +1,8 @@
 package Exceptions;
 
-public class VariableNotFoundException extends SlogoException{
-protected String myString = "Variable not found. Please define the variable and try again.";
+public class VariableNotFoundException extends SlogoException {
+
+	public VariableNotFoundException() {
+		this.setMessage("Variable not found. Please define the variable and try again.");
+	}
 }

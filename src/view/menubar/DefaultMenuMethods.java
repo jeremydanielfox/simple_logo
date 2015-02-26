@@ -57,14 +57,31 @@ public final class DefaultMenuMethods {
 		System.out.println("Not Implemented");
 	}
 
-	public void chooseBackgroundColor() {
+	public ColorPicker makeColorPicker() {
 		ColorPicker myColorPicker = new ColorPicker();
 		Display.getRoot().getChildren().add(myColorPicker);
-		myColorPicker.setOnAction(e -> setBackgroundColor(myColorPicker));
+		return myColorPicker;
+	}
+
+	public void chooseBackgroundColor() {
+		ColorPicker myCP = makeColorPicker();
+		myCP.setOnAction(e -> setBackgroundColor(myCP));
+	}
+
+	private void setBackgroundColor(ColorPicker myColorPicker) {
+		Display.getWorkspace().getTV()
+				.setBackgroundColor(myColorPicker.getValue());
+		Display.getRoot().getChildren().remove(myColorPicker);
 	}
 
 	public void choosePenColor() {
-		System.out.println("Not Implemented");
+		ColorPicker myCP = makeColorPicker();
+		myCP.setOnAction(e -> setPenColor(myCP));
+	}
+
+	private void setPenColor(ColorPicker myColorPicker) {
+		Display.getWorkspace().getTV().setPenColor(myColorPicker.getValue());
+		Display.getRoot().getChildren().remove(myColorPicker);
 	}
 
 	public void chooseLanguage() {
@@ -107,12 +124,6 @@ public final class DefaultMenuMethods {
 		} catch (IOException ex) {
 			System.out.println("Error caught");
 		}
-	}
-
-	private void setBackgroundColor(ColorPicker myColorPicker) {
-		Display.getWorkspace().getTV()
-				.setBackgroundColor(myColorPicker.getValue());
-		Display.getRoot().getChildren().remove(myColorPicker);
 	}
 
 }
