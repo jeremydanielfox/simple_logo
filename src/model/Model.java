@@ -29,7 +29,7 @@ public class Model implements Receiver {
 	public ScreenData updateModel(String feed) {
 		Database.getInstance().addFeed(feed);
 		Parser parser = new Parser(myPatterns, myTurtle);
-		TreeNode tree = parser.parse(feed);
+		List<TreeNode> tree = parser.parse(feed);
 		Interpreter interpreter = new Interpreter(tree);
 		interpreter.interpret();
 		myScreenData.addLines(myTurtle.getLineDatas());

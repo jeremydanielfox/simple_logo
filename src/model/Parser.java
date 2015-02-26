@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -32,7 +33,7 @@ public class Parser {
         myTurtle = turtle;
     }
 
-    public TreeNode parse (String feed) {
+    public List<TreeNode> parse (String feed) {
         List<String> tokens = Arrays.asList(feed.split("\\p{Z}"));
 
         // read Resource Bundle, convert tokens to Deque
@@ -42,11 +43,14 @@ public class Parser {
         return buildTrees();
     }
 
-    private TreeNode buildTrees () {
+    private List<TreeNode> buildTrees () {
         // build trees for all tokenProperties
-        TreeNode root = null;
-        TreeNode last = null;
-        boolean needRoot = true;
+        
+//        TreeNode root = null;
+//        TreeNode last = null;
+//        boolean needRoot = true;
+        
+        List<TreeNode> result = new ArrayList<TreeNode>() ;
         while (!tokenProperties.isEmpty()) {
 
             // TODO: must handle list starts/ends for iterators/conditionals
@@ -58,17 +62,22 @@ public class Parser {
             addChildren(node);
 
             // node will have all children
-            if (needRoot) {
-                root = node;
-                last = node;
-                needRoot = false;
-            }
-            else {
-                last.setNeighbor(node);
-                last = last.getNeighbor();
-            }
+            
+            // used for Neighbors implementation
+//            if (needRoot) {
+//                root = node;
+//                last = node;
+//                needRoot = false;
+//            }
+//            else {
+//                last.setNeighbor(node);
+//                last = last.getNeighbor();
+//            }
+            
+              result.add(node);  
         }
-        return root;
+        
+        return result;
     }
 
     private void addChildren (TreeNode node) {
@@ -130,8 +139,7 @@ public class Parser {
         else if (tokenProp[0].equals("Command")) {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
-            // throw new CommandNotFoundException();
-            // otherwise throw command not found exception
+            // otherwise throw new CommandNotFoundException();
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("ListStart")) {
