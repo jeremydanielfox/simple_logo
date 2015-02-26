@@ -2,33 +2,46 @@ package model;
 
 import java.util.Collection;
 import java.util.List;
-import javafx.collections.FXCollections;
+import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
+
 
 public class ScreenData {
-	private Collection<LineData> myLines;
-	// private Collection<Turtle> myTurtles;
-	private Turtle myTurtle;
+    private ObservableList<LineData> myLines;
+    private ObservableList<TurtleData> myTurtleData;
 
-	public ScreenData(Turtle turtle) {
-		myLines = FXCollections.observableArrayList();
-		// myTurtles = FXCollections.observableArrayList();
-		myTurtle = turtle;
-	}
+    public ScreenData (ObservableList<LineData> ld, ObservableList<TurtleData> td) {
+        myLines = ld;
+        myTurtleData = td;
+    }
 
-	public void addLines(List<LineData> data) {
-		myLines.addAll(data);
-	}
+    public void update (List<Turtle> turtles) {
+        addLines(turtles);
+        setTurtleData(turtles);
+    }
 
-	// public void addTurtles(List<Turtle> turtles){
-	// myTurtles.addAll(turtles);
-	// }
+    private void addLines (List<Turtle> turtles) {
+        for (Turtle t : turtles) { // could possibly use lambda
+            myLines.addAll(t.getLineDatas());
+        }
+    }
 
-	public Collection<LineData> getLines() {
-		return myLines;
-	}
+    private void setTurtleData (List<Turtle> turtles) {
+        myTurtleData.addAll(turtles.stream().map(this::makeTurtleData)
+                        .collect(Collectors.toList()));
+    }
 
-	public Turtle getTurtle() {
-		return myTurtle;
-	}
+    public Collection<LineData> getLines () {
+        return myLines;
+    }
+
+    public Collection<TurtleData> getTurtleData () {
+        return myTurtleData;
+    }
+
+    private TurtleData makeTurtleData (Turtle t) {
+        return new TurtleData(t.getPosition().getX(), t.getPosition().getY(), t.getHeading(),
+                              t.getId(), t.isVisible());
+    }
 
 }

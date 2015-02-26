@@ -166,8 +166,7 @@ public class Parser {
         else if (tokenProp[0].equals("Command")) {
             // check database if variable/udc exists, replace with value
             // -- use deque functionality: addFirst
-            // throw new CommandNotFoundException();
-            // otherwise throw command not found exception
+            // otherwise throw new CommandNotFoundException();
             return getNextTokenProperty();
         }
         else if (tokenProp[0].equals("ListStart")) {
