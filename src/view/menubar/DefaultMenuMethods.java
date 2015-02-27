@@ -4,9 +4,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.util.ArrayList;
 
-import javafx.stage.FileChooser;
-import view.View;
-
 public final class DefaultMenuMethods {
 
 	private static DefaultMenuMethods instance;
@@ -51,17 +48,6 @@ public final class DefaultMenuMethods {
 
 	public void paste() {
 		System.out.println("Not Implemented");
-	}
-
-	public void chooseLanguage() {
-		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-				"Resource files (*.properties)", "*.PROPERTIES");
-		fileChooser.getExtensionFilters().add(extFilter);
-		File file = fileChooser.showOpenDialog(null);
-		View.getModel().setLanguage(
-				file.getPath().replaceAll("^.*/src/", "")
-						.replaceAll(".properties", ""));
 	}
 
 	public void showHelp() {

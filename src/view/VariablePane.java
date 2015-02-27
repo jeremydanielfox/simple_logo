@@ -1,5 +1,6 @@
 package view;
 
+import model.Receiver;
 import model.database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -18,20 +20,22 @@ import javafx.stage.Stage;
 
 public class VariablePane {
 
-	Database myData;
-	VBox myRoot;
-	ListView<String> myListView;
-	ObservableMap<String, String> myMap;
-	ObservableList<String> myList;
-	Stage myStage;
+	private Database myData;
+	private Receiver myReceiver;
+	private BorderPane myRoot;
+	private VBox myVBox;
+	private ListView<String> myListView;
+	private ObservableMap<String, String> myMap;
+	private ObservableList<String> myList;
+	private Stage myStage;
 
-	public VariablePane() {
-		
+	public VariablePane(Receiver receiver) {
+		myReceiver = receiver;
 	}
 
 	public Node init() {
 		myData = Database.getInstance();
-		myRoot = new VBox();
+		myVBox = new VBox();
 		HBox titleBox = new HBox();
 		Label title = new Label("Variables");
 		title.setFont(new Font(30));
@@ -42,14 +46,13 @@ public class VariablePane {
 		addButton.setOnMouseClicked(e -> handleAddInput(myListView.getSelectionModel().getSelectedItem()));
 		addButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		myMap = myData.getVarsHistory();
-		myMap.put(":length", "50");
 		myList = FXCollections.observableArrayList(myMap.keySet());
 		myListView = new ListView<String>(myList);
 		myListView.setPrefHeight(0);
 		VBox.setVgrow(myListView, Priority.ALWAYS);
 		titleBox.getChildren().addAll(title, editButton, addButton);
-		myRoot.getChildren().addAll(titleBox, myListView);
-		return myRoot;
+		myVBox.getChildren().addAll(titleBox, myListView);
+		return myVBox;
 	}
 
 	public void handleEditInput(String name) {
@@ -68,6 +71,7 @@ public class VariablePane {
 	}
 	
 	private void handleEditOutput(String name, String value) {
+		myReceiver.giveText("set " + name + " " + value);
 		myMap.put(name, value);
 		myStage.close();
 	}

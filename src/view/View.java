@@ -22,8 +22,8 @@ public class View {
 	private static View instance;
 
 	private Stage myStage;
-	private static Model myModel;
-	private static Display myDisplay;
+	private Model myModel;
+	private Display myDisplay;
 
 	public View() {
 	}
@@ -79,7 +79,7 @@ public class View {
 		return new ScreenData(myLines, myTurtles);
 	}
 
-	public static Model getModel() {
+	public Model getModel() {
 		return myModel;
 	}
 
