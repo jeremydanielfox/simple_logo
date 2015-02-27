@@ -11,11 +11,11 @@ public abstract class MathOperation extends TreeNode {
     private String myOp;
 
     public MathOperation (String op) {
-        buildMap();
         myOp = op;
     }
 
     public double evaluate () {
+        buildMap();
         return myOpsMap.get(myOp);
     }
     

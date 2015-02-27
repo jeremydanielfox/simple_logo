@@ -60,7 +60,7 @@ public class Feed {
 					} catch (Exception ex) {
 						ErrorDisplay.getInstance().displayError(ex);
 					}
-				// myReceiver.giveText(prompter.getText());
+				//myReceiver.giveText(prompter.getText());
 				System.out.println(prompter.getText().toString());
 				prompter.clear();
 			}
