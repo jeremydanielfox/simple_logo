@@ -3,7 +3,9 @@ package model.node;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Turtle;
 import model.node.iteration.Repeat;
 import model.node.mathOperation.TwoArgMathOperation;
@@ -15,13 +17,16 @@ import model.node.turtleCommand.Translation;
 public final class NodeFactory {
 
     private static NodeFactory instance;
-    private List<String> turtleCommands = new ArrayList<String>(Arrays.asList(new String[]{
-                                                                                           "Forward",
-                                                                                           "Backward",
-                                                                                           "Left",
-                                                                                           "Right"
-    }));
-
+    private static final Map<String, String> packageMap;
+    static
+    {
+        packageMap = new HashMap<String, String>();
+        packageMap.put("Forward", "turtleCommand");
+        packageMap.put("Backward", "turtleCommand");
+        packageMap.put("Left", "turtleCommand");
+        packageMap.put("Right", "turtleCommand");
+    }
+    
     private NodeFactory () {
     }
 
@@ -31,19 +36,19 @@ public final class NodeFactory {
             instance = new NodeFactory();
         return instance;
     }
-    
-    public TreeNode get (String[] tokenProperty){
+
+    public static TreeNode get (String[] tokenProperty, Turtle turtle) {
         String type = tokenProperty[0];
         String token = tokenProperty[1];
-        if (type.equals("Constant")||type.equals("Variable")||type.equals("Command")){
+        if (type.equals("Constant") || type.equals("Variable") || type.equals("Command")) {
             // call some method that deals with tokenProperty
-            return new Constant(9);
+            return new Constant(0);
         }
-        else{
+        else {
             // needs only type;
-            
+
             // get correct package for the following
-            
+
             // use map to determine:
             // mathOperations
             // turtleCommands
@@ -51,44 +56,22 @@ public final class NodeFactory {
             // booleans
             // conditionals
             // etc.
-            return new Constant(9);
-        }
-    }
-    
-
-    // unfortunate that we have to use case/switch for every command. But alternative would be to
-    // create unnecessary amount of classes, if reflection or oodesign factory pattern were used
-    public TreeNode getNonConstant (String key, Turtle turtle) {
-        if (isTurtleCommand(key)) { 
+            
             try {
-                //return reflectionFactory(key, turtle);
-                
+                return reflectionFactory(packageMap.get(type), type, turtle);
             }
             catch (Exception e) {
-                // not sure how to handle this one
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
-
-        switch (key) {
-            case "Sum":
-                return new TwoArgMathOperation("+");
-            case "Repeat":
-                return new Repeat();
-            default:
-                // throw "key not found" exception... shouldn't happen though
-                return null;
-        }
     }
 
-    private boolean isTurtleCommand (String key) {
-        return turtleCommands.contains(key);
-    }
-
-    private TreeNode reflectionFactory (String folder, String type, Turtle turtle) throws Exception {
+    private static TreeNode reflectionFactory (String packageName, String type, Turtle turtle)
+                                                                                       throws Exception {
         try {
-            Class<?> targetClass = Class.forName(String.format("model.node.%s.%s", folder, type));
+            Class<?> targetClass =
+                    Class.forName(String.format("model.node.%s.%s", packageName, type));
             try {
                 Constructor<?> constructor = targetClass.getConstructor(Turtle.class);
                 return (TreeNode) constructor.newInstance(turtle);
@@ -100,14 +83,13 @@ public final class NodeFactory {
             }
         }
         catch (ClassNotFoundException e) {
-            System.err.println("TurtleEnum error");
             e.printStackTrace();
             throw new RuntimeException(); // do something other than throw error to stop program
         }
     }
 
     // separate parameter needed for constants, should probably refactor
-    public TreeNode getConstant (double value) {
+    public TreeNode getTokenNodes (double value) {
         return new Constant(value);
     }
 }

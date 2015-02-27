@@ -75,14 +75,19 @@ public class Parser {
     }
 
     private void addChildren (TreeNode node) {
-        if (node.allChildrenPresent()) { return; }
-        if (nodeList.isEmpty()) { throw new UnexpectedEndOfInstructionsException();
+        if (node.allChildrenPresent()) { 
+            return; 
+            }
+        if (nodeList.isEmpty()) {
+            throw new UnexpectedEndOfInstructionsException();
         // -- e.g. fd sum 50
         }
         TreeNode childNode = getNextNode();
         addChildren(childNode);
-
         node.addChild(childNode);
+        if (!node.allChildrenPresent()){
+            addChildren(node);
+        }
         return;
     }
 
@@ -199,9 +204,10 @@ public class Parser {
                 if (match(token, p.getValue())) {
                     // System.out.println(String.format("%s matches %s", token, p.getKey()));
                     matched = true;
-                    return NodeFactory.get(new String[] { p.getKey(), token }); // need token for Constant, Variable,
-                                                         // Command
-                }
+                    String [] tokenProperty = new String[] { p.getKey(), token };
+                    return NodeFactory.get(tokenProperty, myTurtle); // need token for Constant, Variable,
+                }                                     // Command
+                
             }
             if (!matched) {
                 // throw new UnrecognizedTokenException()
