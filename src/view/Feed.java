@@ -34,7 +34,6 @@ public class Feed {
 	private static final String PROMPT_TEXT = myValues.getString("Prompt_Text");
 	private static final String ADD_TEXT = myValues.getString("Add_Text");
 	private static final String ENTER_TEXT = myValues.getString("Enter_Text");
-	private Stage myStage;
 
 	protected Feed(Receiver receiver) {
 		myReceiver = receiver;

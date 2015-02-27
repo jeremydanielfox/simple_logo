@@ -18,7 +18,7 @@ public class Workspace {
 		myRoot = new BorderPane();
 		myRoot.setRight(makeHistory(receiver));
 		myRoot.setCenter(makeTurtleView());
-		myRoot.setLeft(makeVariables());
+		myRoot.setLeft(makeVariables(receiver));
 		return myRoot;
 	}
 
@@ -28,8 +28,8 @@ public class Workspace {
 		return histNode;
 	}
 
-	private Node makeVariables() {
-		myVariables = new VariablePane();
+	private Node makeVariables(Receiver receiver) {
+		myVariables = new VariablePane(receiver);
 		Node varNode = myVariables.init();
 		return varNode;
 	}

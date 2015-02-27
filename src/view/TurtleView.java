@@ -2,7 +2,6 @@ package view;
 
 import java.util.ResourceBundle;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,14 +22,14 @@ public class TurtleView {
 	private GraphicsContext myLineGC;
 	private GraphicsContext myTurtleGC;
 	private StackPane myLayers;
-	private Group myTurtles = new Group();
+//	private Group myTurtles = new Group();
 	private Rectangle myBackground;
 	private Image turtleImage = new Image("images/plain-turtle-small.png",
 			TURTLE_WIDTH, TURTLE_HEIGHT, true, true);
-	private static final int WIDTH = Integer.parseInt(myValues
-			.getString("Width"));
-	private static final int HEIGHT = Integer.parseInt(myValues
-			.getString("Height"));
+//	private static final int WIDTH = Integer.parseInt(myValues
+//			.getString("Width"));
+//	private static final int HEIGHT = Integer.parseInt(myValues
+//			.getString("Height"));
 	private static final int TURTLE_WIDTH = Integer.parseInt(myValues
 			.getString("TurtleWidth"));
 	private static final int TURTLE_HEIGHT = Integer.parseInt(myValues
@@ -40,10 +39,10 @@ public class TurtleView {
 	private static final Color PEN_COLOR = Color.PINK;
 
 	public TurtleView() {
-		myLineCanvas = new Canvas(WIDTH, HEIGHT);
-		myTurtleCanvas = new Canvas(WIDTH, HEIGHT);
+		myLineCanvas = new Canvas();
+		myTurtleCanvas = new Canvas();
 		setupGraphicsContext();
-		myBackground = new Rectangle(WIDTH, HEIGHT);
+		myBackground = new Rectangle();
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myLineCanvas,
@@ -154,6 +153,6 @@ public class TurtleView {
 	}
 
 	public void clearTurtles() {
-		myTurtleGC.clearRect(0, 0, WIDTH, HEIGHT);
+		myTurtleGC.clearRect(0, 0, myTurtleCanvas.getWidth(), myTurtleCanvas.getHeight());
 	}
 }
