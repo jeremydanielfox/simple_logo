@@ -54,14 +54,14 @@ public class TurtleView {
 		myLineGC = myLineCanvas.getGraphicsContext2D();
 		myLineGC.setStroke(PEN_COLOR);
 		myTurtleGC = myTurtleCanvas.getGraphicsContext2D();
-		setLineWidth(LINE_WIDTH);
+		setPenWidth(LINE_WIDTH);
 	}
 
 	public void setPenColor(Color color) {
 		myLineGC.setStroke(color);
 	}
 
-	public void setLineWidth(double width) {
+	public void setPenWidth(double width) {
 		myLineGC.setLineWidth(width);
 	}
 

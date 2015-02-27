@@ -57,7 +57,7 @@ public class View {
 				while (c.next()) {
 					System.out.println("printing");
 					for (LineData addItem : c.getAddedSubList()) {
-						Display.getWorkspace().getTV().drawLines(addItem);
+						Display.getSelectedWorkspace().getTV().drawLines(addItem);
 					}
 				}
 			}
@@ -67,10 +67,10 @@ public class View {
 		myTurtles.addListener(new ListChangeListener<TurtleData>() {
 			@Override
 			public void onChanged(Change<? extends TurtleData> c) {
-				Display.getWorkspace().getTV().clearTurtles();
+				Display.getSelectedWorkspace().getTV().clearTurtles();
 				while (c.next()) {
 					for (TurtleData addItem : c.getAddedSubList()) {
-						Display.getWorkspace().getTV().drawTurtle(addItem);
+						Display.getSelectedWorkspace().getTV().drawTurtle(addItem);
 					}
 				}
 			}

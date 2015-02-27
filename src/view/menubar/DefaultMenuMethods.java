@@ -67,9 +67,13 @@ public final class DefaultMenuMethods {
 		ColorPicker myCP = makeColorPicker();
 		myCP.setOnAction(e -> setBackgroundColor(myCP));
 	}
+	
+	public void choosePenWidth() {
+		Display.getSelectedWorkspace().getTV().setPenWidth(4);
+	}
 
 	private void setBackgroundColor(ColorPicker myColorPicker) {
-		Display.getWorkspace().getTV()
+		Display.getSelectedWorkspace().getTV()
 				.setBackgroundColor(myColorPicker.getValue());
 		Display.getRoot().getChildren().remove(myColorPicker);
 	}
@@ -80,7 +84,7 @@ public final class DefaultMenuMethods {
 	}
 
 	private void setPenColor(ColorPicker myColorPicker) {
-		Display.getWorkspace().getTV().setPenColor(myColorPicker.getValue());
+		Display.getSelectedWorkspace().getTV().setPenColor(myColorPicker.getValue());
 		Display.getRoot().getChildren().remove(myColorPicker);
 	}
 
@@ -120,7 +124,7 @@ public final class DefaultMenuMethods {
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-			Display.getWorkspace().getTV().setTurtleImage(image);
+			Display.getSelectedWorkspace().getTV().setTurtleImage(image);
 		} catch (IOException ex) {
 			System.out.println("Error caught");
 		}

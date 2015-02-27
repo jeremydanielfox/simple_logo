@@ -43,5 +43,9 @@ public class Workspace {
 	public TurtleView getTV() {
 		return this.myTurtleView;
 	}
+	
+	public Node getRoot() {
+		return myRoot;
+	}
 
 }
