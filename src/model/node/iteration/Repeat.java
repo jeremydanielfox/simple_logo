@@ -7,7 +7,7 @@ public class Repeat extends TreeNode {
 
     // no arguments since default values handle all 3 iteration types
     public Repeat () {
-        addChildNames(new String[] { "max" });
+        addChildNames(new String[] { "max", "commands"});
     }
 
     public double evaluate () {

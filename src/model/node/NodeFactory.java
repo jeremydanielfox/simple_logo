@@ -49,6 +49,12 @@ public final class NodeFactory {
         switch (key) {
             case "Sum":
                 return new TwoArgMathOperation("+");
+            case "Difference":
+                return new TwoArgMathOperation("-");
+            case "Product":
+                return new TwoArgMathOperation("*");
+            case "Quotient":
+                return new TwoArgMathOperation("/");
             case "Repeat":
                 return new Repeat();
             default:

@@ -79,17 +79,19 @@ public class Parser {
     }
 
     private void addChildren (TreeNode node) {
-        if (node.allChildrenPresent()) { return; }
-        if (tokenProperties.isEmpty()) { throw new UnexpectedEndOfInstructionsException();
+        if (node.allChildrenPresent()) { 
+            return; 
+            }
+        if (tokenProperties.isEmpty()) {
+            throw new UnexpectedEndOfInstructionsException();
         // -- e.g. fd sum 50
         }
         TreeNode childNode = getNextNode();
         addChildren(childNode);
-        
-        if (!tokenTracker.isEmpty() && (node instanceof DoTimes || node instanceof For)) {
-            tokenTracker.poll();
-        }
         node.addChild(childNode);
+        if (!node.allChildrenPresent()){
+            addChildren(node);
+        }
         return;
     }
 
