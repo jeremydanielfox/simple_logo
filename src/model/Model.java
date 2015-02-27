@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import javafx.geometry.Point2D;
 import model.database.Database;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
 public class Model implements Receiver {
 	private List<Entry<String, Pattern>> myPatterns;
@@ -30,7 +30,7 @@ public class Model implements Receiver {
 	public ScreenData updateModel(String feed) {
             Database.getInstance().addFeed(feed);
             Parser parser = new Parser(myPatterns, myTurtle);
-            TreeNode tree = parser.parse(feed);
+            EvalNode tree = parser.parse(feed);
             Interpreter interpreter = new Interpreter(tree);
             interpreter.interpret();
             myScreenData.update(Arrays.asList(myTurtle));

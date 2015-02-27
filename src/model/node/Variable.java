@@ -3,7 +3,7 @@ package model.node;
 import model.database.Database;
 
 
-public class Variable extends TreeNode {
+public class Variable extends EvalNode {
 
     private String myName;
 
@@ -24,7 +24,7 @@ public class Variable extends TreeNode {
         Database.getInstance().putVariable(myName, new String[] { String.valueOf(value) });
     }
 
-    private TreeNode getValue () {
+    private EvalNode getValue () {
         return getChild("value");
     }
 

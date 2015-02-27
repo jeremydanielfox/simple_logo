@@ -1,6 +1,6 @@
 package model.node.mathOperation;
 
-import model.node.TreeNode;
+import model.node.EvalNode;
 
 public class TwoArgMathOperation extends MathOperation{
 
@@ -18,11 +18,11 @@ public class TwoArgMathOperation extends MathOperation{
         getOpsMap().put("pow", Math.pow(getFirstArg().evaluate(), getSecondArg().evaluate()));
     }
 
-    private TreeNode getFirstArg () {
+    private EvalNode getFirstArg () {
         return getChild("arg1");
     }
     
-    private TreeNode getSecondArg () {
+    private EvalNode getSecondArg () {
         return getChild("arg2");
     }
 

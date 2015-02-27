@@ -1,9 +1,9 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
-public class Rotation extends TreeNode {
+public class Rotation extends EvalNode {
 
     private boolean clockwise;
     private Turtle turtle;
@@ -19,7 +19,7 @@ public class Rotation extends TreeNode {
         return turtle.rotate(angle); 
     }
 
-    private TreeNode getAngle () {
+    private EvalNode getAngle () {
         return getChild("angle");
     }
 

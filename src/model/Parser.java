@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import model.database.Database;
 import model.node.NodeFactory;
-import model.node.TreeNode;
+import model.node.EvalNode;
 import model.node.iteration.DoTimes;
 import model.node.iteration.For;
 import Exceptions.CommandNotFoundException;
@@ -25,7 +25,7 @@ public class Parser {
 
     private List<Entry<String, Pattern>> myPatterns;
     private Turtle myTurtle;
-    private Queue<TreeNode> nodeList;
+    private Queue<EvalNode> nodeList;
     private Queue<String> tokenTracker = new LinkedList<String>();
     private Stack<String> openBrackets = new Stack<String>();
 
@@ -34,21 +34,21 @@ public class Parser {
         myTurtle = turtle;
     }
 
-    public TreeNode parse (String feed) {
+    public EvalNode parse (String feed) {
     	//TODO: change to get rid of comments
         List<String> tokens = Arrays.asList(feed.trim().split("\\W+")); //"\\p{Z}"  //"\\W+"
         
         // read Resource Bundle, convert tokens to Deque
-        nodeList = new LinkedList<TreeNode>(tokens.stream()
+        nodeList = new LinkedList<EvalNode>(tokens.stream()
                 .map(this::getMatch)
                 .collect(Collectors.toList()));
         return buildTrees();
     }
 
-    private TreeNode buildTrees () {
+    private EvalNode buildTrees () {
         // build trees for all tokenProperties
-        TreeNode root = null;
-        TreeNode last = null;
+        EvalNode root = null;
+        EvalNode last = null;
         boolean needRoot = true;
         while (!nodeList.isEmpty()) {
 
@@ -56,7 +56,7 @@ public class Parser {
             // -- recognize them (error-check) but not put in tree
 
             // appropriate node generated using tokenProperties
-            TreeNode node = getNextNode();
+            EvalNode node = getNextNode();
 
             addChildren(node);
 
@@ -74,7 +74,7 @@ public class Parser {
         return root;
     }
 
-    private void addChildren (TreeNode node) {
+    private void addChildren (EvalNode node) {
         if (node.allChildrenPresent()) { 
             return; 
             }
@@ -82,7 +82,7 @@ public class Parser {
             throw new UnexpectedEndOfInstructionsException();
         // -- e.g. fd sum 50
         }
-        TreeNode childNode = getNextNode();
+        EvalNode childNode = getNextNode();
         addChildren(childNode);
         node.addChild(childNode);
         if (!node.allChildrenPresent()){
@@ -91,7 +91,7 @@ public class Parser {
         return;
     }
 
-    private TreeNode getNextNode () {
+    private EvalNode getNextNode () {
 //        String[] tokenProp = getNextTokenProperty();
 //        TreeNode tempNode;
 //        // special case of creating a constant node
@@ -197,7 +197,7 @@ public class Parser {
 //        }
 //    }
 
-    private TreeNode getMatch (String token) {
+    private EvalNode getMatch (String token) {
         boolean matched = false;
         if (token.trim().length() > 0) {
             for (Entry<String, Pattern> p : myPatterns) {

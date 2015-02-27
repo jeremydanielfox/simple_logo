@@ -1,14 +1,14 @@
 package model;
 
 import java.util.List;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
 
 public class Interpreter {
 
-    private TreeNode tree;
+    private EvalNode tree;
 
-    public Interpreter (TreeNode treeInfo) {
+    public Interpreter (EvalNode treeInfo) {
         tree = treeInfo;
     }
 

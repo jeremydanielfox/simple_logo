@@ -2,10 +2,10 @@ package model.node.mathOperation;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
 
-public abstract class MathOperation extends TreeNode {
+public abstract class MathOperation extends EvalNode {
 
     private Map<String, Double> myOpsMap = new HashMap<String, Double>();
     private String myOp;

@@ -2,7 +2,7 @@ package model.node.turtleCommand;
 
 import model.Parser;
 import model.Turtle;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
 public class Forward extends TurtleCommand{
     
@@ -15,7 +15,7 @@ public class Forward extends TurtleCommand{
         return getTurtle().translate(getDistance().evaluate()); 
     }
 
-    protected TreeNode getDistance () {
+    protected EvalNode getDistance () {
         return getChild("distance");
     }
 }

@@ -1,9 +1,9 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
-public class Translation extends TreeNode {
+public class Translation extends EvalNode {
 
     private boolean positive;
     private Turtle turtle;
@@ -20,7 +20,7 @@ public class Translation extends TreeNode {
         return turtle.translate(distance); 
     }
 
-    private TreeNode getDistance () {
+    private EvalNode getDistance () {
         return getChild("distance");
     }
 

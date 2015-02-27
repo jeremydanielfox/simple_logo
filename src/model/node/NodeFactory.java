@@ -1,17 +1,9 @@
 package model.node;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import model.Turtle;
-import model.node.iteration.Repeat;
-import model.node.mathOperation.TwoArgMathOperation;
-import model.node.turtleCommand.Forward;
-import model.node.turtleCommand.Rotation;
-import model.node.turtleCommand.Translation;
 
 
 public final class NodeFactory {
@@ -37,7 +29,7 @@ public final class NodeFactory {
         return instance;
     }
 
-    public static TreeNode get (String[] tokenProperty, Turtle turtle) {
+    public static EvalNode get (String[] tokenProperty, Turtle turtle) {
         String type = tokenProperty[0];
         String token = tokenProperty[1];
         if (type.equals("Constant") || type.equals("Variable") || type.equals("Command")) {
@@ -67,14 +59,14 @@ public final class NodeFactory {
         }
     }
 
-    private static TreeNode reflectionFactory (String packageName, String type, Turtle turtle)
+    private static EvalNode reflectionFactory (String packageName, String type, Turtle turtle)
                                                                                        throws Exception {
         try {
             Class<?> targetClass =
                     Class.forName(String.format("model.node.%s.%s", packageName, type));
             try {
                 Constructor<?> constructor = targetClass.getConstructor(Turtle.class);
-                return (TreeNode) constructor.newInstance(turtle);
+                return (EvalNode) constructor.newInstance(turtle);
             }
             catch (NoSuchMethodException | SecurityException e) {
                 System.err.println("incorrect constructor");
@@ -89,7 +81,7 @@ public final class NodeFactory {
     }
 
     // separate parameter needed for constants, should probably refactor
-    public TreeNode getTokenNodes (double value) {
+    public EvalNode getTokenNodes (double value) {
         return new Constant(value);
     }
 }

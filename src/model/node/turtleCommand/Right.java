@@ -1,7 +1,7 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
 public class Right extends TurtleCommand {
     
@@ -14,7 +14,7 @@ public class Right extends TurtleCommand {
         return getTurtle().rotate(getAngle().evaluate()); 
     }
 
-    protected TreeNode getAngle () {
+    protected EvalNode getAngle () {
         return getChild("angle");
     }
 }

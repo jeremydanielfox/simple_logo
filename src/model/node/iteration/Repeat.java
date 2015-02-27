@@ -1,9 +1,9 @@
 package model.node.iteration;
 
-import model.node.TreeNode;
+import model.node.EvalNode;
 import model.node.Variable;
 
-public class Repeat extends TreeNode {
+public class Repeat extends EvalNode {
 
     // no arguments since default values handle all 3 iteration types
     public Repeat () {
@@ -39,11 +39,11 @@ public class Repeat extends TreeNode {
     protected void updateVar (double value) {
     }
 
-    protected TreeNode getMaxChild () {
+    protected EvalNode getMaxChild () {
         return getChild("max");
     }
 
-    protected TreeNode getCommandsChild () {
+    protected EvalNode getCommandsChild () {
         // TODO: could hold multiple Nodes (e.g repeat 10 [fd 10 rt 90] )
         return getChild("commands");
     }
