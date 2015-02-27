@@ -59,17 +59,16 @@ public class Display {
 
 	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
-		Tab tab = new Tab();
-		tab.setContent(makeWorkspace(receiver));
-		myWorkspaceDisplays.getTabs().add(tab);
+		makeWorkspace(receiver);
 	}
 
-	private Node makeWorkspace(Receiver receiver) {
+	public void makeWorkspace(Receiver receiver) {
 		Workspace myWorkspace = new Workspace();
 		Node workspaceNode = myWorkspace.init(receiver);
 		myWorkspaces.add(myWorkspace);
-
-		return workspaceNode;
+		Tab tab = new Tab();
+		tab.setContent(workspaceNode);
+		myWorkspaceDisplays.getTabs().add(tab);
 	}
 
 	private void makeMenuBar() throws BadResourcePackageException {

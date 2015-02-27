@@ -72,7 +72,7 @@ public class WorkspaceConfigMenuMethods {
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 			myDisplay.getSelectedWorkspace().getTV().setTurtleImage(image);
 		} catch (IOException ex) {
-			System.out.println("Error caught");
+			System.out.println("Error in loading image");
 		}
 	}
 
