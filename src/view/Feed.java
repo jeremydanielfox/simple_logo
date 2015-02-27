@@ -2,6 +2,7 @@ package view;
 
 import java.util.ResourceBundle;
 
+import Exceptions.SlogoException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -58,7 +59,7 @@ public class Feed {
 					 //CommandSender.send(prompter.getText());
 					try {
 						myReceiver.giveText(prompter.getText());
-					} catch (Exception ex) {
+					} catch (SlogoException ex) {
 						ErrorDisplay.getInstance().displayError(ex);
 					}
 				//myReceiver.giveText(prompter.getText());
