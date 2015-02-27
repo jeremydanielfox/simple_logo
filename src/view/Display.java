@@ -1,9 +1,12 @@
 package view;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
+import Exceptions.BadResourcePackageException;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -16,27 +19,42 @@ import view.menubar.MenuBuilder;
 public class Display {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/display");
+	private static Display instance;
+	
 	private Scene myScene;
-	private static  BorderPane myRoot;
+	private BorderPane myRoot;
 	private MenuBar myMenuBar;
-	private static  TabPane myWorkspaceDisplays;
-	private static Collection<Workspace> myWorkspaces;
-//	private static Workspace myWorkspace;
+	private TabPane myWorkspaceDisplays;
+	private Collection<Workspace> myWorkspaces;
 	private Feed myFeed;
 
-	protected Display(Receiver receiver) {
+	protected Display() {
 		myRoot = new BorderPane();
-		myFeed = new Feed(receiver);
 		myWorkspaces = new ArrayList<>();
+	}
+	
+	public static Display getInstance() {
+		if (instance == null)
+			instance = new Display();
+		return instance;
+	}
+	
+	public Scene init(Receiver receiver) {
+		myFeed = new Feed(receiver);
 		setupWorkspaces(receiver);
 		myRoot.setBottom(myFeed.getFeed());
-		myRoot.setTop(makeMenuBar());
+		try {
+			makeMenuBar();
+		} catch (BadResourcePackageException e) {
+			e.printStackTrace();
+		}
 		myRoot.setCenter(myWorkspaceDisplays);
 
-		// myRoot.setCenter(makeWorkspace(receiver));
 		myScene = new Scene(myRoot, Integer.parseInt(myValues
 				.getString("Width")), Integer.parseInt(myValues
 				.getString("Height")));
+
+		return this.myScene;
 	}
 
 	private void setupWorkspaces(Receiver receiver) {
@@ -50,33 +68,56 @@ public class Display {
 		Workspace myWorkspace = new Workspace();
 		Node workspaceNode = myWorkspace.init(receiver);
 		myWorkspaces.add(myWorkspace);
-		
+
 		return workspaceNode;
 	}
 
-	private Node makeMenuBar() {
-		MenuBuilder defaultMenuBuilder = new MenuBuilder(new MenuBar(),
-				"Default");
-		myMenuBar = defaultMenuBuilder.build();
-		return myMenuBar;
+	private void makeMenuBar() throws BadResourcePackageException {
+		myMenuBar = new MenuBar();
+		File dir = new File("src/resources/menus/");
+		File[] dirArray = dir.listFiles();
+		if (dirArray != null) {
+			for (File file : dirArray) {
+				String source = file.getName().replaceAll(".properties", "");
+				ResourceBundle rb = ResourceBundle.getBundle("resources/menus/"
+						+ source);
+				ArrayList<Object> params = new ArrayList<Object>();
+				if (rb.containsKey("Params")) {
+					for (String s : rb.getString("Params").split(", ")) {
+						try {
+							Object o = Class
+									.forName(s)
+									.getDeclaredMethod("getInstance",
+											(Class<?>[]) null)
+									.invoke(null, (Object[]) null);
+							params.add(o);
+						} catch (IllegalAccessException
+								| IllegalArgumentException
+								| InvocationTargetException
+								| NoSuchMethodException | SecurityException
+								| ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				MenuBuilder mb = new MenuBuilder(myMenuBar, rb,
+						params);
+				myMenuBar = mb.build();
+			}
+		} else {
+			throw new BadResourcePackageException();
+		}
+		myRoot.setTop(myMenuBar);
 	}
 
-	public Scene getScene() {
-		return this.myScene;
-	}
-
-	public static BorderPane getRoot() {
+	public BorderPane getRoot() {
 		return myRoot;
 	}
 
-//	public static Workspace getWorkspace() {
-//		return myWorkspace;
-//	}
-
-	public static Workspace getSelectedWorkspace() {
+	public Workspace getSelectedWorkspace() {
 		for (Tab currentTab : myWorkspaceDisplays.getTabs()) {
 			if (currentTab.isSelected())
-				for (Workspace currentWS: myWorkspaces) {
+				for (Workspace currentWS : myWorkspaces) {
 					if (currentWS.getRoot().equals(currentTab.getContent()))
 						return currentWS;
 				}

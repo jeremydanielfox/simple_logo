@@ -9,8 +9,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage s) {
-		View view = View.getInstance(s);
-		view.init();
+		View view = View.getInstance();
+		view.init(s);
 	}
 
 	public static void main(String[] args) {

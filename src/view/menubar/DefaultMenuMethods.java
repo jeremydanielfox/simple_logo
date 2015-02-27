@@ -1,18 +1,10 @@
 package view.menubar;
 
 import java.awt.Desktop;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
-
-import javax.imageio.ImageIO;
-
-import view.Display;
 import view.View;
 
 public final class DefaultMenuMethods {
@@ -23,6 +15,10 @@ public final class DefaultMenuMethods {
 		if (instance == null)
 			instance = new DefaultMenuMethods();
 		return instance;
+	}
+	
+	public void setParams(ArrayList<Object> params) {
+		return;
 	}
 
 	public void loadCommand() {
@@ -57,37 +53,6 @@ public final class DefaultMenuMethods {
 		System.out.println("Not Implemented");
 	}
 
-	public ColorPicker makeColorPicker() {
-		ColorPicker myColorPicker = new ColorPicker();
-		Display.getRoot().getChildren().add(myColorPicker);
-		return myColorPicker;
-	}
-
-	public void chooseBackgroundColor() {
-		ColorPicker myCP = makeColorPicker();
-		myCP.setOnAction(e -> setBackgroundColor(myCP));
-	}
-	
-	public void choosePenWidth() {
-		Display.getSelectedWorkspace().getTV().setPenWidth(4);
-	}
-
-	private void setBackgroundColor(ColorPicker myColorPicker) {
-		Display.getSelectedWorkspace().getTV()
-				.setBackgroundColor(myColorPicker.getValue());
-		Display.getRoot().getChildren().remove(myColorPicker);
-	}
-
-	public void choosePenColor() {
-		ColorPicker myCP = makeColorPicker();
-		myCP.setOnAction(e -> setPenColor(myCP));
-	}
-
-	private void setPenColor(ColorPicker myColorPicker) {
-		Display.getSelectedWorkspace().getTV().setPenColor(myColorPicker.getValue());
-		Display.getRoot().getChildren().remove(myColorPicker);
-	}
-
 	public void chooseLanguage() {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
@@ -110,23 +75,6 @@ public final class DefaultMenuMethods {
 			} catch (java.io.IOException e1) {
 				System.out.println("really caught");
 			}
-		}
-	}
-
-	public void chooseImage() {
-		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter(
-				"JPG files (*.jpg)", "*.JPG");
-		FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter(
-				"PNG files (*.png)", "*.PNG");
-		fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-		File file = fileChooser.showOpenDialog(null);
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-			Display.getSelectedWorkspace().getTV().setTurtleImage(image);
-		} catch (IOException ex) {
-			System.out.println("Error caught");
 		}
 	}
 

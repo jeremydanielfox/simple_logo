@@ -25,27 +25,27 @@ public class View {
 	private static Model myModel;
 	private static Display myDisplay;
 
-	public View(Stage s) {
-		myStage = s;
+	public View() {
 	}
 
-	public void init() {
+	public void init(Stage s) {
+		myStage = s;
 		myStage.setTitle(myValues.getString("Title"));
 		String[] offsetAR = myValues.getString("Initial_Offset").split(", ");
 		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]),
 				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
-		myDisplay = new Display((Receiver) myModel);
+		myDisplay = Display.getInstance();
+		Scene scene = myDisplay.init((Receiver) myModel);
 		myModel.setScreenData(setupScreenData());
-		Scene scene = myDisplay.getScene();
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
 		myStage.show();
 	}
 
-	public static View getInstance(Stage s) {
+	public static View getInstance() {
 		if (instance == null)
-			instance = new View(s);
+			instance = new View();
 		return instance;
 	}
 
@@ -57,7 +57,7 @@ public class View {
 				while (c.next()) {
 					System.out.println("printing");
 					for (LineData addItem : c.getAddedSubList()) {
-						Display.getSelectedWorkspace().getTV().drawLines(addItem);
+						myDisplay.getSelectedWorkspace().getTV().drawLines(addItem);
 					}
 				}
 			}
@@ -67,10 +67,10 @@ public class View {
 		myTurtles.addListener(new ListChangeListener<TurtleData>() {
 			@Override
 			public void onChanged(Change<? extends TurtleData> c) {
-				Display.getSelectedWorkspace().getTV().clearTurtles();
+				myDisplay.getSelectedWorkspace().getTV().clearTurtles();
 				while (c.next()) {
 					for (TurtleData addItem : c.getAddedSubList()) {
-						Display.getSelectedWorkspace().getTV().drawTurtle(addItem);
+						myDisplay.getSelectedWorkspace().getTV().drawTurtle(addItem);
 					}
 				}
 			}

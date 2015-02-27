@@ -48,6 +48,20 @@ public class TurtleView {
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myLineCanvas,
 				myTurtleCanvas);
+		
+		myLineCanvas.widthProperty().bind(myLayers.widthProperty().subtract(20));
+	    myLineCanvas.heightProperty().bind(myLayers.heightProperty().subtract(20));
+	    myTurtleCanvas.widthProperty().bind(myLayers.widthProperty().subtract(20));
+	    myTurtleCanvas.heightProperty().bind(myLayers.heightProperty().subtract(20));
+		myLineCanvas.widthProperty().addListener(observable -> redraw());
+		myLineCanvas.heightProperty().addListener(observable -> redraw());
+		myTurtleCanvas.widthProperty().addListener(observable -> redraw());
+		myTurtleCanvas.heightProperty().addListener(observable -> redraw());
+	}
+	
+	private void redraw() {
+		myBackground.setHeight(myLineCanvas.getHeight());
+		myBackground.setWidth(myLineCanvas.getWidth());
 	}
 
 	private void setupGraphicsContext() {
