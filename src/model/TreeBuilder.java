@@ -52,8 +52,10 @@ public class TreeBuilder {
         return;
     }
 
-    private static TreeNode getNextChild (EvalNode cur, Queue<TreeNode> nodeList) {
-        EvalNode current = (EvalNode) cur;
+    private static TreeNode getNextChild (EvalNode current, Queue<TreeNode> nodeList) {
+        //EvalNode current = (EvalNode) cur;
+        
+        // case 1:
         if (current.getNextType().equals(CommandList.class)) {
             // get all nodes until proper closed bracket
             Queue<TreeNode> snippet = extract(nodeList);
@@ -62,10 +64,11 @@ public class TreeBuilder {
             TreeNode node = build(snippet);
             return node; // should be directly added to the node, no need to add children to it
         }
-
+        
+        // default case: 
         TreeNode child = nodeList.poll();
         // checks it's the correct type of node desired
-        if (cur.getNextType().isAssignableFrom(child.getClass())) {
+        if (current.getNextType().isAssignableFrom(child.getClass())) {
             addChildren(child, nodeList);
             return child;
         }

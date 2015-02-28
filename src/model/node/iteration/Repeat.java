@@ -16,14 +16,14 @@ public class Repeat extends EvalNode {
 
     public double evaluate () {
         double lastEvaluation = 0;
-        for (double i = getVar(); i < getMax(); i += getIncrement()) {
+        for (double i = getStart(); i < getMax(); i += getIncrement()) {
             lastEvaluation = getCommandsChild().evaluate();
             updateVar(i);
         }
         return lastEvaluation;
     }
 
-    protected double getVar () {
+    protected double getStart () {
         return 0;
     }
 
