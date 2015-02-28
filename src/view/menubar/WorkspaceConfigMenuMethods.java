@@ -5,12 +5,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import javax.imageio.ImageIO;
+
 import view.Display;
 
 public class WorkspaceConfigMenuMethods {
@@ -30,8 +34,20 @@ public class WorkspaceConfigMenuMethods {
 	
 	public ColorPicker makeColorPicker() {
 		ColorPicker myColorPicker = new ColorPicker();
-		myDisplay.getRoot().getChildren().add(myColorPicker);
+		
+		Stage tempStage = new Stage();
+		tempStage.setMaxHeight(Double.MAX_VALUE);
+		tempStage.setMaxWidth(Double.MAX_VALUE);
+		Group tempGroup = new Group(myColorPicker);
+		Scene tempScene = new Scene(tempGroup);
+		
+		tempStage.setScene(tempScene);
+		tempStage.show();
+		myColorPicker.show();
 		return myColorPicker;
+//		ColorPicker myColorPicker = new ColorPicker();
+//		myDisplay.getRoot().getChildren().add(myColorPicker);
+//		return myColorPicker;
 	}
 
 	public void chooseBackgroundColor() {
