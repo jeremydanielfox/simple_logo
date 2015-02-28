@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,14 +25,23 @@ public class Parser {
 
     public CommandList parse (String feed) {
         // TODO: change to get rid of comments
-        List<String> tokens = Arrays.asList(feed.trim().split("\\p{Z}")); // "\\W+" only recognizes
-                                                                          // brackets with {Z}
+        List<String> lines =
+                Arrays.asList(feed.trim().split("\\n")).stream().filter(this::isNonComment)
+                        .collect(Collectors.toList());
+        List<String> tokens = new ArrayList<String>();
+        for (String line : lines) {
+            tokens.addAll(Arrays.asList(line.trim().split("\\p{Z}")));
+        }
 
         // read Resource Bundle, convert tokens to Deque
         Queue<TreeNode> nodeList = new LinkedList<TreeNode>(tokens.stream()
                 .map(this::getMatch)
                 .collect(Collectors.toList()));
         return TreeBuilder.build(nodeList);
+    }
+
+    private boolean isNonComment (String line) {
+        return !line.startsWith("#");
     }
 
     private TreeNode getMatch (String token) {
