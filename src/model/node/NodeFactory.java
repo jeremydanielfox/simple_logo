@@ -16,20 +16,23 @@ public final class NodeFactory {
     static
     {
         String[] turtleCmds = new String[] { "Forward", "Backward", "Left", "Right" };
-        String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable"};
+        String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient" };
+        String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
         String[] basicCmds = new String[] { "Constant", "Variable" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
         reflectionMap.put(new Wrapper("turtleCommand", Turtle.class),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
-        reflectionMap.put(new Wrapper("iteration", String.class),
-                          new ArrayList<String>(Arrays.asList(iterationCmds)));
-        reflectionMap.put(new Wrapper("syntax", String.class),
-                          new ArrayList<String>(Arrays.asList(syntaxCmds)));
         reflectionMap.put(new Wrapper("basic", String.class),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
-    }
+        reflectionMap.put(new Wrapper("mathOperation", null),
+                          new ArrayList<String>(Arrays.asList(mathOpCmds)));
+        reflectionMap.put(new Wrapper("iteration", null),
+                          new ArrayList<String>(Arrays.asList(iterationCmds)));
+        reflectionMap.put(new Wrapper("syntax", null),
+                          new ArrayList<String>(Arrays.asList(syntaxCmds)));
+        }
 
     private NodeFactory () {
     }
@@ -71,9 +74,10 @@ public final class NodeFactory {
 
         // all other cases
         // TODO: fix - last argument not necessary
+        // now have two factories
         else {
             try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), type);
+                return reflectionFactory(wrapper.getPackage(), type);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -83,6 +87,7 @@ public final class NodeFactory {
         }
     }
 
+    
     private static TreeNode reflectionFactory (String packageName,
                                                String type,
                                                Class<?> argType,
@@ -94,6 +99,29 @@ public final class NodeFactory {
             try {
                 Constructor<?> constructor = targetClass.getConstructor(argType);
                 return (TreeNode) constructor.newInstance(arg);
+
+            }
+            catch (NoSuchMethodException | SecurityException e) {
+                System.err.println("incorrect constructor");
+                e.printStackTrace();
+                throw new RuntimeException(); // do something other than throw error to stop program
+            }
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(); // do something other than throw error to stop program
+        }
+    }
+
+    private static TreeNode reflectionFactory (String packageName,
+                                               String type)
+                                                           throws Exception {
+        try {
+            Class<?> targetClass =
+                    Class.forName(String.format("model.node.%s.%s", packageName, type));
+            try {
+                Constructor<?> constructor = targetClass.getConstructor();
+                return (TreeNode) constructor.newInstance();
 
             }
             catch (NoSuchMethodException | SecurityException e) {

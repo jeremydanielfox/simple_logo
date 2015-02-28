@@ -2,8 +2,7 @@ package model.node.syntax;
 
 public class ListEnd extends Syntax {
 
-    public ListEnd (String type){
-        
+    public ListEnd (){
     }
     
     @Override

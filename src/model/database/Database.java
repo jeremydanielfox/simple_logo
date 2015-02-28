@@ -34,7 +34,8 @@ public final class Database {
     
     public void putVariable (String name, EvalNode node) {
         varsMap.put(name, node);
-        //varsHistory.put(name, join(value, " "));
+        // TODO: traverse tree to get string representation of nodes
+        //varsHistory.put(name, node.toString());
     }
 
     public void putCommand (String name, String[] args, String[] value) {
@@ -63,19 +64,5 @@ public final class Database {
     
     public ObservableMap<String, String> getCmdsHistory(){
         return cmdsHistory;
-    }
-    
-    private String join(String[] parts, String delim){
-        StringBuilder result = new StringBuilder();
-        int counter=0;
-        
-        for (String part: parts){
-            counter++;
-            result.append(part);
-            if (delim != null && counter < parts.length) {
-                result.append(delim);
-            }        
-        }
-        return result.toString();
     }
 }

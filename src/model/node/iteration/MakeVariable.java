@@ -2,14 +2,13 @@ package model.node.iteration;
 
 import model.database.Database;
 import model.node.ChildBuilder;
-import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.basic.Variable;
 
-
+// TODO: put in appropriate package
 public class MakeVariable extends EvalNode {
 
-    public MakeVariable (String type) {
+    public MakeVariable () {
         super();
     }
 
