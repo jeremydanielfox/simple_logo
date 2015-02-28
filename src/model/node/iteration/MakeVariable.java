@@ -8,7 +8,7 @@ import model.node.basic.Variable;
 // TODO: put in appropriate package
 public class MakeVariable extends EvalNode {
 
-    public MakeVariable (String type) {
+    public MakeVariable () {
         super();
     }
 

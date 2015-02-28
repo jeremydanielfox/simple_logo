@@ -10,8 +10,8 @@ import model.node.syntax.ListStart;
 
 public class For extends DoTimes {
 
-    public For (String type) {
-        super(type);
+    public For () {
+        super();
     }
     
     @Override 

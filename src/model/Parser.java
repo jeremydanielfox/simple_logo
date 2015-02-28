@@ -24,24 +24,26 @@ public class Parser {
     }
 
     public CommandList parse (String feed) {
-        // TODO: change to get rid of comments
+        // gets all uncommented lines
         List<String> lines =
-                Arrays.asList(feed.trim().split("\\n")).stream().filter(this::isNonComment)
+                Arrays.asList(feed.trim().split("\\n")).stream().filter(this::isValidLine)
                         .collect(Collectors.toList());
+        
         List<String> tokens = new ArrayList<String>();
         for (String line : lines) {
             tokens.addAll(Arrays.asList(line.trim().split("\\p{Z}")));
         }
 
-        // read Resource Bundle, convert tokens to Deque
+        // read Resource Bundle, convert tokens to queue
         Queue<TreeNode> nodeList = new LinkedList<TreeNode>(tokens.stream()
                 .map(this::getMatch)
                 .collect(Collectors.toList()));
         return TreeBuilder.build(nodeList);
     }
 
-    private boolean isNonComment (String line) {
-        return !line.startsWith("#");
+    // TODO: only filters out lines that begin with #, fix to accomodate inline comment
+    private boolean isValidLine (String line) {
+        return !line.startsWith("#") && line.length()>0;
     }
 
     private TreeNode getMatch (String token) {

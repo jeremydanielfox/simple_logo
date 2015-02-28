@@ -10,8 +10,8 @@ import model.node.syntax.ListStart;
 
 public class DoTimes extends Repeat {
 
-    public DoTimes (String type) {
-        super(type);
+    public DoTimes () {
+        super();
     }
 
     

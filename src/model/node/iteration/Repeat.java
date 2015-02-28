@@ -10,7 +10,7 @@ import model.node.syntax.ListStart;
 public class Repeat extends EvalNode {
 
     // no arguments since default values handle all 3 iteration types
-    public Repeat (String type) {
+    public Repeat () {
         super();
     }
 
