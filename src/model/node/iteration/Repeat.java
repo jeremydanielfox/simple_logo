@@ -1,13 +1,17 @@
 package model.node.iteration;
 
+import model.node.ChildBuilder;
+import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.Variable;
+import model.node.syntax.ListEnd;
+import model.node.syntax.ListStart;
 
 public class Repeat extends EvalNode {
 
     // no arguments since default values handle all 3 iteration types
     public Repeat () {
-        addChildNames(new String[] { "max" });
+        super();
     }
 
     public double evaluate () {
@@ -40,11 +44,24 @@ public class Repeat extends EvalNode {
     }
 
     protected EvalNode getMaxChild () {
-        return getChild("max");
+        return (EvalNode) getEvalChild("max");
     }
 
     protected EvalNode getCommandsChild () {
         // TODO: could hold multiple Nodes (e.g repeat 10 [fd 10 rt 90] )
-        return getChild("commands");
+        return (EvalNode) getEvalChild("commands");
+    }
+    
+    @Override
+    public String toString(){
+        return "Repeat";
+    }
+
+    @Override
+    protected ChildBuilder[] addChildBuilders () {
+        return new ChildBuilder[] { new ChildBuilder("max", EvalNode.class),
+                                    new ChildBuilder("listStart", ListStart.class),
+                                    new ChildBuilder("commands", CommandList.class),
+                                    new ChildBuilder("listEnd", ListEnd.class)};
     }
 }

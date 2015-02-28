@@ -9,7 +9,6 @@ public class Variable extends EvalNode {
 
     public Variable (String name) {
         myName = name;
-        addChildNames(new String[] { "value" });
     }
 
     @Override
@@ -25,7 +24,18 @@ public class Variable extends EvalNode {
     }
 
     private EvalNode getValue () {
-        return getChild("value");
+        return getEvalChild("value");
+    }
+
+    @Override
+    public String toString () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected ChildBuilder[] addChildBuilders () {
+        return new ChildBuilder[] { new ChildBuilder("value", EvalNode.class) };
     }
 
 }

@@ -1,21 +1,31 @@
 package model.node.turtleCommand;
 
-import model.Parser;
 import model.Turtle;
+import model.node.ChildBuilder;
 import model.node.EvalNode;
 
-public class Forward extends TurtleCommand{
-    
-    public Forward(Turtle t){
+
+public class Forward extends TurtleCommand {
+
+    public Forward (Turtle t) {
         super(t);
-        addChildNames(new String[] {"distance"});
     }
-    
+
     public double evaluate () {
-        return getTurtle().translate(getDistance().evaluate()); 
+        return getTurtle().translate(getDistance().evaluate());
     }
 
     protected EvalNode getDistance () {
-        return getChild("distance");
+        return getEvalChild("distance");
+    }
+
+    @Override
+    public String toString () {
+        return null;
+    }
+
+    @Override
+    protected ChildBuilder[] addChildBuilders () {
+        return new ChildBuilder[] { new ChildBuilder("distance", EvalNode.class) };
     }
 }

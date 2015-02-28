@@ -30,7 +30,7 @@ public class OneArgMathOperation extends MathOperation {
     }
     
     private EvalNode getArg () {
-        return getChild("arg");
+        return getEvalChild("arg");
     }
 
 }

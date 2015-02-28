@@ -19,11 +19,11 @@ public class TwoArgMathOperation extends MathOperation{
     }
 
     private EvalNode getFirstArg () {
-        return getChild("arg1");
+        return getEvalChild("arg1");
     }
     
     private EvalNode getSecondArg () {
-        return getChild("arg2");
+        return getEvalChild("arg2");
     }
 
 }

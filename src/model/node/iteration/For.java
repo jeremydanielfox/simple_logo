@@ -16,6 +16,6 @@ public class For extends DoTimes {
     }
 
     private EvalNode getIncrementChild () {
-        return (EvalNode) getChild("increment");
+        return (EvalNode) getEvalChild("increment");
     }
 }

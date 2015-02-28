@@ -19,7 +19,7 @@ public class DoTimes extends Repeat {
 
     @Override
     protected Variable getVarChild () {
-        return (Variable) getChild("var");
+        return (Variable) getEvalChild("var");
     }
 
     @Override
