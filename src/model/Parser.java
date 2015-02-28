@@ -35,8 +35,15 @@ public class Parser {
     }
 
     public TreeNode parse (String feed) {
-    	//TODO: change to get rid of comments
-        List<String> tokens = Arrays.asList(feed.trim().split("\\W+")); //"\\p{Z}"  //"\\W+"
+    	//get rid of comments
+    	List<String> tokens = new ArrayList<String>();
+    	List<String> tempList = Arrays.asList(feed.trim().split("\\r?\\n"));
+    	for(String s : tempList){
+    		if (!String.valueOf(s.charAt(0)).equals("#")){
+    			tokens.addAll(Arrays.asList(s.split("\\p{Z}")));
+    		}
+    	}
+        //List<String> tokens = Arrays.asList(feed.trim().split("\\W+")); //"\\p{Z}"  //"\\W+"
         
         // read Resource Bundle, convert tokens to Deque
         nodeList = new LinkedList<TreeNode>(tokens.stream()
