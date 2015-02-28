@@ -3,13 +3,12 @@ package model.node;
 import model.database.Database;
 
 
-public class Variable extends TreeNode {
+public class Variable extends EvalNode {
 
     private String myName;
 
     public Variable (String name) {
         myName = name;
-        addChildNames(new String[] { "value" });
     }
 
     @Override
@@ -24,8 +23,19 @@ public class Variable extends TreeNode {
         Database.getInstance().putVariable(myName, new String[] { String.valueOf(value) });
     }
 
-    private TreeNode getValue () {
-        return getChild("value");
+    private EvalNode getValue () {
+        return getEvalChild("value");
+    }
+
+    @Override
+    public String toString () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected ChildBuilder[] addChildBuilders () {
+        return new ChildBuilder[] { new ChildBuilder("value", EvalNode.class) };
     }
 
 }

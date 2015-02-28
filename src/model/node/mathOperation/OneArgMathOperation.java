@@ -1,7 +1,7 @@
 package model.node.mathOperation;
 
 import java.util.Random;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
 public class OneArgMathOperation extends MathOperation {
     
@@ -29,8 +29,8 @@ public class OneArgMathOperation extends MathOperation {
         return bound * random.nextDouble();
     }
     
-    private TreeNode getArg () {
-        return getChild("arg");
+    private EvalNode getArg () {
+        return getEvalChild("arg");
     }
 
 }

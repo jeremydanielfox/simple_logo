@@ -1,20 +1,31 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.TreeNode;
+import model.node.ChildBuilder;
+import model.node.EvalNode;
 
 public class Right extends TurtleCommand {
     
     public Right(Turtle t){
         super(t);
-        addChildNames(new String[] {"angle"});
     }
     
     public double evaluate () {
         return getTurtle().rotate(getAngle().evaluate()); 
     }
 
-    protected TreeNode getAngle () {
-        return getChild("angle");
+    protected EvalNode getAngle () {
+        return getEvalChild("angle");
+    }
+
+    @Override
+    public String toString () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected ChildBuilder[] addChildBuilders () {
+        return new ChildBuilder[] {new ChildBuilder("angle", EvalNode.class)};
     }
 }

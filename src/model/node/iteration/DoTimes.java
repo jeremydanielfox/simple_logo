@@ -13,20 +13,13 @@ public class DoTimes extends Repeat {
     }
 
     @Override
-    public Queue<String> getTokenTracker () {
-        Queue<String> queue =
-                new LinkedList<String>(Arrays.asList("ListStart", "Variable", "Other", "ListEnd"));
-        return queue;
-    }
-
-    @Override
     protected double getVar () {
         return getVarChild().evaluate();
     }
 
     @Override
     protected Variable getVarChild () {
-        return (Variable) getChild("var");
+        return (Variable) getEvalChild("var");
     }
 
     @Override

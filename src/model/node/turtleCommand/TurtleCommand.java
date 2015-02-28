@@ -1,9 +1,9 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.TreeNode;
+import model.node.EvalNode;
 
-public abstract class TurtleCommand extends TreeNode {
+public abstract class TurtleCommand extends EvalNode {
 
     private Turtle turtle;
 
