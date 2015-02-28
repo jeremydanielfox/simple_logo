@@ -25,7 +25,7 @@ public class Parser {
 
     private List<Entry<String, Pattern>> myPatterns;
     private Turtle myTurtle;
-    private Queue<TreeNode> nodeList;
+    private Deque<TreeNode> nodeList;
     private Queue<String> tokenTracker = new LinkedList<String>();
     private Stack<String> openBrackets = new Stack<String>();
 
@@ -42,7 +42,9 @@ public class Parser {
         nodeList = new LinkedList<TreeNode>(tokens.stream()
                 .map(this::getMatch)
                 .collect(Collectors.toList()));
-        return buildTrees();
+        return TreeBuilder.build(nodeList);
+        
+        //return buildTrees();
     }
 
     private TreeNode buildTrees () {

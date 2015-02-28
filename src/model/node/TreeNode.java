@@ -7,9 +7,11 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import model.node.turtleCommand.Forward;
 
 public abstract class TreeNode {
 	
+    private Queue<ChildBuilder> childBuilders = new LinkedList<ChildBuilder>();
     private Map<String, TreeNode> children = new LinkedHashMap<String, TreeNode>();
     private Deque<String> myChildNames = new LinkedList<String>();
     private TreeNode neighbor;
@@ -33,7 +35,7 @@ public abstract class TreeNode {
     }
     
     public void addChild (TreeNode node) {
-        children.put(myChildNames.poll(), node);
+        children.put(childBuilders.poll().getName(), node);
     }
     
     protected TreeNode getChild(String key){
@@ -53,11 +55,21 @@ public abstract class TreeNode {
         myChildNames.addFirst(name);
     }
     
-    public String getNextChildName () {
-        return myChildNames.remove();
-    }
-
     public boolean allChildrenPresent () {
         return myChildNames.isEmpty();
     }
+    
+    public Class<? extends TreeNode> getNextType(){
+        return childBuilders.peek().getType();
+    }
+    
+    // remove only for CmdList case
+    public void removeChildBuilder(){
+        childBuilders.poll();
+    }
+    
+    // public abstract void setChildBuilders{
+        // should just do childBuilders.add()
+    
+    
 }

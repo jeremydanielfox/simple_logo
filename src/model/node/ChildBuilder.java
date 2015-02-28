@@ -1,25 +1,21 @@
 package model.node;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class ChildBuilder {
 
-    public ChildBuilder(Deque<String> childNames, Queue<Class<? extends TreeNode>> expectedNodes){
-        // assign properly
+    private String myName;
+    private Class<? extends TreeNode> myType;
+
+    public ChildBuilder (String name, Class<? extends TreeNode> type) {
+        myName = name;
+        myType = type;
     }
     
-    public String verifyChild(TreeNode node){
-        // ensure appropriate number of children (from polling the queues)
-        
-        // get name from childNames
-        // ensure node is correct type
-        
-        // TODO: report when too little children added
-        // also when too many added
-        
+    public String getName () {
+        return myName;
     }
-    
-    // another method that checks if queues are empty
+
+    public Class<? extends TreeNode> getType () {
+        return myType;
+    }
 }
