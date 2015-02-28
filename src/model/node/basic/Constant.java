@@ -1,12 +1,15 @@
-package model.node;
+package model.node.basic;
+
+import model.node.ChildBuilder;
+import model.node.EvalNode;
 
 
 public class Constant extends EvalNode {
 
     private double value;
     
-    public Constant (double value) {
-        this.value = value;
+    public Constant (String value) {
+        this.value = Double.parseDouble(value);
     }
 
     public double evaluate () {

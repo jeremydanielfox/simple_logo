@@ -3,14 +3,14 @@ package model.node.iteration;
 import model.node.ChildBuilder;
 import model.node.CommandList;
 import model.node.EvalNode;
-import model.node.Variable;
+import model.node.basic.Variable;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 
 public class Repeat extends EvalNode {
 
     // no arguments since default values handle all 3 iteration types
-    public Repeat () {
+    public Repeat (String type) {
         super();
     }
 
