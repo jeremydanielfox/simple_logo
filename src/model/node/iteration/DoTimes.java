@@ -14,11 +14,13 @@ public class DoTimes extends Repeat {
         super(type);
     }
 
-    @Override
-    protected double getVar () {
-        return getVarChild().evaluate();
+    
+    @Override 
+    protected double getStart () {
+        updateVar(0);
+        return 0;
     }
-
+    
     @Override
     protected Variable getVarChild () {
         return (Variable) getEvalChild("var");

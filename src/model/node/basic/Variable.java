@@ -15,29 +15,22 @@ public class Variable extends EvalNode {
 
     @Override
     public double evaluate () {
-        double value = getValue().evaluate();
-        // should update since this will store final result of expression, not actual expression
-        update(value);
-        return value;
+        return Database.getInstance().getVariable(myName).evaluate();
     }
 
+    // for DoTimes and For
     public void update (double value) {
-        Database.getInstance().putVariable(myName, new String[] { String.valueOf(value) });
+        Database.getInstance().putVariable(myName, new Constant(String.valueOf(value)));
     }
-
-    private EvalNode getValue () {
-        return getEvalChild("value");
-    }
-
+    
     @Override
     public String toString () {
-        // TODO Auto-generated method stub
-        return null;
+        return myName;
     }
 
     @Override
     protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[] { new ChildBuilder("value", EvalNode.class) };
+        return new ChildBuilder[0];
     }
 
 }

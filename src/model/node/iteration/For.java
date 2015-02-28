@@ -14,11 +14,20 @@ public class For extends DoTimes {
         super(type);
     }
     
+    @Override 
+    protected double getStart () {
+        return getStartChild().evaluate();
+    }
+    
     @Override
     protected double getIncrement () {
         return getIncrementChild().evaluate();
     }
 
+    private EvalNode getStartChild () {
+        return (EvalNode) getEvalChild("start");
+    }
+    
     private EvalNode getIncrementChild () {
         return (EvalNode) getEvalChild("increment");
     }
@@ -27,6 +36,7 @@ public class For extends DoTimes {
     protected ChildBuilder[] addChildBuilders () {
         return new ChildBuilder[] { new ChildBuilder("listStart", ListStart.class),
                                     new ChildBuilder("var", Variable.class),
+                                    new ChildBuilder("start", EvalNode.class),
                                     new ChildBuilder("max", EvalNode.class),
                                     new ChildBuilder("increment", EvalNode.class),
                                     new ChildBuilder("listEnd", ListEnd.class),
