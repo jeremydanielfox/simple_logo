@@ -1,7 +1,7 @@
 package model.node;
 
+// dummy that is the basest type of Node you could have
+public abstract class TreeNode {
 
-// dummy class that allows syntax nodes to be added as children
-public class TreeNode {
-
+    // public abstract toString();
 }
