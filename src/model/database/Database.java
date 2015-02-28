@@ -3,6 +3,7 @@ package model.database;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import model.node.EvalNode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -10,7 +11,7 @@ import javafx.collections.ObservableMap;
 public final class Database {
 
     private static Database instance;
-    private static Map<String, String[]> varsMap = new HashMap<String, String[]>();
+    private static Map<String, EvalNode> varsMap = new HashMap<String, EvalNode>();
     private static Map<String, String[][]> cmdsMap = new HashMap<String, String[][]>();
     
     private static ObservableList<String> feedHistory = FXCollections.observableArrayList(new ArrayList<String>());
@@ -30,9 +31,11 @@ public final class Database {
     public void addFeed (String feed){
         feedHistory.add(feed);
     }
-    public void putVariable (String name, String[] value) {
-        varsMap.put(name, value);
-        varsHistory.put(name, join(value, " "));
+    
+    public void putVariable (String name, EvalNode node) {
+        varsMap.put(name, node);
+        // TODO: traverse tree to get string representation of nodes
+        //varsHistory.put(name, node.toString());
     }
 
     public void putCommand (String name, String[] args, String[] value) {
@@ -41,7 +44,7 @@ public final class Database {
         // add to cmdsHistory;
     }
 
-    public String[] getVariable (String name) {
+    public EvalNode getVariable (String name) {
         return varsMap.get(name);
     }
 
@@ -61,19 +64,5 @@ public final class Database {
     
     public ObservableMap<String, String> getCmdsHistory(){
         return cmdsHistory;
-    }
-    
-    private String join(String[] parts, String delim){
-        StringBuilder result = new StringBuilder();
-        int counter=0;
-        
-        for (String part: parts){
-            counter++;
-            result.append(part);
-            if (delim != null && counter < parts.length) {
-                result.append(delim);
-            }        
-        }
-        return result.toString();
     }
 }

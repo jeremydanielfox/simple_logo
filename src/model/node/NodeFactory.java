@@ -3,24 +3,36 @@ package model.node;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Turtle;
-import model.node.iteration.Repeat;
-import model.node.mathOperation.TwoArgMathOperation;
-import model.node.turtleCommand.Forward;
-import model.node.turtleCommand.Rotation;
-import model.node.turtleCommand.Translation;
 
 
 public final class NodeFactory {
 
     private static NodeFactory instance;
-    private List<String> turtleCommands = new ArrayList<String>(Arrays.asList(new String[]{
-                                                                                           "Forward",
-                                                                                           "Backward",
-                                                                                           "Left",
-                                                                                           "Right"
-    }));
+    private static final Map<Wrapper, List<String>> reflectionMap;
+    static
+    {
+        String[] turtleCmds = new String[] { "Forward", "Backward", "Left", "Right" };
+        String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient" };
+        String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable" };
+        String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
+        String[] basicCmds = new String[] { "Constant", "Variable" };
+
+        reflectionMap = new HashMap<Wrapper, List<String>>();
+        reflectionMap.put(new Wrapper("turtleCommand", Turtle.class),
+                          new ArrayList<String>(Arrays.asList(turtleCmds)));
+        reflectionMap.put(new Wrapper("basic", String.class),
+                          new ArrayList<String>(Arrays.asList(basicCmds)));
+        reflectionMap.put(new Wrapper("mathOperation", null),
+                          new ArrayList<String>(Arrays.asList(mathOpCmds)));
+        reflectionMap.put(new Wrapper("iteration", null),
+                          new ArrayList<String>(Arrays.asList(iterationCmds)));
+        reflectionMap.put(new Wrapper("syntax", null),
+                          new ArrayList<String>(Arrays.asList(syntaxCmds)));
+        }
 
     private NodeFactory () {
     }
@@ -32,47 +44,62 @@ public final class NodeFactory {
         return instance;
     }
 
-    // unfortunate that we have to use case/switch for every command. But alternative would be to
-    // create unnecessary amount of classes, if reflection or oodesign factory pattern were used
-    public TreeNode getNonConstant (String key, Turtle turtle) {
-        if (isTurtleCommand(key)) { 
+    public static TreeNode get (String[] tokenProperty, Turtle turtle) {
+        String type = tokenProperty[0];
+        String token = tokenProperty[1];
+        Wrapper wrapper = getWrapper(type);
+
+        // TODO: fix so not so messy
+        // require token
+        if (wrapper.getPackage().equals("basic")) {
             try {
-                return reflectionFactory(key, turtle);
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), token);
             }
             catch (Exception e) {
-                // not sure how to handle this one
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
 
-        switch (key) {
-            case "Sum":
-                return new TwoArgMathOperation("+");
-            case "Difference":
-                return new TwoArgMathOperation("-");
-            case "Product":
-                return new TwoArgMathOperation("*");
-            case "Quotient":
-                return new TwoArgMathOperation("/");
-            case "Repeat":
-                return new Repeat();
-            default:
-                // throw "key not found" exception... shouldn't happen though
-                return null;
+        // require turtle
+        else if (wrapper.getPackage().equals("turtleCommand")) {
+            try {
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), turtle);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+
+        // all other cases
+        // TODO: fix - last argument not necessary
+        // now have two factories
+        else {
+            try {
+                return reflectionFactory(wrapper.getPackage(), type);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+
         }
     }
 
-    private boolean isTurtleCommand (String key) {
-        return turtleCommands.contains(key);
-    }
-
-    private TreeNode reflectionFactory (String key, Turtle turtle) throws Exception {
+    
+    private static TreeNode reflectionFactory (String packageName,
+                                               String type,
+                                               Class<?> argType,
+                                               Object arg)
+                                                          throws Exception {
         try {
-            Class<?> targetClass = Class.forName(String.format("model.node.turtleCommand.%s", key));
+            Class<?> targetClass =
+                    Class.forName(String.format("model.node.%s.%s", packageName, type));
             try {
-                Constructor<?> constructor = targetClass.getConstructor(Turtle.class);
-                return (TreeNode) constructor.newInstance(turtle);
+                Constructor<?> constructor = targetClass.getConstructor(argType);
+                return (TreeNode) constructor.newInstance(arg);
+
             }
             catch (NoSuchMethodException | SecurityException e) {
                 System.err.println("incorrect constructor");
@@ -81,14 +108,57 @@ public final class NodeFactory {
             }
         }
         catch (ClassNotFoundException e) {
-            System.err.println("TurtleEnum error");
             e.printStackTrace();
             throw new RuntimeException(); // do something other than throw error to stop program
         }
     }
 
-    // separate parameter needed for constants, should probably refactor
-    public TreeNode getConstant (double value) {
-        return new Constant(value);
+    private static TreeNode reflectionFactory (String packageName,
+                                               String type)
+                                                           throws Exception {
+        try {
+            Class<?> targetClass =
+                    Class.forName(String.format("model.node.%s.%s", packageName, type));
+            try {
+                Constructor<?> constructor = targetClass.getConstructor();
+                return (TreeNode) constructor.newInstance();
+
+            }
+            catch (NoSuchMethodException | SecurityException e) {
+                System.err.println("incorrect constructor");
+                e.printStackTrace();
+                throw new RuntimeException(); // do something other than throw error to stop program
+            }
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(); // do something other than throw error to stop program
+        }
+    }
+
+    private static Wrapper getWrapper (String type) {
+        for (Wrapper w : reflectionMap.keySet()) {
+            if (reflectionMap.get(w).contains(type)) { return w; }
+        }
+        System.err.println("reflection Map error");
+        throw new RuntimeException();
+    }
+
+    static class Wrapper {
+        private String name;
+        private Class<?> arg;
+
+        public Wrapper (String packageName, Class<?> constructorArg) {
+            this.name = packageName;
+            this.arg = constructorArg;
+        }
+
+        public String getPackage () {
+            return name;
+        }
+
+        public Class<?> getArg () {
+            return arg;
+        }
     }
 }

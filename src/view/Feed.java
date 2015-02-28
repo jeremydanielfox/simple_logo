@@ -55,13 +55,12 @@ public class Feed {
 			@Override
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
-					 //CommandSender.send(prompter.getText());
+				myReceiver.giveText(prompter.getText());
 					try {
 						myReceiver.giveText(prompter.getText());
 					} catch (SlogoException ex) {
 						ErrorDisplay.getInstance().displayError(ex);
 					}
-				//myReceiver.giveText(prompter.getText());
 				System.out.println(prompter.getText().toString());
 				prompter.clear();
 			}
