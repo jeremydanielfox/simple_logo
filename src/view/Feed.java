@@ -2,6 +2,7 @@ package view;
 
 import java.util.ResourceBundle;
 
+import Exceptions.SlogoException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -34,7 +35,6 @@ public class Feed {
 	private static final String PROMPT_TEXT = myValues.getString("Prompt_Text");
 	private static final String ADD_TEXT = myValues.getString("Add_Text");
 	private static final String ENTER_TEXT = myValues.getString("Enter_Text");
-	private Stage myStage;
 
 	protected Feed(Receiver receiver) {
 		myReceiver = receiver;
@@ -55,13 +55,12 @@ public class Feed {
 			@Override
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
-					 //CommandSender.send(prompter.getText());
-//					try {
-//						myReceiver.giveText(prompter.getText());
-//					} catch (Exception ex) {
-//						ErrorDisplay.getInstance().displayError(ex);
-//					}
 				myReceiver.giveText(prompter.getText());
+					try {
+						myReceiver.giveText(prompter.getText());
+					} catch (SlogoException ex) {
+						ErrorDisplay.getInstance().displayError(ex);
+					}
 				System.out.println(prompter.getText().toString());
 				prompter.clear();
 			}

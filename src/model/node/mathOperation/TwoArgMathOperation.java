@@ -1,29 +1,23 @@
 package model.node.mathOperation;
 
-import model.node.TreeNode;
+import model.node.ChildBuilder;
+import model.node.EvalNode;
 
-public class TwoArgMathOperation extends MathOperation{
+public abstract class TwoArgMathOperation extends EvalNode{
 
-    public TwoArgMathOperation (String op) {
-        super(op);
-        addChildNames(new String[] {"arg1", "arg2"});
-    }
-    @Override
-    protected void buildMap () {
-        getOpsMap().put("+", getFirstArg().evaluate() + getSecondArg().evaluate());
-        getOpsMap().put("-", getFirstArg().evaluate() - getSecondArg().evaluate());
-        getOpsMap().put("*", getFirstArg().evaluate() * getSecondArg().evaluate());
-        getOpsMap().put("/", getFirstArg().evaluate() / getSecondArg().evaluate());
-        getOpsMap().put("%", getFirstArg().evaluate() % getSecondArg().evaluate());
-        getOpsMap().put("pow", Math.pow(getFirstArg().evaluate(), getSecondArg().evaluate()));
-    }
-
-    private TreeNode getFirstArg () {
-        return getChild("arg1");
+    
+    protected double getFirstArg () {
+        return getEvalChild("arg1").evaluate();
     }
     
-    private TreeNode getSecondArg () {
-        return getChild("arg2");
+    protected double getSecondArg () {
+        return getEvalChild("arg2").evaluate();
+    }
+    
+    @Override
+    protected ChildBuilder[] addChildBuilders () {
+        return new ChildBuilder[] { new ChildBuilder("arg1", EvalNode.class),
+                                    new ChildBuilder("arg2", EvalNode.class)};
     }
 
 }

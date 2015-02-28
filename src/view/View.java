@@ -18,36 +18,37 @@ public class View {
 
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/view");
-	
+
 	private static View instance;
 
 	private Stage myStage;
-	private static Model myModel;
-	private static Display myDisplay;
+	private Model myModel;
+	private Display myDisplay;
 
-	public View(Stage s) {
-		myStage = s;
+	public View() {
 	}
 
-	public void init() {
+	public void init(Stage s) {
+		myStage = s;
 		myStage.setTitle(myValues.getString("Title"));
 		String[] offsetAR = myValues.getString("Initial_Offset").split(", ");
-		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]), Integer.parseInt(offsetAR[1])));
+		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]),
+				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
-		myDisplay = new Display((Receiver) myModel);
+		myDisplay = Display.getInstance();
+		Scene scene = myDisplay.init((Receiver) myModel);
 		myModel.setScreenData(setupScreenData());
-		Scene scene = myDisplay.getScene();
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
 		myStage.show();
 	}
-	
-	public static View getInstance(Stage s) {
+
+	public static View getInstance() {
 		if (instance == null)
-			instance = new View(s);
+			instance = new View();
 		return instance;
 	}
-	
+
 	private ScreenData setupScreenData() {
 		ObservableList<LineData> myLines = FXCollections.observableArrayList();
 		myLines.addListener(new ListChangeListener<LineData>() {
@@ -56,18 +57,20 @@ public class View {
 				while (c.next()) {
 					System.out.println("printing");
 					for (LineData addItem : c.getAddedSubList()) {
-						Display.getWorkspace().getTV().drawLines(addItem);
+						myDisplay.getSelectedWorkspace().getTV().drawLines(addItem);
 					}
 				}
 			}
 		});
-		ObservableList<TurtleData> myTurtles = FXCollections.observableArrayList();
+		ObservableList<TurtleData> myTurtles = FXCollections
+				.observableArrayList();
 		myTurtles.addListener(new ListChangeListener<TurtleData>() {
 			@Override
 			public void onChanged(Change<? extends TurtleData> c) {
+				myDisplay.getSelectedWorkspace().getTV().clearTurtles();
 				while (c.next()) {
 					for (TurtleData addItem : c.getAddedSubList()) {
-						Display.getWorkspace().getTV().drawTurtles(addItem);
+						myDisplay.getSelectedWorkspace().getTV().drawTurtle(addItem);
 					}
 				}
 			}
@@ -75,8 +78,8 @@ public class View {
 
 		return new ScreenData(myLines, myTurtles);
 	}
-	
-	public static Model getModel() {
+
+	public Model getModel() {
 		return myModel;
 	}
 
