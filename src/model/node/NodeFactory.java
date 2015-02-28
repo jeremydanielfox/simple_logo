@@ -1,7 +1,10 @@
 package model.node;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import model.Turtle;
 
@@ -9,18 +12,23 @@ import model.Turtle;
 public final class NodeFactory {
 
     private static NodeFactory instance;
-    private static final Map<String, String> packageMap;
+    private static final Map<Wrapper, List<String>> reflectionMap;
     static
     {
-        packageMap = new HashMap<String, String>();
-        packageMap.put("Forward", "turtleCommand");
-        packageMap.put("Backward", "turtleCommand");
-        packageMap.put("Left", "turtleCommand");
-        packageMap.put("Right", "turtleCommand");
-        packageMap.put("Repeat", "iteration");
-        packageMap.put("ListStart", "syntax");
-        packageMap.put("ListEnd", "syntax");
+        String[] turtleCmds = new String[] { "Forward", "Backward", "Left", "Right" };
+        String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For" };
+        String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
+        String[] basicCmds = new String[] { "Constant", "Variable" };
 
+        reflectionMap = new HashMap<Wrapper, List<String>>();
+        reflectionMap.put(new Wrapper("turtleCommand", Turtle.class),
+                          new ArrayList<String>(Arrays.asList(turtleCmds)));
+        reflectionMap.put(new Wrapper("iteration", String.class),
+                          new ArrayList<String>(Arrays.asList(iterationCmds)));
+        reflectionMap.put(new Wrapper("syntax", String.class),
+                          new ArrayList<String>(Arrays.asList(syntaxCmds)));
+        reflectionMap.put(new Wrapper("basic", String.class),
+                          new ArrayList<String>(Arrays.asList(basicCmds)));
     }
 
     private NodeFactory () {
@@ -36,48 +44,57 @@ public final class NodeFactory {
     public static TreeNode get (String[] tokenProperty, Turtle turtle) {
         String type = tokenProperty[0];
         String token = tokenProperty[1];
-        if (type.equals("Constant") || type.equals("Variable") || type.equals("Command")) {
-            return getTokenNodes(token);
-            // call some method that deals with tokenProperty
-            // return new Constant(0);
-        }
-        else {
-            // needs only type;
+        Wrapper wrapper = getWrapper(type);
 
-            // get correct package for the following
-
-            // use map to determine:
-            // mathOperations
-            // turtleCommands
-            // Iteration
-            // booleans
-            // conditionals
-            // etc.
-
+        // TODO: fix so not so messy
+        // require token
+        if (wrapper.getPackage().equals("basic")) {
             try {
-                return reflectionFactory(packageMap.get(type), type, turtle);
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), token);
             }
             catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
+
+        // require turtle
+        else if (wrapper.getPackage().equals("turtleCommand")) {
+            try {
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), turtle);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+
+        // all other cases
+        // TODO: fix - last argument not necessary
+        else {
+            try {
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), type);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+
+        }
     }
-    
-    private static TreeNode reflectionFactory (String packageName, String type, Turtle turtle)
-                                                                                       throws Exception {
+
+    private static TreeNode reflectionFactory (String packageName,
+                                               String type,
+                                               Class<?> argType,
+                                               Object arg)
+                                                          throws Exception {
         try {
             Class<?> targetClass =
                     Class.forName(String.format("model.node.%s.%s", packageName, type));
             try {
-                if (packageName.equals("turtleCommand")){
-                    Constructor<?> constructor = targetClass.getConstructor(Turtle.class);
-                    return (TreeNode) constructor.newInstance(turtle);
-                }
-                else{
-                    Constructor<?> constructor = targetClass.getConstructor();
-                    return (TreeNode) constructor.newInstance();
-                }
+                Constructor<?> constructor = targetClass.getConstructor(argType);
+                return (TreeNode) constructor.newInstance(arg);
+
             }
             catch (NoSuchMethodException | SecurityException e) {
                 System.err.println("incorrect constructor");
@@ -91,8 +108,29 @@ public final class NodeFactory {
         }
     }
 
-    // separate parameter needed for constants, should probably refactor
-    public static TreeNode getTokenNodes (String value) {
-        return new Constant(Double.parseDouble(value));
+    private static Wrapper getWrapper (String type) {
+        for (Wrapper w : reflectionMap.keySet()) {
+            if (reflectionMap.get(w).contains(type)) { return w; }
+        }
+        System.err.println("reflection Map error");
+        throw new RuntimeException();
+    }
+
+    static class Wrapper {
+        private String name;
+        private Class<?> arg;
+
+        public Wrapper (String packageName, Class<?> constructorArg) {
+            this.name = packageName;
+            this.arg = constructorArg;
+        }
+
+        public String getPackage () {
+            return name;
+        }
+
+        public Class<?> getArg () {
+            return arg;
+        }
     }
 }

@@ -1,6 +1,8 @@
-package model.node;
+package model.node.basic;
 
 import model.database.Database;
+import model.node.ChildBuilder;
+import model.node.EvalNode;
 
 
 public class Variable extends EvalNode {
