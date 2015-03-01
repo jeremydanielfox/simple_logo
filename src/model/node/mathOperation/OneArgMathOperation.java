@@ -1,36 +1,17 @@
 package model.node.mathOperation;
 
-import java.util.Random;
+import model.node.ChildBuilder;
 import model.node.EvalNode;
 
-public class OneArgMathOperation extends MathOperation {
-    
-    private static Random random = new Random();
+public abstract class OneArgMathOperation extends EvalNode {
 
-    public OneArgMathOperation (String op) {
-        super(op);
-        addChildNames(new String[] {"arg"});
-        // TODO Auto-generated constructor stub
+    protected double getArg () {
+        return getEvalChild("arg").evaluate();
     }
-
+    
     @Override
-    protected void buildMap () {
-        getOpsMap().put("~", -getArg().evaluate());
-        getOpsMap().put("rand", nextDouble(getArg().evaluate()));
-        getOpsMap().put("sin", Math.sin(Math.toRadians(getArg().evaluate())));
-        getOpsMap().put("cos", Math.cos(Math.toRadians(getArg().evaluate())));
-        getOpsMap().put("tan", Math.tan(Math.toRadians(getArg().evaluate())));
-        getOpsMap().put("atan", Math.toDegrees(Math.atan(getArg().evaluate()))); // throw appropriate error
-        getOpsMap().put("log", Math.log(getArg().evaluate())); // throw appropriate error       
+    protected ChildBuilder[] addChildBuilders () {
+        return new ChildBuilder[] { new ChildBuilder("arg", EvalNode.class)};
+                                   
     }
-    
-    // implementation of Math's nextDouble with a bound
-    private double nextDouble (double bound) {
-        return bound * random.nextDouble();
-    }
-    
-    private EvalNode getArg () {
-        return getEvalChild("arg");
-    }
-
 }
