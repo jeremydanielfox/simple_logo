@@ -6,11 +6,6 @@ import model.node.TreeNode;
 
 // dummy class, used for error checking
 public abstract class Syntax extends TreeNode{
-	
-	@Override
-    public String toString () {
-        return "[";
-    }
     
 	@Override
     public boolean hasChildren(){

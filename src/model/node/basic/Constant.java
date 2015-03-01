@@ -20,6 +20,11 @@ public class Constant extends EvalNode {
     public String toString () {
         return Double.toString(value);
     }
+    
+    @Override
+    public boolean hasChildren(){  //for testing
+    	return false;
+    }
 
     @Override
     protected ChildBuilder[] addChildBuilders () {

@@ -1,6 +1,7 @@
 package model.database;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,7 +82,7 @@ public final class Database {
     private String reverseParse(EvalNode node){
     	String nodeString = "";
 //    	if (node.hasChildren()){
-    		return node.toString() + helper(node, nodeString);
+    		return node.toString() + " " + helper(node, nodeString);
 //    	}
 //    	else {
 //    		return node.toString();
@@ -90,21 +91,26 @@ public final class Database {
     }
     
     private String helper(TreeNode node, String s){
+    	//println(node);
+    	//println(node.getChildren().values());
     	for (TreeNode tn : node.getChildren().values()){
+    		//println(tn);
+    		s += tn.toString() + " ";
 			if (tn.hasChildren()){
-				return s += helper(tn, s);
-			}
-			else {
-				return s += tn.toString();
+				s +=  helper(tn, s);
 			}
 		} 
-    	return ""; //will never reach this
+    	return s; 
     }
     
     public void printVarsHistory(){  //for testing
     	 for (String s : getVarsHistory().keySet()){
-    		 System.out.println(s + getVarsHistory().get(s));
+    		 System.out.println(s + " " + getVarsHistory().get(s));
 		 }
+    }
+    
+    public void println(Object line) { //for testing purposes
+        System.out.println(line);
     }
    
 }
