@@ -20,11 +20,6 @@ public class Forward extends TurtleCommand {
     }
 
     @Override
-    public String toString () {
-        return null;
-    }
-
-    @Override
     protected ChildBuilder[] addChildBuilders () {
         return new ChildBuilder[] { new ChildBuilder("distance", EvalNode.class) };
     }

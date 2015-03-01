@@ -10,10 +10,4 @@ public class Product extends TwoArgMathOperation {
         return getFirstArg() *  getSecondArg();
     }
 
-    @Override
-    public String toString () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }
