@@ -15,7 +15,9 @@ public final class NodeFactory {
     private static final Map<Wrapper, List<String>> reflectionMap;
     static
     {
-        String[] turtleCmds = new String[] { "Forward", "Backward", "Left", "Right" , "Home", "ClearScreen" };
+        String[] turtleCmds =
+                new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
+                              "ClearScreen", "ShowTurtle", "HideTurtle" };
         String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient" };
         String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
@@ -32,7 +34,7 @@ public final class NodeFactory {
                           new ArrayList<String>(Arrays.asList(iterationCmds)));
         reflectionMap.put(new Wrapper("syntax", null),
                           new ArrayList<String>(Arrays.asList(syntaxCmds)));
-        }
+    }
 
     private NodeFactory () {
     }
@@ -87,7 +89,6 @@ public final class NodeFactory {
         }
     }
 
-    
     private static TreeNode reflectionFactory (String packageName,
                                                String type,
                                                Class<?> argType,

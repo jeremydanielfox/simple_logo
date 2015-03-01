@@ -112,12 +112,24 @@ public class Turtle {
         return Collections.unmodifiableList(myLines);
     }
 
-    protected void toggleVisibility () {
-        visible = !visible;
+    public double setVisible () {
+        visible = true;
+        return 1;
+    }
+    
+    public double setInvisible () {
+        visible = false;
+        return 0;
     }
 
-    protected void togglePen () {
-        penUp = !penUp;
+    public double setPenUp () {
+        penUp = true;
+        return 1;
+    }
+    
+    public double setPenDown () {
+        penUp = false;
+        return 0;
     }
 
     public boolean isVisible () {
