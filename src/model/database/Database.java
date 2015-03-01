@@ -3,7 +3,9 @@ package model.database;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import model.node.EvalNode;
+import model.node.TreeNode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -34,6 +36,8 @@ public final class Database {
     
     public void putVariable (String name, EvalNode node) {
         varsMap.put(name, node);
+        varsHistory.put(name, reverseParse(node));
+        //System.out.println(varsHistory.get(name)); //for testing
         // TODO: traverse tree to get string representation of nodes
         //varsHistory.put(name, node.toString());
     }
@@ -65,4 +69,42 @@ public final class Database {
     public ObservableMap<String, String> getCmdsHistory(){
         return cmdsHistory;
     }
+    
+//    public void updateVariables(){   //not necessary (I think)
+//    	for (String s : varsMap.keySet()){
+//    		if (!varsHistory.keySet().contains(s)){
+//    			varsHistory.put(s, reverseParse(varsMap.get(s)));
+//    		}
+//    	}
+//    }
+    
+    private String reverseParse(EvalNode node){
+    	String nodeString = "";
+//    	if (node.hasChildren()){
+    		return node.toString() + helper(node, nodeString);
+//    	}
+//    	else {
+//    		return node.toString();
+//    	}
+    	
+    }
+    
+    private String helper(TreeNode node, String s){
+    	for (TreeNode tn : node.getChildren().values()){
+			if (tn.hasChildren()){
+				return s += helper(tn, s);
+			}
+			else {
+				return s += tn.toString();
+			}
+		} 
+    	return ""; //will never reach this
+    }
+    
+    public void printVarsHistory(){  //for testing
+    	 for (String s : getVarsHistory().keySet()){
+    		 System.out.println(s + getVarsHistory().get(s));
+		 }
+    }
+   
 }

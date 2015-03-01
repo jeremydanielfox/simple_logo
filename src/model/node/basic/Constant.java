@@ -18,8 +18,7 @@ public class Constant extends EvalNode {
 
     @Override
     public String toString () {
-        // TODO Auto-generated method stub
-        return null;
+        return Double.toString(value);
     }
 
     @Override
