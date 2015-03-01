@@ -55,7 +55,7 @@ public class Feed {
 			@Override
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
-				myReceiver.giveText(prompter.getText());
+//				myReceiver.giveText(prompter.getText());
 					try {
 						myReceiver.giveText(prompter.getText());
 					} catch (SlogoException ex) {

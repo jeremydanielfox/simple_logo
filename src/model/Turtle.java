@@ -52,16 +52,21 @@ public class Turtle {
 
     public double towards (Point2D target) {
         Point2D deltaVector = myPosition.subtract(target);
-        // must generate cases for each quadrant type... also cases if angle is multiple of 90 deg
+        // TODO: must generate cases for each quadrant type... also cases if angle is multiple of 90 deg
         return 0;
     }
 
     // it shouldn't go through MOVER. algorithm for goHome doesn't change
-    public double goHome (Turtle turtle) {
-        double r = HOME.distance(turtle.getPosition());
-        towards(HOME);
+    public double goHome () {
+        double r = HOME.distance(getPosition());
+        setHeading(0);
         setPosition(HOME);
         return r;
+    }
+    
+    public double clearScreen ()  {
+        myLines.clear();
+        return goHome();
     }
 
     public int getId () {
@@ -107,12 +112,24 @@ public class Turtle {
         return Collections.unmodifiableList(myLines);
     }
 
-    protected void toggleVisibility () {
-        visible = !visible;
+    public double setVisible () {
+        visible = true;
+        return 1;
+    }
+    
+    public double setInvisible () {
+        visible = false;
+        return 0;
     }
 
-    protected void togglePen () {
-        penUp = !penUp;
+    public double setPenUp () {
+        penUp = true;
+        return 1;
+    }
+    
+    public double setPenDown () {
+        penUp = false;
+        return 0;
     }
 
     public boolean isVisible () {
