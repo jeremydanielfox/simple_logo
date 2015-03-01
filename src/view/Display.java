@@ -20,25 +20,26 @@ public class Display {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/display");
 	private static Display instance;
-	
+
 	private Scene myScene;
 	private BorderPane myRoot;
 	private MenuBar myMenuBar;
 	private TabPane myWorkspaceDisplays;
 	private Collection<Workspace> myWorkspaces;
 	private Feed myFeed;
+	private static final double TAB_MIN_WIDTH = 50;
 
 	protected Display() {
 		myRoot = new BorderPane();
 		myWorkspaces = new ArrayList<>();
 	}
-	
+
 	public static Display getInstance() {
 		if (instance == null)
 			instance = new Display();
 		return instance;
 	}
-	
+
 	public Scene init(Receiver receiver) {
 		myFeed = new Feed(receiver);
 		setupWorkspaces(receiver);
@@ -59,6 +60,7 @@ public class Display {
 
 	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
+		myWorkspaceDisplays.setTabMinWidth(TAB_MIN_WIDTH);
 		makeWorkspace(receiver);
 	}
 
@@ -99,8 +101,7 @@ public class Display {
 						}
 					}
 				}
-				MenuBuilder mb = new MenuBuilder(myMenuBar, rb,
-						params);
+				MenuBuilder mb = new MenuBuilder(myMenuBar, rb, params);
 				myMenuBar = mb.build();
 			}
 		} else {

@@ -31,6 +31,9 @@ public class Model implements Receiver {
             Parser parser = new Parser(myPatterns, myTurtle);
             CommandList tree = parser.parse(feed);
             tree.evaluate();
+            
+            //Database.getInstance().printVarsHistory(); //for testing
+            
             myScreenData.update(Arrays.asList(myTurtle));
             return myScreenData;
         }

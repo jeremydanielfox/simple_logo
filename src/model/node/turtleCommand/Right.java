@@ -19,12 +19,6 @@ public class Right extends TurtleCommand {
     }
 
     @Override
-    public String toString () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     protected ChildBuilder[] addChildBuilders () {
         return new ChildBuilder[] {new ChildBuilder("angle", EvalNode.class)};
     }
