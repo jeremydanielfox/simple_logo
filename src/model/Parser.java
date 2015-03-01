@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import Exceptions.UnrecognizedTokenException;
 import model.node.CommandList;
 import model.node.NodeFactory;
 import model.node.TreeNode;
@@ -60,9 +61,7 @@ public class Parser {
 
             }
             if (!matched) {
-                // throw new UnrecognizedTokenException()
-                // would be called if regex couldnt classify command
-                System.out.println(String.format("%s not matched", token));
+                throw new UnrecognizedTokenException(token);
             }
         }
         // should never get to this point...
