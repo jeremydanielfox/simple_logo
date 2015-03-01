@@ -15,7 +15,7 @@ public final class NodeFactory {
     private static final Map<Wrapper, List<String>> reflectionMap;
     static
     {
-        String[] turtleCmds = new String[] { "Forward", "Backward", "Left", "Right" };
+        String[] turtleCmds = new String[] { "Forward", "Backward", "Left", "Right" , "Home", "ClearScreen" };
         String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient" };
         String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
