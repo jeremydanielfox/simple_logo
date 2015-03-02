@@ -1,13 +1,19 @@
 package view;
 
+//import BreadFirstSearch;
+
 import java.util.ResourceBundle;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.LineData;
 import model.Model;
 import model.Receiver;
@@ -24,6 +30,8 @@ public class View {
 	private Stage myStage;
 	private Model myModel;
 	private Display myDisplay;
+	private int framesPerSecond = 2500;
+	private int NUM_FRAMES_PER_SECOND = 60;
 
 	public View() {
 	}
@@ -41,7 +49,20 @@ public class View {
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
 		myStage.show();
+//		Timeline animation = new Timeline();
+//		//setup the game's loop
+//		KeyFrame frame = makeKeyFrame(NUM_FRAMES_PER_SECOND);
+//		
+//		animation.setCycleCount(Animation.INDEFINITE);
+//		animation.getKeyFrames().add(frame);
+//		animation.play();
 	}
+//	private KeyFrame makeKeyFrame(int frameRate) {
+//		return new KeyFrame(Duration.millis(framesPerSecond / frameRate),
+//				e -> updateSim());
+//	}
+	
+	
 
 	public static View getInstance() {
 		if (instance == null)
@@ -55,10 +76,12 @@ public class View {
 			@Override
 			public void onChanged(Change<? extends LineData> c) {
 				while (c.next()) {
-					System.out.println("printing");
+					if (c.getRemovedSize()!=0) 
+						myDisplay.getSelectedWorkspace().getTV().clearLines();
 					for (LineData addItem : c.getAddedSubList()) {
 						myDisplay.getSelectedWorkspace().getTV().drawLines(addItem);
 					}
+					
 				}
 			}
 		});

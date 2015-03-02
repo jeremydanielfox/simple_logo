@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
-import Exceptions.BadResourcePackageException;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -15,6 +15,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import model.Receiver;
 import view.menubar.MenuBuilder;
+import Exceptions.BadResourcePackageException;
 
 public class Display {
 	private static final ResourceBundle myValues = ResourceBundle

@@ -19,12 +19,21 @@ public class ScreenData {
         myTurtleData.addAll(turtles.stream().map(this::makeTurtleData)
                 .collect(Collectors.toList()));
     }
-
+ // add checkIfClear method to add lines, listener that checks if a turtle is cleared, if it is, needs to 
+    // clear line data
     public void update (List<Turtle> turtles) {
+    	checkIfClear(turtles);
         addLines(turtles);
         setTurtleData(turtles);
     }
-
+    
+    private void checkIfClear(List<Turtle> turtles) {
+    	for (Turtle current: turtles) {
+    		if (current.getLineDatas().isEmpty())
+    			myLines.clear();
+    	}
+    }
+// add checkIfClear method to add lines, listener that 
     private void addLines (List<Turtle> turtles) {
         for (Turtle t : turtles) { // could possibly use lambda
             myLines.addAll(t.getLineDatas());
