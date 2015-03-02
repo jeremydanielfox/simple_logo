@@ -9,6 +9,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import javafx.geometry.Point2D;
+import model.Parser.TokenProperty;
 import model.database.Database;
 import model.node.CommandList;
 
@@ -28,8 +29,10 @@ public class Model implements Receiver {
 
 	public ScreenData updateModel(String feed) {
             Database.getInstance().addFeed(feed);
-            Parser parser = new Parser(myPatterns, myTurtle);
-            CommandList tree = parser.parse(feed);
+            Parser parser = new Parser(myPatterns);
+            List<TokenProperty> feedList = parser.parse(feed);
+            CommandList tree = TreeBuilder.build(myTurtle, feedList);
+            //CommandList tree = parser.parse(feed);
             tree.evaluate();
             
             //Database.getInstance().printVarsHistory(); //for testing

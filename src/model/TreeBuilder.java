@@ -5,31 +5,40 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import model.Parser.TokenProperty;
 import model.node.CommandList;
 import model.node.EvalNode;
+import model.node.NodeFactory;
 import model.node.Parameters;
 import model.node.TreeNode;
 import model.node.basic.Variable;
 import model.node.controlStructure.MakeUserInstruction;
-import model.node.syntax.ListEnd;
-import model.node.syntax.ListStart;
 import Exceptions.IncorrectSyntaxException;
 import Exceptions.UnexpectedEndOfInstructionsException;
 
 
 public class TreeBuilder {
+    
+    private static Turtle myTurtle;
 
-    public static CommandList build (Queue<TreeNode> nodeList) {
+    public static CommandList build (Turtle turtle, List<TokenProperty> tokenList) {
+        myTurtle = turtle;
+        
+        return buildCommandList(tokenList);
+    }
+        
+    private static CommandList buildCommandList(List<TokenProperty> tokenList){
+        Queue<TokenProperty> tokenQueue = new LinkedList<TokenProperty>(tokenList);
         List<EvalNode> trees = new ArrayList<EvalNode>();
         CommandList root = new CommandList(trees);
-        if (!(nodeList.peek() instanceof EvalNode)){
+        if (isNextToken(tokenQueue, "[") || isNextToken(tokenQueue, "]")){
             throw new IncorrectSyntaxException(); // special case of checking first element
         }
         
         // build trees until nodeList is empty
-        while (!nodeList.isEmpty()) {
-            TreeNode node = nodeList.poll();
-            addChildren(node, nodeList);
+        while (!tokenQueue.isEmpty()) {
+            TreeNode node = getNextNode(tokenQueue);
+            addChildren(tokenQueue, node);
             // special case: future nodes might need to know about new commands
             if (node instanceof MakeUserInstruction){
                 ((MakeUserInstruction) node).evaluate();
@@ -40,41 +49,41 @@ public class TreeBuilder {
         return root;
     }
 
-    private static void addChildren (TreeNode node, Queue<TreeNode> nodeList) {
-        if (!(node instanceof EvalNode)) {
+    private static void addChildren (Queue<TokenProperty> tokenQueue, TreeNode node) {
+        if (!(node instanceof EvalNode)) { // syntax nodes don't need children
             return;
         }
         EvalNode evalNode = (EvalNode) node;
         if (evalNode.allChildrenPresent()){
             return;       
         }
-        if (nodeList.isEmpty()) { 
+        if (tokenQueue.isEmpty()) { 
             throw new UnexpectedEndOfInstructionsException();
             // e.g. fd sum 25
         }
-        TreeNode childNode = getNextChild(evalNode, nodeList);
+        TreeNode childNode = getNextChild(tokenQueue, evalNode);
         evalNode.addChild(childNode);
         if (!evalNode.allChildrenPresent()) {
-            addChildren(evalNode, nodeList);
+            addChildren(tokenQueue, evalNode);
         }
         return;
     }
 
-    private static TreeNode getNextChild (EvalNode current, Queue<TreeNode> nodeList) {
+    private static TreeNode getNextChild (Queue<TokenProperty> tokenQueue, EvalNode current) {
         // special case 1:
         if (current.getNextType().equals(CommandList.class)) {
-            return extractCommandList(nodeList);
+            return extractCommandList(tokenQueue);
         }
         // special case 2:
         if (current.getNextType().equals(Parameters.class)) {
-            return extractParameters(nodeList);
+            return extractParameters(tokenQueue);
         }
         
         // default case: 
-        TreeNode child = nodeList.poll();
+        TreeNode child = getNextNode(tokenQueue);
         // checks it's the correct type of node desired
         if (current.getNextType().isAssignableFrom(child.getClass())) {
-            addChildren(child, nodeList);
+            addChildren(tokenQueue, child);
             return child;
         }
         else {
@@ -82,44 +91,44 @@ public class TreeBuilder {
         }
     }
 
-    private static CommandList extractCommandList (Queue<TreeNode> nodeList) {
-        Queue<TreeNode> snippet = new LinkedList<TreeNode>();
-        Stack<TreeNode> bracketChecker = new Stack<TreeNode>();
-        recursiveExtract(nodeList, snippet, bracketChecker);
-        return build(snippet);
+    private static CommandList extractCommandList (Queue<TokenProperty> tokenQueue) {
+        List<TokenProperty> snippet = new ArrayList<TokenProperty>();
+        Stack<Integer> bracketChecker = new Stack<Integer>();  // integers just used as counters
+        recursiveExtract(tokenQueue, snippet, bracketChecker);
+        return TreeBuilder.buildCommandList(snippet);
     }
 
     // gets all commands within a set of brackets
-    private static void recursiveExtract (Queue<TreeNode> nodeList,
-                                          Queue<TreeNode> snippet,
-                                          Stack<TreeNode> bracketChecker) {
+    private static void recursiveExtract (Queue<TokenProperty> tokenQueue,
+                                          List<TokenProperty> snippet,
+                                          Stack<Integer> bracketChecker) {
         // ran out of nodes
-        if (nodeList.isEmpty()) {
+        if (tokenQueue.isEmpty()) {
             // throw unclosed List exception
         }
 
         // normal case: end of list and all brackets closed
-        if (nodeList.peek() instanceof ListEnd && bracketChecker.isEmpty()) { return; }
+        if (isNextToken(tokenQueue, "]") && bracketChecker.isEmpty()) { return; }
         // case: ListEnd seen but other ListStarts to be matched
-        if (nodeList.peek() instanceof ListEnd) {
+        if (isNextToken(tokenQueue, "]")) {
             bracketChecker.pop();
         }
         // case: ListStart seen
-        if (nodeList.peek() instanceof ListStart) {
-            bracketChecker.push(nodeList.peek());
+        if (isNextToken(tokenQueue, "[")) {
+            bracketChecker.push(new Integer(0)); // integer is just used as counter
         }
         // add to existing snippet
-        snippet.add(nodeList.poll());
-        recursiveExtract(nodeList, snippet, bracketChecker);
+        snippet.add(tokenQueue.poll());
+        recursiveExtract(tokenQueue, snippet, bracketChecker);
     }
     
-    private static Parameters extractParameters (Queue<TreeNode> nodeList){
+    private static Parameters extractParameters (Queue<TokenProperty> tokenQueue){
         List<Variable> params = new ArrayList<Variable>();
-        if (nodeList.isEmpty()) {
+        if (tokenQueue.isEmpty()) {
             // throw unclosed List exception
         }
-        while (!(nodeList.peek() instanceof ListEnd)) {
-            TreeNode node = nodeList.poll();
+        while (!isNextToken(tokenQueue, "]")) {
+            TreeNode node = getNextNode(tokenQueue);
             if (!(node instanceof Variable)){
                 // throw Expected Variable exception
             }
@@ -127,5 +136,12 @@ public class TreeBuilder {
         }
         return new Parameters(params);
     }
-
+    
+    private static TreeNode getNextNode(Queue<TokenProperty> tokenQueue){
+        return NodeFactory.get(tokenQueue.poll(), myTurtle);
+    }
+    
+    private static boolean isNextToken(Queue<TokenProperty> tokenQueue, String token){
+        return tokenQueue.peek().getToken().equals(token);
+    }
 }

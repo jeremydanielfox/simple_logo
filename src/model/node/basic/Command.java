@@ -24,18 +24,15 @@ public class Command extends EvalNode {
             Database.getInstance().setDefiningSignal(false);
             super.setChildBuilders();
         }
-//        else{
-//            verify();
-//            params = Database.getInstance().getCommand(name).getParameters();
-//            super.setChildBuilders();       
-//        }
+        else{
+            verify();
+            params = Database.getInstance().getCommand(name).getParameters();
+            super.setChildBuilders();       
+        }
     }
 
     @Override
     public double evaluate () {
-        verify();
-        params = Database.getInstance().getCommand(name).getParameters();
-        super.setChildBuilders();      
         for (int i = 0; i < params.size(); i++) {
             params.get(i).update(getEvalChild(String.format("var%d", i)).evaluate());
         }

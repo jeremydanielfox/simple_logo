@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Parser.TokenProperty;
 import model.Turtle;
 
 
@@ -47,9 +48,9 @@ public final class NodeFactory {
         return instance;
     }
 
-    public static TreeNode get (String[] tokenProperty, Turtle turtle) {
-        String type = tokenProperty[0];
-        String token = tokenProperty[1];
+    public static TreeNode get (TokenProperty tokenProp, Turtle turtle) {
+        String type = tokenProp.getType();
+        String token = tokenProp.getToken();
         Wrapper wrapper = getWrapper(type);
 
         // TODO: fix so not so messy
