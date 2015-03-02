@@ -7,7 +7,7 @@ import model.node.EvalNode;
 
 public class Variable extends EvalNode {
 
-    private String myName;
+    protected String myName;
 
     public Variable (String name) {
         myName = name;
