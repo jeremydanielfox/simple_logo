@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Stack;
 import model.node.CommandList;
 import model.node.EvalNode;
+import model.node.Parameters;
 import model.node.TreeNode;
+import model.node.basic.Variable;
+import model.node.controlStructure.MakeUserInstruction;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 import Exceptions.IncorrectSyntaxException;
@@ -27,6 +30,11 @@ public class TreeBuilder {
         while (!nodeList.isEmpty()) {
             TreeNode node = nodeList.poll();
             addChildren(node, nodeList);
+            // special case: future nodes might need to know about new commands
+            if (node instanceof MakeUserInstruction){
+                ((MakeUserInstruction) node).evaluate();
+                continue;
+            }
             trees.add((EvalNode) node);
         }
         return root;
@@ -53,16 +61,13 @@ public class TreeBuilder {
     }
 
     private static TreeNode getNextChild (EvalNode current, Queue<TreeNode> nodeList) {
-        //EvalNode current = (EvalNode) cur;
-        
-        // case 1:
+        // special case 1:
         if (current.getNextType().equals(CommandList.class)) {
-            // get all nodes until proper closed bracket
-            Queue<TreeNode> snippet = extract(nodeList);
-            
-            // build Tree with snippet
-            TreeNode node = build(snippet);
-            return node; // should be directly added to the node, no need to add children to it
+            return extractCommandList(nodeList);
+        }
+        // special case 2:
+        if (current.getNextType().equals(Parameters.class)) {
+            return extractParameters(nodeList);
         }
         
         // default case: 
@@ -77,13 +82,14 @@ public class TreeBuilder {
         }
     }
 
-    private static Queue<TreeNode> extract (Queue<TreeNode> nodeList) {
+    private static CommandList extractCommandList (Queue<TreeNode> nodeList) {
         Queue<TreeNode> snippet = new LinkedList<TreeNode>();
         Stack<TreeNode> bracketChecker = new Stack<TreeNode>();
         recursiveExtract(nodeList, snippet, bracketChecker);
-        return snippet;
+        return build(snippet);
     }
 
+    // gets all commands within a set of brackets
     private static void recursiveExtract (Queue<TreeNode> nodeList,
                                           Queue<TreeNode> snippet,
                                           Stack<TreeNode> bracketChecker) {
@@ -105,6 +111,21 @@ public class TreeBuilder {
         // add to existing snippet
         snippet.add(nodeList.poll());
         recursiveExtract(nodeList, snippet, bracketChecker);
+    }
+    
+    private static Parameters extractParameters (Queue<TreeNode> nodeList){
+        List<Variable> params = new ArrayList<Variable>();
+        if (nodeList.isEmpty()) {
+            // throw unclosed List exception
+        }
+        while (!(nodeList.peek() instanceof ListEnd)) {
+            TreeNode node = nodeList.poll();
+            if (!(node instanceof Variable)){
+                // throw Expected Variable exception
+            }
+            params.add((Variable) node);
+        }
+        return new Parameters(params);
     }
 
 }

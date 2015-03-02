@@ -1,6 +1,7 @@
 package model.node;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,9 +20,9 @@ public final class NodeFactory {
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
                               "ClearScreen", "ShowTurtle", "HideTurtle" };
         String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient", "Random" };
-        String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable" };
+        String[] ctrlStructCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable", "MakeUserInstruction" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
-        String[] basicCmds = new String[] { "Constant", "Variable" };
+        String[] basicCmds = new String[] { "Constant", "Variable", "Command" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
         reflectionMap.put(new Wrapper("turtleCommand", Turtle.class),
@@ -30,8 +31,8 @@ public final class NodeFactory {
                           new ArrayList<String>(Arrays.asList(basicCmds)));
         reflectionMap.put(new Wrapper("mathOperation", null),
                           new ArrayList<String>(Arrays.asList(mathOpCmds)));
-        reflectionMap.put(new Wrapper("iteration", null),
-                          new ArrayList<String>(Arrays.asList(iterationCmds)));
+        reflectionMap.put(new Wrapper("controlStructure", null),
+                          new ArrayList<String>(Arrays.asList(ctrlStructCmds)));
         reflectionMap.put(new Wrapper("syntax", null),
                           new ArrayList<String>(Arrays.asList(syntaxCmds)));
     }
@@ -102,7 +103,7 @@ public final class NodeFactory {
                 return (TreeNode) constructor.newInstance(arg);
 
             }
-            catch (NoSuchMethodException | SecurityException e) {
+            catch (NoSuchMethodException | SecurityException | InvocationTargetException e) {
                 System.err.println("incorrect constructor");
                 e.printStackTrace();
                 throw new RuntimeException(); // do something other than throw error to stop program

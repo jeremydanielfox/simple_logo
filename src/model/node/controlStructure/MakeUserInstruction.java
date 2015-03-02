@@ -13,6 +13,7 @@ import model.node.syntax.ListStart;
 public class MakeUserInstruction extends EvalNode {
     
     public MakeUserInstruction(){
+        super();
         Database.getInstance().setDefiningSignal(true);
     }
 
