@@ -1,7 +1,5 @@
 package model.node;
 
-
-
 public class ChildBuilder {
 
     private String myName;

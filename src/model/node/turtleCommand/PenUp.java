@@ -1,29 +1,18 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.ChildBuilder;
+import model.node.ZeroArgOperation;
 
-public class PenUp extends TurtleCommand {
+public class PenUp extends ZeroArgOperation {
 
+    private Turtle myTurtle;
+    
     public PenUp (Turtle t) {
-        super(t);
-        // TODO Auto-generated constructor stub
+        myTurtle = t;
     }
 
     @Override
     public double evaluate () {
-        return getTurtle().setPenUp();
+        return myTurtle.setPenUp();
     }
-
-    @Override
-    protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[0];
-    }
-
-    @Override
-    public String toString () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

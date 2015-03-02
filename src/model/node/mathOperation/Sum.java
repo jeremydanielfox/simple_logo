@@ -1,12 +1,12 @@
 package model.node.mathOperation;
 
-public class Sum extends TwoArgMathOperation {
+import model.node.TwoArgOperation;
 
-    public Sum () {
-    }
-
-    public double evaluate () {
-        return getFirstArg() +  getSecondArg();
+public class Sum extends TwoArgOperation {
+   
+    @Override
+    protected double evaluateHelper (double arg1, double arg2) {
+        return arg1 + arg2;
     }
 
 }

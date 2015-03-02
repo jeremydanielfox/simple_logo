@@ -1,11 +1,10 @@
 package model.node.basic;
 
 import model.database.Database;
-import model.node.ChildBuilder;
-import model.node.EvalNode;
+import model.node.ZeroArgOperation;
 
 
-public class Variable extends EvalNode {
+public class Variable extends ZeroArgOperation {
 
     protected String myName;
 
@@ -27,10 +26,4 @@ public class Variable extends EvalNode {
     public String toString () {
         return myName;
     }
-
-    @Override
-    protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[0];
-    }
-
 }

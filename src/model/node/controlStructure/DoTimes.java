@@ -9,11 +9,6 @@ import model.node.syntax.ListStart;
 
 
 public class DoTimes extends Repeat {
-
-    public DoTimes () {
-        super();
-    }
-
     
     @Override 
     protected double getStart () {

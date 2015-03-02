@@ -7,11 +7,7 @@ import model.node.basic.Variable;
 
 // TODO: put in appropriate package
 public class MakeVariable extends EvalNode {
-
-    public MakeVariable () {
-        super();
-    }
-
+    
     @Override
     public double evaluate () {
         update();
@@ -28,11 +24,4 @@ public class MakeVariable extends EvalNode {
         return new ChildBuilder[] { new ChildBuilder("var", Variable.class),
                                    new ChildBuilder("expr", EvalNode.class) };
     }
-
-    @Override
-    public String toString () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

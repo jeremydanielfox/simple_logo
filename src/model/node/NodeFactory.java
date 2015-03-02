@@ -21,7 +21,10 @@ public final class NodeFactory {
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
                               "ClearScreen", "ShowTurtle", "HideTurtle" };
         String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient", "Random" };
-        String[] ctrlStructCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable", "MakeUserInstruction" };
+        String[] boolCmds = new String[] { "GreaterThan", "LessThan" };
+        String[] ctrlStructCmds =
+                new String[] { "Repeat", "DoTimes", "For", "MakeVariable", "MakeUserInstruction",
+                              "If", "IfElse" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
         String[] basicCmds = new String[] { "Constant", "Variable", "Command" };
 
@@ -32,6 +35,8 @@ public final class NodeFactory {
                           new ArrayList<String>(Arrays.asList(basicCmds)));
         reflectionMap.put(new Wrapper("mathOperation", null),
                           new ArrayList<String>(Arrays.asList(mathOpCmds)));
+        reflectionMap.put(new Wrapper("booleanOperation", null),
+                          new ArrayList<String>(Arrays.asList(boolCmds)));
         reflectionMap.put(new Wrapper("controlStructure", null),
                           new ArrayList<String>(Arrays.asList(ctrlStructCmds)));
         reflectionMap.put(new Wrapper("syntax", null),
@@ -79,6 +84,7 @@ public final class NodeFactory {
         // all other cases
         // TODO: fix - last argument not necessary
         // now have two factories
+        // TODO: look into oodesign pattern, intializing within the node itself
         else {
             try {
                 return reflectionFactory(wrapper.getPackage(), type);

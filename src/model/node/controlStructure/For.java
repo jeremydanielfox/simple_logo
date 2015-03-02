@@ -8,10 +8,6 @@ import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 
 public class For extends DoTimes {
-
-    public For () {
-        super();
-    }
     
     @Override 
     protected double getStart () {

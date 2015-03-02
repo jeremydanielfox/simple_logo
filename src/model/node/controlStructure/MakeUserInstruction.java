@@ -40,11 +40,4 @@ public class MakeUserInstruction extends EvalNode {
                                    new ChildBuilder("commands", CommandList.class),
                                    new ChildBuilder("listEnd", ListEnd.class) };
     }
-
-    @Override
-    public String toString () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

@@ -33,11 +33,13 @@ public class Parser {
                 .map(this::getMatch)
                 .collect(Collectors.toList());
         return tokenList;
-        //return TreeBuilder.build(tokenList);
     }
 
-    // TODO: only filters out lines that begin with #, fix to accomdate inline comment
+    // TODO: only filters out lines that begin with #, fix to accommodate inline comment
     private boolean isValidLine (String line) {
+//        if (line.length() > 0){
+//            String comment = line.substring(line.indexOf("#")+1); // gets substring starting after # (or whole line if without one)
+//        }
         return !line.startsWith("#") && line.length() > 0;
     }
 
@@ -49,10 +51,7 @@ public class Parser {
                     // System.out.println(String.format("%s matches %s", token, p.getKey()));
                     matched = true;
                     return new TokenProperty(p.getKey(), token);
-                    // String[] tokenProperty = new String[] { p.getKey(), token };
-                    // return NodeFactory.get(tokenProperty, myTurtle); // need token for Constant,
-                    // Variable,
-                }                                     // Command
+                }                                    
 
             }
             if (!matched) { throw new UnrecognizedTokenException(token); }
