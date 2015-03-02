@@ -9,8 +9,4 @@ public class Sum extends TwoArgMathOperation {
         return getFirstArg() +  getSecondArg();
     }
 
-    @Override
-    public String toString () {
-        return null;
-    }
 }

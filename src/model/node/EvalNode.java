@@ -38,6 +38,19 @@ public abstract class EvalNode extends TreeNode {
     private void setChildBuilders(){
         childBuilders.addAll(Arrays.asList(addChildBuilders()));
     }
+    
+    public Map<String, TreeNode> getChildren(){
+    	return children;
+    }
+    
+    public boolean hasChildren(){
+    	return (children != null);
+    }
+    
+    public String toString(){
+    	String[] temp = this.getClass().getName().split("\\.");
+    	return temp[temp.length - 1];
+    }
 
     protected abstract ChildBuilder[] addChildBuilders () ;
 
