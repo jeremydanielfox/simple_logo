@@ -1,27 +1,18 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.ChildBuilder;
+import model.node.ZeroArgOperation;
 
-public class Home extends TurtleCommand {
+public class Home extends ZeroArgOperation {
 
-    public Home (Turtle t) {
-        super(t);
-        // TODO Auto-generated constructor stub
-    }
+    private Turtle myTurtle;
     
+    public Home (Turtle t) {
+        myTurtle = t;
+    }
+
     @Override
     public double evaluate () {
-        return getTurtle().goHome();
-    }
-
-    @Override
-    protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[0];
-    }
-
-    @Override
-    public String toString () {
-        return null;
+        return myTurtle.goHome();
     }
 }

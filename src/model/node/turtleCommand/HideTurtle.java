@@ -1,16 +1,18 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
+import model.node.ZeroArgOperation;
 
-public class HideTurtle extends ShowTurtle {
+public class HideTurtle extends ZeroArgOperation {
 
-    public HideTurtle (Turtle t) {
-        super(t);
-    }
+    private Turtle myTurtle;
     
+    public HideTurtle (Turtle t) {
+        myTurtle = t;
+    }
+
     @Override
     public double evaluate () {
-        return getTurtle().setInvisible();
+        return myTurtle.setInvisible();
     }
-
 }
