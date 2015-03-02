@@ -1,11 +1,13 @@
 package model.node;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Parser.TokenProperty;
 import model.Turtle;
 
 
@@ -18,10 +20,13 @@ public final class NodeFactory {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
                               "ClearScreen", "ShowTurtle", "HideTurtle" };
-        String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient" };
-        String[] iterationCmds = new String[] { "Repeat", "DoTimes", "For", "MakeVariable" };
+        String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient", "Random" };
+        String[] boolCmds = new String[] { "GreaterThan", "LessThan" };
+        String[] ctrlStructCmds =
+                new String[] { "Repeat", "DoTimes", "For", "MakeVariable", "MakeUserInstruction",
+                              "If", "IfElse" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
-        String[] basicCmds = new String[] { "Constant", "Variable" };
+        String[] basicCmds = new String[] { "Constant", "Variable", "Command" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
         reflectionMap.put(new Wrapper("turtleCommand", Turtle.class),
@@ -30,8 +35,10 @@ public final class NodeFactory {
                           new ArrayList<String>(Arrays.asList(basicCmds)));
         reflectionMap.put(new Wrapper("mathOperation", null),
                           new ArrayList<String>(Arrays.asList(mathOpCmds)));
-        reflectionMap.put(new Wrapper("iteration", null),
-                          new ArrayList<String>(Arrays.asList(iterationCmds)));
+        reflectionMap.put(new Wrapper("booleanOperation", null),
+                          new ArrayList<String>(Arrays.asList(boolCmds)));
+        reflectionMap.put(new Wrapper("controlStructure", null),
+                          new ArrayList<String>(Arrays.asList(ctrlStructCmds)));
         reflectionMap.put(new Wrapper("syntax", null),
                           new ArrayList<String>(Arrays.asList(syntaxCmds)));
     }
@@ -46,9 +53,9 @@ public final class NodeFactory {
         return instance;
     }
 
-    public static TreeNode get (String[] tokenProperty, Turtle turtle) {
-        String type = tokenProperty[0];
-        String token = tokenProperty[1];
+    public static TreeNode get (TokenProperty tokenProp, Turtle turtle) {
+        String type = tokenProp.getType();
+        String token = tokenProp.getToken();
         Wrapper wrapper = getWrapper(type);
 
         // TODO: fix so not so messy
@@ -77,6 +84,7 @@ public final class NodeFactory {
         // all other cases
         // TODO: fix - last argument not necessary
         // now have two factories
+        // TODO: look into oodesign pattern, intializing within the node itself
         else {
             try {
                 return reflectionFactory(wrapper.getPackage(), type);
@@ -102,7 +110,7 @@ public final class NodeFactory {
                 return (TreeNode) constructor.newInstance(arg);
 
             }
-            catch (NoSuchMethodException | SecurityException e) {
+            catch (NoSuchMethodException | SecurityException | InvocationTargetException e) {
                 System.err.println("incorrect constructor");
                 e.printStackTrace();
                 throw new RuntimeException(); // do something other than throw error to stop program

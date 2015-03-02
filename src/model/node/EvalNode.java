@@ -6,52 +6,56 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-
 public abstract class EvalNode extends TreeNode {
 
-    private Queue<ChildBuilder> childBuilders = new LinkedList<ChildBuilder>();
-    private Map<String, TreeNode> children = new LinkedHashMap<String, TreeNode>();
+	// TODO: not make childBuilders protected
+	private Queue<ChildBuilder> childBuilders = new LinkedList<ChildBuilder>();
+	private Map<String, TreeNode> children = new LinkedHashMap<String, TreeNode>();
 
-    
-    public EvalNode(){
-        setChildBuilders();
-    }
+	public EvalNode() {
+		setChildBuilders();
+	}
 
-    public abstract double evaluate ();
+	// hacky: used only for Command so it can set variable amount of children
+	public EvalNode(boolean variableChildren) {
+	}
 
-    public void addChild (TreeNode node) {
-        children.put(childBuilders.poll().getName(), node);
-    }
+	public abstract double evaluate();
 
-    protected EvalNode getEvalChild (String key) {
-        return (EvalNode) children.get(key);
-    }
+	public Class<? extends TreeNode> getNextType() {
+		return childBuilders.peek().getType();
+	}
 
-    public boolean allChildrenPresent () {
-        return childBuilders.isEmpty();
-    }
+	public void addChild(TreeNode node) {
+		children.put(childBuilders.poll().getName(), node);
+	}
 
-    public Class<? extends TreeNode> getNextType () {
-        return childBuilders.peek().getType();
-    }
+	protected EvalNode getEvalChild(String key) {
+		return (EvalNode) children.get(key);
+	}
 
-    private void setChildBuilders(){
-        childBuilders.addAll(Arrays.asList(addChildBuilders()));
-    }
-    
-    public Map<String, TreeNode> getChildren(){
-    	return children;
-    }
-    
-    public boolean hasChildren(){
-    	return (children != null);
-    }
-    
-    public String toString(){
-    	String[] temp = this.getClass().getName().split("\\.");
-    	return temp[temp.length - 1] + " " + this.childrenToString();
-    }
+	public boolean allChildrenPresent() {
+		return childBuilders.isEmpty();
+	}
 
-    protected abstract ChildBuilder[] addChildBuilders () ;
+	// TODO: not make protected?
+	protected void setChildBuilders() {
+		childBuilders.addAll(Arrays.asList(addChildBuilders()));
+	}
+
+	protected abstract ChildBuilder[] addChildBuilders();
+
+	public Map<String, TreeNode> getChildren() {
+		return children;
+	}
+
+	public String toString() {
+		String[] temp = this.getClass().getName().split("\\.");
+		return temp[temp.length - 1] + " " + this.childrenToString();
+	}
+
+	public boolean hasChildren() {
+		return (children != null);
+	}
 
 }

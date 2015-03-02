@@ -1,4 +1,4 @@
-package model.node.iteration;
+package model.node.controlStructure;
 
 import model.node.ChildBuilder;
 import model.node.CommandList;
@@ -9,11 +9,6 @@ import model.node.syntax.ListStart;
 
 
 public class DoTimes extends Repeat {
-
-    public DoTimes () {
-        super();
-    }
-
     
     @Override 
     protected double getStart () {

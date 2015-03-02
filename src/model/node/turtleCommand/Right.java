@@ -1,25 +1,19 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
-import model.node.ChildBuilder;
-import model.node.EvalNode;
+import model.node.OneArgOperation;
 
-public class Right extends TurtleCommand {
+
+public class Right extends OneArgOperation {
+
+  private Turtle myTurtle;
     
-    public Right(Turtle t){
-        super(t);
+    public Right (Turtle t) {
+        myTurtle = t;
     }
     
-    public double evaluate () {
-        return getTurtle().rotate(getAngle().evaluate()); 
-    }
-
-    protected EvalNode getAngle () {
-        return getEvalChild("angle");
-    }
-
     @Override
-    protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[] {new ChildBuilder("angle", EvalNode.class)};
+    public double evaluate () {
+        return myTurtle.rotate(getArg()); 
     }
 }
