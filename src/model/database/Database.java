@@ -43,7 +43,7 @@ public final class Database {
 
     public void putVariable (String name, EvalNode node) {
         varsMap.put(name, node);
-        varsHistory.put(name, reverseParse(node));
+        varsHistory.put(name, node.toString());
         //System.out.println(varsHistory.get(name)); //for testing
         // TODO: traverse tree to get string representation of nodes
         // varsHistory.put(name, node.toString());
@@ -85,46 +85,10 @@ public final class Database {
         return cmdsHistory;
     }
     
-//    public void updateVariables(){   //not necessary (I think)
-//    	for (String s : varsMap.keySet()){
-//    		if (!varsHistory.keySet().contains(s)){
-//    			varsHistory.put(s, reverseParse(varsMap.get(s)));
-//    		}
-//    	}
-//    }
-    
-    private String reverseParse(EvalNode node){
-    	String nodeString = "";
-//    	if (node.hasChildren()){
-    		return node.toString() + " " + helper(node, nodeString);
-//    	}
-//    	else {
-//    		return node.toString();
-//    	}
-    	
-    }
-    
-    private String helper(TreeNode node, String s){
-    	//println(node);
-    	//println(node.getChildren().values());
-    	for (TreeNode tn : node.getChildren().values()){
-    		//println(tn);
-    		s += tn.toString() + " ";
-			if (tn.hasChildren()){
-				s +=  helper(tn, s);
-			}
-		} 
-    	return s; 
-    }
-    
     public void printVarsHistory(){  //for testing
     	 for (String s : getVarsHistory().keySet()){
     		 System.out.println(s + " " + getVarsHistory().get(s));
 		 }
-    }
-    
-    public void println(Object line) { //for testing purposes
-        System.out.println(line);
     }
 
     public static class CommandWrapper {

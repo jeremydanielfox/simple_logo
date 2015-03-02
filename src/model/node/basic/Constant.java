@@ -17,6 +17,6 @@ public class Constant extends ZeroArgOperation {
 
     @Override
     public String toString () {
-        return Double.toString(value);
+        return Double.toString(value) + " ";
     }
 }
