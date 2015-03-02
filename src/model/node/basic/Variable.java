@@ -1,6 +1,8 @@
 package model.node.basic;
 
+import java.util.Optional;
 import model.database.Database;
+import model.node.EvalNode;
 import model.node.ZeroArgOperation;
 
 
@@ -14,7 +16,9 @@ public class Variable extends ZeroArgOperation {
 
     @Override
     public double evaluate () {
-        return Database.getInstance().getVariable(myName).evaluate();
+        Optional<String> opt = Optional.of(myName);
+        EvalNode node = opt.map(Database.getInstance()::getVariable).orElseGet(() -> new Constant("0"));
+        return node.evaluate();
     }
 
     // for DoTimes and For

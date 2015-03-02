@@ -20,7 +20,7 @@ public final class NodeFactory {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
                               "ClearScreen", "ShowTurtle", "HideTurtle" };
-        String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient", "Random" };
+        String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient", "Random", "Sine" };
         String[] boolCmds = new String[] { "GreaterThan", "LessThan" };
         String[] ctrlStructCmds =
                 new String[] { "Repeat", "DoTimes", "For", "MakeVariable", "MakeUserInstruction",

@@ -64,6 +64,8 @@ public final class Database {
     }
 
     public EvalNode getVariable (String name) {
+//        Optional optionalVar = Optional.empty();
+//        return optionalVar.orElse(new Constant("0")).varsMap.get(name);
         return varsMap.get(name);
     }
 
