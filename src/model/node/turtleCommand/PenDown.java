@@ -1,16 +1,18 @@
 package model.node.turtleCommand;
 
 import model.Turtle;
+import model.node.ZeroArgOperation;
 
-public class PenDown extends PenUp {
+public class PenDown extends ZeroArgOperation {
 
-    public PenDown (Turtle t) {
-        super(t);
-    }
+    private Turtle myTurtle;
     
+    public PenDown (Turtle t) {
+        myTurtle = t;
+    }
+
     @Override
     public double evaluate () {
-        return getTurtle().setPenDown();
+        return myTurtle.setPenDown();
     }
-
 }

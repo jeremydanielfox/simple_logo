@@ -7,12 +7,8 @@ import model.node.basic.Variable;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 
-public class Repeat extends EvalNode {
 
-    // no arguments since default values handle all 3 iteration types
-    public Repeat () {
-        super();
-    }
+public class Repeat extends EvalNode {
 
     public double evaluate () {
         double lastEvaluation = 0;
@@ -53,15 +49,10 @@ public class Repeat extends EvalNode {
     }
     
     @Override
-    public String toString(){
-        return "Repeat";
-    }
-
-    @Override
     protected ChildBuilder[] addChildBuilders () {
         return new ChildBuilder[] { new ChildBuilder("max", EvalNode.class),
-                                    new ChildBuilder("listStart", ListStart.class),
-                                    new ChildBuilder("commands", CommandList.class),
-                                    new ChildBuilder("listEnd", ListEnd.class)};
+                                   new ChildBuilder("listStart", ListStart.class),
+                                   new ChildBuilder("commands", CommandList.class),
+                                   new ChildBuilder("listEnd", ListEnd.class) };
     }
 }

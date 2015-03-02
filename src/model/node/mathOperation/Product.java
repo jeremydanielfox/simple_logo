@@ -1,13 +1,12 @@
 package model.node.mathOperation;
 
-public class Product extends TwoArgMathOperation {
+import model.node.TwoArgOperation;
 
-    public Product () {
-    }
-    
+public class Product extends TwoArgOperation {
+
     @Override
-    public double evaluate () {
-        return getFirstArg() *  getSecondArg();
+    protected double evaluateHelper (double arg1, double arg2) {
+        return arg1 + arg2;
     }
 
 }

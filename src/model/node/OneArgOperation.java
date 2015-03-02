@@ -1,9 +1,7 @@
-package model.node.mathOperation;
+package model.node;
 
-import model.node.ChildBuilder;
-import model.node.EvalNode;
 
-public abstract class OneArgMathOperation extends EvalNode {
+public abstract class OneArgOperation extends EvalNode {
 
     protected double getArg () {
         return getEvalChild("arg").evaluate();

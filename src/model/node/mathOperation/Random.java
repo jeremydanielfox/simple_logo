@@ -1,6 +1,8 @@
 package model.node.mathOperation;
 
-public class Random extends OneArgMathOperation {
+import model.node.OneArgOperation;
+
+public class Random extends OneArgOperation {
 
     private static final java.util.Random random = new java.util.Random();
 
@@ -12,12 +14,6 @@ public class Random extends OneArgMathOperation {
     // implementation of Math's nextDouble with a bound
     private double nextDouble (double bound) {
         return bound * random.nextDouble();
-    }
-
-    @Override
-    public String toString () {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

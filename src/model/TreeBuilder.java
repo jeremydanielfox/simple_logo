@@ -23,7 +23,6 @@ public class TreeBuilder {
 
     public static CommandList build (Turtle turtle, List<TokenProperty> tokenList) {
         myTurtle = turtle;
-        
         return buildCommandList(tokenList);
     }
         
