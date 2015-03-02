@@ -16,8 +16,8 @@ public class TurtleImage extends ImageView {
 	private boolean hidden;
 
 	protected TurtleImage(double xpos, double ypos,double heading, Image img) {
-		this.setTranslateX(xpos);
-		this.setTranslateY(ypos);
+		//this.setTranslateX(xpos);
+		//this.setTranslateY(ypos);
 		this.setRotate(heading);
 		this.setImage(img);
 		this.setFitWidth(WIDTH);

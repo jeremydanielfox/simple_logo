@@ -1,7 +1,12 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import model.LineData;
 import model.TurtleData;
 
@@ -22,14 +28,15 @@ public class TurtleView {
 	private GraphicsContext myLineGC;
 	private GraphicsContext myTurtleGC;
 	private StackPane myLayers;
-//	private Group myTurtles = new Group();
+	private Group myTurtlesGroup = new Group();
+	private Collection<TurtleImage> myTurtlesList = new ArrayList<>();
 	private Rectangle myBackground;
 	private Image turtleImage = new Image("images/plain-turtle-small.png",
 			TURTLE_WIDTH, TURTLE_HEIGHT, true, true);
-//	private static final int WIDTH = Integer.parseInt(myValues
-//			.getString("Width"));
-//	private static final int HEIGHT = Integer.parseInt(myValues
-//			.getString("Height"));
+	// private static final int WIDTH = Integer.parseInt(myValues
+	// .getString("Width"));
+	// private static final int HEIGHT = Integer.parseInt(myValues
+	// .getString("Height"));
 	private static final int TURTLE_WIDTH = Integer.parseInt(myValues
 			.getString("TurtleWidth"));
 	private static final int TURTLE_HEIGHT = Integer.parseInt(myValues
@@ -46,18 +53,22 @@ public class TurtleView {
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myLineCanvas,
-				myTurtleCanvas);
-		
-		myLineCanvas.widthProperty().bind(myLayers.widthProperty().subtract(20));
-	    myLineCanvas.heightProperty().bind(myLayers.heightProperty().subtract(20));
-	    myTurtleCanvas.widthProperty().bind(myLayers.widthProperty().subtract(20));
-	    myTurtleCanvas.heightProperty().bind(myLayers.heightProperty().subtract(20));
+				myTurtleCanvas,myTurtlesGroup);
+
+		myLineCanvas.widthProperty()
+				.bind(myLayers.widthProperty().subtract(20));
+		myLineCanvas.heightProperty().bind(
+				myLayers.heightProperty().subtract(20));
+		myTurtleCanvas.widthProperty().bind(
+				myLayers.widthProperty().subtract(20));
+		myTurtleCanvas.heightProperty().bind(
+				myLayers.heightProperty().subtract(20));
 		myLineCanvas.widthProperty().addListener(observable -> redraw());
 		myLineCanvas.heightProperty().addListener(observable -> redraw());
 		myTurtleCanvas.widthProperty().addListener(observable -> redraw());
 		myTurtleCanvas.heightProperty().addListener(observable -> redraw());
 	}
-	
+
 	private void redraw() {
 		myBackground.setHeight(myLineCanvas.getHeight());
 		myBackground.setWidth(myLineCanvas.getWidth());
@@ -95,9 +106,45 @@ public class TurtleView {
 				.getY(), current.getFinish().getX(), current.getFinish().getY());
 	}
 
-	public void drawTurtle(TurtleData current) {
-		drawRotatedImage(myTurtleGC, turtleImage, current.getHeading(),
-				current.getX(), current.getY());
+	public void drawTurtle(TurtleData currentData) {
+		drawRotatedImage(myTurtleGC, turtleImage, currentData.getHeading(),
+				currentData.getX(), currentData.getY());
+//		TurtleImage inList = getTurtleImage(currentData);
+//		
+//		if (inList==null) {
+//			TurtleImage temp = new TurtleImage(currentData.getX(),
+//					currentData.getY(), currentData.getHeading(), turtleImage);
+//			myTurtlesGroup.getChildren().add(temp);
+//			myTurtlesList.add(temp);
+//		}
+//		else {
+//			System.out.println(inList.getTranslateX());
+//			inList.setTranslateX(inList.getX()-100);
+//			inList.setOpacity(0.5);
+//			System.out.println(inList.getTranslateX());
+//////			inList.setX(inList.getX()+currentData.getX());
+//////			inList.setY(inList.getY()+currentData.getY());
+////			TranslateTransition tt = new TranslateTransition(Duration.seconds(3),inList);
+////			tt.setFromX(inList.getX());
+////			tt.setFromY(inList.getY());
+////			tt.setToX(inList.getX()+currentData.getX());
+////			tt.setToY(inList.getY()+currentData.getY());
+//////			tt.setByX(currentData.getX());
+//////			tt.setByY(currentData.getY());
+////			tt.setCycleCount(Timeline.INDEFINITE);
+////			tt.play();
+//////			inList.setTranslateX(currentData.getX());
+//////			inList.setTranslateY(currentData.getY());
+//////			inList.setRotate(currentData.getHeading());
+//		}
+	}
+	
+	private TurtleImage getTurtleImage(TurtleData data) {
+		for (TurtleImage current: myTurtlesList) {
+			if (current.getID() == data.getID())
+				return current;
+		}
+		return null;
 	}
 
 	public void drawRotatedTurtle() {
@@ -153,6 +200,12 @@ public class TurtleView {
 	}
 
 	public void clearTurtles() {
-		myTurtleGC.clearRect(0, 0, myTurtleCanvas.getWidth(), myTurtleCanvas.getHeight());
+		myTurtleGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
+				myTurtleCanvas.getHeight());
+	}
+	
+	public void clearLines() {
+		myLineGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
+				myTurtleCanvas.getHeight());
 	}
 }

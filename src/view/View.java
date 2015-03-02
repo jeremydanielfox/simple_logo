@@ -11,6 +11,7 @@ import javafx.collections.ObservableMap;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Drawable;
 import model.LineData;
 import model.Model;
 import model.Receiver;
@@ -27,6 +28,10 @@ public class View {
 	private Stage myStage;
 	private Model myModel;
 	private Display myDisplay;
+
+	public View() {
+	}
+
 	public void init(Stage s) {
 		myStage = s;
 		myStage.setTitle(myValues.getString("Title"));
@@ -42,17 +47,27 @@ public class View {
 		myStage.show();
 	}
 
+	private ObservableList<Drawable> createDrawables(
+			ObservableList<Drawable> list, ListChangeListener<Drawable> listener) {
+		list.addListener(listener);
+				return list;
+
+	}
+
 	private ScreenData setupScreenData() {
+
 		ObservableList<LineData> myLines = FXCollections.observableArrayList();
 		myLines.addListener(new ListChangeListener<LineData>() {
 			@Override
 			public void onChanged(Change<? extends LineData> c) {
 				while (c.next()) {
-					System.out.println("printing");
+					if (c.getRemovedSize() != 0)
+						myDisplay.getSelectedWorkspace().getTV().clearLines();
 					for (LineData addItem : c.getAddedSubList()) {
 						myDisplay.getSelectedWorkspace().getTV()
 								.drawLines(addItem);
 					}
+
 				}
 			}
 		});

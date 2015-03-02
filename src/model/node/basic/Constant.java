@@ -1,10 +1,9 @@
 package model.node.basic;
 
-import model.node.ChildBuilder;
-import model.node.EvalNode;
+import model.node.ZeroArgOperation;
 
 
-public class Constant extends EvalNode {
+public class Constant extends ZeroArgOperation {
 
     private double value;
     
@@ -18,16 +17,6 @@ public class Constant extends EvalNode {
 
     @Override
     public String toString () {
-        return Double.toString(value);
-    }
-    
-    @Override
-    public boolean hasChildren(){  //for testing
-    	return false;
-    }
-
-    @Override
-    protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[0];
+        return Double.toString(value) + " ";
     }
 }

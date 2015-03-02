@@ -2,7 +2,7 @@ package model;
 
 import javafx.geometry.Point2D;
 
-public class LineData {
+public class LineData implements Drawable {
 	private Point2D start;
 	private Point2D finish;
 

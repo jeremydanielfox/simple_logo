@@ -1,4 +1,4 @@
-package model.node.iteration;
+package model.node.controlStructure;
 
 import model.database.Database;
 import model.node.ChildBuilder;
@@ -7,18 +7,14 @@ import model.node.basic.Variable;
 
 // TODO: put in appropriate package
 public class MakeVariable extends EvalNode {
-
-    public MakeVariable () {
-        super();
-    }
-
+    
     @Override
     public double evaluate () {
         update();
         return getEvalChild("var").evaluate();
     }
 
-    public void update () {
+    private void update () {
         Database.getInstance().putVariable(getEvalChild("var").toString(),
                                            getEvalChild("expr"));
     }
@@ -28,11 +24,4 @@ public class MakeVariable extends EvalNode {
         return new ChildBuilder[] { new ChildBuilder("var", Variable.class),
                                    new ChildBuilder("expr", EvalNode.class) };
     }
-
-    @Override
-    public String toString () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

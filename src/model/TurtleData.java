@@ -2,7 +2,7 @@ package model;
 
 import javafx.geometry.Point2D;
 
-public class TurtleData {
+public class TurtleData implements Drawable {
 	private double myXCoord;
 	private double myYCoord;
 	private double myHeading;
@@ -24,30 +24,29 @@ public class TurtleData {
 	public double getY() {
 		return myYCoord;
 	}
-	
-	public void setLocation(Point2D location){
-	    myXCoord = location.getX();
-	    myYCoord = location.getY();
+
+	public void setLocation(Point2D location) {
+		myXCoord = location.getX();
+		myYCoord = location.getY();
 	}
-	
+
 	public double getHeading() {
 		return myHeading;
 	}
 
-	public void setHeading(double heading){
-	    myHeading = heading;
+	public void setHeading(double heading) {
+		myHeading = heading;
 	}
 
-	
 	public int getID() {
 		return myID;
 	}
-	
-	public boolean getVisible () {
-	    return myVisible;
+
+	public boolean getVisible() {
+		return myVisible;
 	}
-	
-	public void setVisible (boolean visible) {
-	    myVisible = visible;
+
+	public void setVisible(boolean visible) {
+		myVisible = visible;
 	}
 }

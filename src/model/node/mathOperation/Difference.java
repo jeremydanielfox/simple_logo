@@ -1,13 +1,12 @@
 package model.node.mathOperation;
 
-public class Difference extends TwoArgMathOperation {
-    
-    public Difference () {
-    }
+import model.node.TwoArgOperation;
 
+public class Difference extends TwoArgOperation {
+    
     @Override
-    public double evaluate () {
-        return getFirstArg() -  getSecondArg();
+    protected double evaluateHelper (double arg1, double arg2) {
+        return arg1 - arg2;
     }
     
 }
