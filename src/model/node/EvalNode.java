@@ -49,7 +49,7 @@ public abstract class EvalNode extends TreeNode {
     
     public String toString(){
     	String[] temp = this.getClass().getName().split("\\.");
-    	return temp[temp.length - 1];
+    	return temp[temp.length - 1] + " " + this.childrenToString();
     }
 
     protected abstract ChildBuilder[] addChildBuilders () ;

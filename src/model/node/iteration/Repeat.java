@@ -51,11 +51,6 @@ public class Repeat extends EvalNode {
         // TODO: could hold multiple Nodes (e.g repeat 10 [fd 10 rt 90] )
         return (EvalNode) getEvalChild("commands");
     }
-    
-    @Override
-    public String toString(){
-        return "Repeat";
-    }
 
     @Override
     protected ChildBuilder[] addChildBuilders () {

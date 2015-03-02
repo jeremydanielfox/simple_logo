@@ -18,7 +18,7 @@ public class Constant extends EvalNode {
 
     @Override
     public String toString () {
-        return Double.toString(value);
+        return Double.toString(value) + " ";
     }
     
     @Override
