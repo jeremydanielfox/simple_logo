@@ -1,15 +1,14 @@
 package model.database;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.node.EvalNode;
-import model.node.TreeNode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import model.node.EvalNode;
+import model.node.TreeNode;
 
 public final class Database {
 
@@ -24,10 +23,14 @@ public final class Database {
 	private static ObservableMap<String, String> cmdsHistory = FXCollections
 			.observableMap(new HashMap<String, String>());
 
-<<<<<<< HEAD
+
 	// private Database () {
 	// }
-=======
+	
+	public Database () {
+		
+	}
+
     public static synchronized Database getInstance () {
         if (instance == null)
             instance = new Database();
@@ -45,7 +48,6 @@ public final class Database {
         // TODO: traverse tree to get string representation of nodes
         //varsHistory.put(name, node.toString());
     }
->>>>>>> 34d90279a753e3e955922e5291838984d6c0e474
 
 	public Database(ObservableList<String> feed,
 			ObservableMap<String, String> vars,
@@ -61,16 +63,7 @@ public final class Database {
 //		return instance;
 //	}
 
-<<<<<<< HEAD
-	public void addFeed(String feed) {
-		feedHistory.add(feed);
-	}
 
-	public void putVariable(String name, EvalNode node) {
-		varsMap.put(name, node);
-		// TODO: traverse tree to get string representation of nodes
-		// varsHistory.put(name, node.toString());
-	}
 
 	public void putCommand(String name, String[] args, String[] value) {
 		String[][] mapValue = { args, value };
@@ -99,24 +92,6 @@ public final class Database {
 	public ObservableMap<String, String> getCmdsHistory() {
 		return cmdsHistory;
 	}
-=======
-    public String[][] getCommand (String name) {
-        return cmdsMap.get(name);
-    }
-    
-    // should somehow restrict modification with all Histories..
-    public ObservableList<String> getFeedHistory(){
-        FXCollections.unmodifiableObservableList(feedHistory);
-        return feedHistory;
-    }
-    
-    public ObservableMap<String, String> getVarsHistory(){
-      return varsHistory;
-    }
-    
-    public ObservableMap<String, String> getCmdsHistory(){
-        return cmdsHistory;
-    }
     
 //    public void updateVariables(){   //not necessary (I think)
 //    	for (String s : varsMap.keySet()){
@@ -160,5 +135,5 @@ public final class Database {
         System.out.println(line);
     }
    
->>>>>>> 34d90279a753e3e955922e5291838984d6c0e474
+
 }

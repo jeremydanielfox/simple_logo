@@ -23,15 +23,10 @@ public class View {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/view");
 
-	private static View instance;
 
 	private Stage myStage;
 	private Model myModel;
 	private Display myDisplay;
-
-	public View() {
-	}
-
 	public void init(Stage s) {
 		myStage = s;
 		myStage.setTitle(myValues.getString("Title"));
@@ -42,15 +37,9 @@ public class View {
 		myDisplay = Display.getInstance();
 		Scene scene = myDisplay.init(makeDatabase(), myModel);
 		myModel.setScreenData(setupScreenData());
-		CommandSender.setReceiver((Receiver) myModel);
+//		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
 		myStage.show();
-	}
-
-	public static View getInstance() {
-		if (instance == null)
-			instance = new View();
-		return instance;
 	}
 
 	private ScreenData setupScreenData() {
