@@ -1,10 +1,13 @@
 package view;
 
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,6 +16,7 @@ import model.Model;
 import model.Receiver;
 import model.ScreenData;
 import model.TurtleData;
+import model.database.Database;
 
 public class View {
 
@@ -36,7 +40,7 @@ public class View {
 				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
 		myDisplay = Display.getInstance();
-		Scene scene = myDisplay.init((Receiver) myModel);
+		Scene scene = myDisplay.init(makeDatabase(), myModel);
 		myModel.setScreenData(setupScreenData());
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
@@ -57,7 +61,8 @@ public class View {
 				while (c.next()) {
 					System.out.println("printing");
 					for (LineData addItem : c.getAddedSubList()) {
-						myDisplay.getSelectedWorkspace().getTV().drawLines(addItem);
+						myDisplay.getSelectedWorkspace().getTV()
+								.drawLines(addItem);
 					}
 				}
 			}
@@ -70,7 +75,8 @@ public class View {
 				myDisplay.getSelectedWorkspace().getTV().clearTurtles();
 				while (c.next()) {
 					for (TurtleData addItem : c.getAddedSubList()) {
-						myDisplay.getSelectedWorkspace().getTV().drawTurtle(addItem);
+						myDisplay.getSelectedWorkspace().getTV()
+								.drawTurtle(addItem);
 					}
 				}
 			}
@@ -81,6 +87,28 @@ public class View {
 
 	public Model getModel() {
 		return myModel;
+	}
+
+	private Database makeDatabase() {
+		ObservableList<String> feed = FXCollections.observableArrayList();
+		ObservableMap<String, String> vars = FXCollections
+				.observableMap(new HashMap<String, String>());
+		vars.addListener(new MapChangeListener<String, String>() {
+
+			@Override
+			public void onChanged(
+					javafx.collections.MapChangeListener.Change<? extends String, ? extends String> change) {
+				// TODO Auto-generated method stub
+				if (change.wasAdded()) {
+
+				}
+
+			}
+
+		});
+		ObservableMap<String, String> cmds = FXCollections
+				.observableMap(new HashMap<String, String>());
+		return new Database(feed, vars, cmds);
 	}
 
 }

@@ -6,15 +6,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
-import Exceptions.BadResourcePackageException;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import model.Model;
 import model.Receiver;
+import model.database.Database;
 import view.menubar.MenuBuilder;
+import Exceptions.BadResourcePackageException;
 
 public class Display {
 	private static final ResourceBundle myValues = ResourceBundle
@@ -27,6 +29,7 @@ public class Display {
 	private TabPane myWorkspaceDisplays;
 	private Collection<Workspace> myWorkspaces;
 	private Feed myFeed;
+	private Model myModel;
 	private static final double TAB_MIN_WIDTH = 50;
 
 	protected Display() {
@@ -40,10 +43,10 @@ public class Display {
 		return instance;
 	}
 
-	public Scene init(Receiver receiver) {
-		myFeed = new Feed(receiver);
-		setupWorkspaces(receiver);
-		myRoot.setBottom(myFeed.getFeed());
+	public Scene init(Database db, Model model) {
+		myModel = model;
+		myFeed = new Feed((Receiver) myModel, db);
+		setupWorkspaces((Receiver) myModel, db);
 		try {
 			makeMenuBar();
 		} catch (BadResourcePackageException e) {
@@ -58,14 +61,14 @@ public class Display {
 		return this.myScene;
 	}
 
-	private void setupWorkspaces(Receiver receiver) {
+	private void setupWorkspaces(Receiver receiver, Database db) {
 		myWorkspaceDisplays = new TabPane();
 		myWorkspaceDisplays.setTabMinWidth(TAB_MIN_WIDTH);
-		makeWorkspace(receiver);
+		makeWorkspace(receiver, db);
 	}
 
-	public void makeWorkspace(Receiver receiver) {
-		Workspace myWorkspace = new Workspace();
+	public void makeWorkspace(Receiver receiver, Database db) {
+		Workspace myWorkspace = new Workspace(db);
 		Node workspaceNode = myWorkspace.init(receiver);
 		myWorkspaces.add(myWorkspace);
 		Tab tab = new Tab();

@@ -19,6 +19,6 @@ public class WorkspaceSetupMenuMethods {
 	}
 
 	public void newWorkspace() {
-		Display.getInstance().makeWorkspace(null);
+		Display.getInstance().makeWorkspace(null,null);
 	}
 }

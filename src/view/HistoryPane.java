@@ -23,9 +23,14 @@ public class HistoryPane {
 	public HistoryPane(Receiver receiver) {
 		myReceiver = receiver;
 	}
+	
+	public HistoryPane(Receiver receiver,Database db) {
+		myReceiver = receiver;
+		myData = db;
+	}
 
 	public Node init() {
-		myData = Database.getInstance();
+//		myData = Database.getInstance();
 		myRoot = new VBox();
 		HBox titleBox = new HBox();
 		Label title = new Label("History");

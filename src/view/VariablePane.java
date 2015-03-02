@@ -29,12 +29,13 @@ public class VariablePane {
 	private ObservableList<String> myList;
 	private Stage myStage;
 
-	public VariablePane(Receiver receiver) {
+	public VariablePane(Receiver receiver, Database db) {
 		myReceiver = receiver;
+		myData = db;
 	}
 
 	public Node init() {
-		myData = Database.getInstance();
+//		myData = Database.getInstance();
 		myVBox = new VBox();
 		HBox titleBox = new HBox();
 		Label title = new Label("Variables");

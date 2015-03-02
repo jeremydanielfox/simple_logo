@@ -25,6 +25,7 @@ public class Feed {
 	private HBox myObjects;
 	private Button add;
 	private Button enter;
+	private Database myData;
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/feed");
 	private static TextArea prompter;
@@ -36,8 +37,9 @@ public class Feed {
 	private static final String ADD_TEXT = myValues.getString("Add_Text");
 	private static final String ENTER_TEXT = myValues.getString("Enter_Text");
 
-	protected Feed(Receiver receiver) {
+	protected Feed(Receiver receiver, Database db) {
 		myReceiver = receiver;
+		myData = db;
 		myObjects = new HBox();
 		setupPrompter();
 		setupAdd();
@@ -74,7 +76,7 @@ public class Feed {
 		add = new Button(ADD_TEXT);
 		add.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		add.setOnAction(e -> {
-			Database myData = Database.getInstance();
+//			Database myData =  Database.getInstance();
 			Stage myStage = new Stage();
 			myStage.setHeight(ADD_WIDTH);
 			myStage.setWidth(ADD_HEIGHT);
