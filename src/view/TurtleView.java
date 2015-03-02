@@ -118,9 +118,10 @@ public class TurtleView {
 //			myTurtlesList.add(temp);
 //		}
 //		else {
-//			System.out.println(inList.getX());
-//			inList.setX(inList.getX()-100);
-//			System.out.println(inList.getX());
+//			System.out.println(inList.getTranslateX());
+//			inList.setTranslateX(inList.getX()-100);
+//			inList.setOpacity(0.5);
+//			System.out.println(inList.getTranslateX());
 //////			inList.setX(inList.getX()+currentData.getX());
 //////			inList.setY(inList.getY()+currentData.getY());
 ////			TranslateTransition tt = new TranslateTransition(Duration.seconds(3),inList);

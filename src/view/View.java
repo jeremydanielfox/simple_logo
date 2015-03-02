@@ -1,19 +1,14 @@
 package view;
 
-//import BreadFirstSearch;
-
 import java.util.ResourceBundle;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import model.Drawable;
 import model.LineData;
 import model.Model;
 import model.Receiver;
@@ -49,20 +44,19 @@ public class View {
 		CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
 		myStage.show();
-//		Timeline animation = new Timeline();
-//		//setup the game's loop
-//		KeyFrame frame = makeKeyFrame(NUM_FRAMES_PER_SECOND);
-//		
-//		animation.setCycleCount(Animation.INDEFINITE);
-//		animation.getKeyFrames().add(frame);
-//		animation.play();
+		// Timeline animation = new Timeline();
+		// //setup the game's loop
+		// KeyFrame frame = makeKeyFrame(NUM_FRAMES_PER_SECOND);
+		//
+		// animation.setCycleCount(Animation.INDEFINITE);
+		// animation.getKeyFrames().add(frame);
+		// animation.play();
 	}
-//	private KeyFrame makeKeyFrame(int frameRate) {
-//		return new KeyFrame(Duration.millis(framesPerSecond / frameRate),
-//				e -> updateSim());
-//	}
-	
-	
+
+	// private KeyFrame makeKeyFrame(int frameRate) {
+	// return new KeyFrame(Duration.millis(framesPerSecond / frameRate),
+	// e -> updateSim());
+	// }
 
 	public static View getInstance() {
 		if (instance == null)
@@ -70,18 +64,27 @@ public class View {
 		return instance;
 	}
 
+	private ObservableList<Drawable> createDrawables(
+			ObservableList<Drawable> list, ListChangeListener<Drawable> listener) {
+		list.addListener(listener);
+				return list;
+
+	}
+
 	private ScreenData setupScreenData() {
+
 		ObservableList<LineData> myLines = FXCollections.observableArrayList();
 		myLines.addListener(new ListChangeListener<LineData>() {
 			@Override
 			public void onChanged(Change<? extends LineData> c) {
 				while (c.next()) {
-					if (c.getRemovedSize()!=0) 
+					if (c.getRemovedSize() != 0)
 						myDisplay.getSelectedWorkspace().getTV().clearLines();
 					for (LineData addItem : c.getAddedSubList()) {
-						myDisplay.getSelectedWorkspace().getTV().drawLines(addItem);
+						myDisplay.getSelectedWorkspace().getTV()
+								.drawLines(addItem);
 					}
-					
+
 				}
 			}
 		});
@@ -93,7 +96,8 @@ public class View {
 				myDisplay.getSelectedWorkspace().getTV().clearTurtles();
 				while (c.next()) {
 					for (TurtleData addItem : c.getAddedSubList()) {
-						myDisplay.getSelectedWorkspace().getTV().drawTurtle(addItem);
+						myDisplay.getSelectedWorkspace().getTV()
+								.drawTurtle(addItem);
 					}
 				}
 			}
