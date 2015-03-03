@@ -52,9 +52,8 @@ public class SingleTurtle implements Turtle{
         // update TurtleData, add to list somewhere...
     }
 
-    public double translate (double distance) {
+    public void translate (double distance) {
         move(new PolarVector(distance, 0));
-        return distance;
     }
 
     public double rotate (double angle) {

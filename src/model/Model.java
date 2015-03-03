@@ -10,8 +10,10 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import turtle.SingleTurtle;
+import turtle.TurtleList;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
+import line.LineListCollection;
 import model.Parser.TokenProperty;
 import model.database.Database;
 import model.node.CommandList;
@@ -20,7 +22,7 @@ public class Model implements Receiver {
 	private List<Entry<String, Pattern>> myPatterns;
 	private SingleTurtle myTurtle;
 	private ScreenData myScreenData;
-	//private List<Workspace> myWorkspaces;
+	private List<Workspace> myWorkspaces;
 
 	public Model(Point2D offset) {
 		myTurtle = new SingleTurtle();
@@ -73,5 +75,9 @@ public class Model implements Receiver {
 	
 	public void initializeNewWorkspace(Map<String,ObservableList<Drawable>> workspaceParams) {
 		//TODO: Implement this method
+	}
+	
+	public void initalizeWorkspace(TurtleList turtles, LineListCollection linelists) {
+	    myWorkspaces.add(new Workspace(turtles, linelists));
 	}
 }

@@ -13,6 +13,8 @@ public class Backward extends OneArgOperation {
     
     @Override
     public double evaluate () {
-        return myTurtle.translate(-getArg()); 
+        double result = -getArg();
+        myTurtle.translate(result); 
+        return result;
     }
 }

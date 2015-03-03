@@ -14,6 +14,8 @@ public class Forward extends OneArgOperation {
     
     @Override
     public double evaluate () {
-        return myTurtle.translate(getArg()); 
+        double result = getArg();
+        myTurtle.translate(result); 
+        return result;
     }
 }

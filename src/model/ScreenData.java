@@ -32,14 +32,14 @@ public class ScreenData {
     
     private void checkIfClear(List<SingleTurtle> turtles) {
     	for (SingleTurtle current: turtles) {
-    		if (current.getLineDatas().isEmpty())
+    		if (current.getLines().isEmpty())
     			myLines.clear();
     	}
     }
  
     private void addLines (List<SingleTurtle> turtles) {
         for (SingleTurtle t : turtles) { // could possibly use lambda
-            myLines.addAll(t.getLineDatas());
+            myLines.addAll(t.getLines());
         }
     }
 
