@@ -3,7 +3,7 @@ package model;
 import view.TurtleView;
 import javafx.geometry.Point2D;
 
-public class TurtleData {
+public class TurtleData extends Drawable {
 	private double myXCoord;
 	private double myYCoord;
 	private double myHeading;
@@ -49,6 +49,20 @@ public class TurtleData {
 
 	public void setVisible(boolean visible) {
 		myVisible = visible;
+	}
+
+	
+	public void Draw(TurtleView tv) {
+		tv.drawRotatedTurtle(tv.getTurtleGraphicsContext(), this.getHeading(),
+				this.getX(), this.getY());
+
+	}
+
+	
+	public void Clear(TurtleView tv) {
+		tv.getTurtleGraphicsContext().clearRect(0, 0,
+				tv.getTurtleCanvas().getWidth(),
+				tv.getTurtleCanvas().getHeight());
 	}
 
 //	@Override

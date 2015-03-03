@@ -17,6 +17,8 @@ import model.node.TreeNode;
 
 public final class Database {
 
+
+
     private static Database instance;
     private static Map<String, EvalNode> varsMap = new HashMap<String, EvalNode>();
     private static Map<String, CommandWrapper> cmdsMap = new HashMap<String, CommandWrapper>();
@@ -79,11 +81,19 @@ public final class Database {
         return definingSignal;
     }
 
-    public EvalNode getVariable (String name) {
-//        Optional optionalVar = Optional.empty();
-//        return optionalVar.orElse(new Constant("0")).varsMap.get(name);
-        return varsMap.get(name);
-    }
+//	public static synchronized Database getInstance() {
+//		if (instance == null)
+//			instance = new Database();
+//		return instance;
+//	}
+
+
+
+
+	public EvalNode getVariable(String name) {
+		return varsMap.get(name);
+	}
+
 
 
 //	public static synchronized Database getInstance() {

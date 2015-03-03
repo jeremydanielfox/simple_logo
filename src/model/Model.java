@@ -21,7 +21,6 @@ import model.node.CommandList;
 public class Model implements Receiver {
 	private List<Entry<String, Pattern>> myPatterns;
 	private SingleTurtle myTurtle;
-	private ScreenData myScreenData;
 	private List<Workspace> myWorkspaces;
 
 	public Model(Point2D offset) {
@@ -33,7 +32,7 @@ public class Model implements Receiver {
 		updateModel(text);
 	}
 
-	public ScreenData updateModel(String feed) {
+	public void updateModel(String feed) {
             Database.getInstance().addFeed(feed);
             Parser parser = new Parser(myPatterns);
             List<TokenProperty> feedList = parser.parse(feed);
@@ -43,8 +42,8 @@ public class Model implements Receiver {
             
             //Database.getInstance().printVarsHistory(); //for testing
             
-            myScreenData.update(Arrays.asList(myTurtle));
-            return myScreenData;
+//            myScreenData.update(Arrays.asList(myTurtle));
+//            return myScreenData;
         }
 
 	public void setLanguage(String language) {
@@ -66,12 +65,12 @@ public class Model implements Receiver {
 		return patterns;
 	}
 
-	public void setScreenData(ScreenData sd) {
-		myScreenData = sd;
-		myScreenData.update(Arrays.asList((myTurtle)));
-
-//		myTurtle = myScreenData.getTurtle();
-	}
+//	public void setScreenData(ScreenData sd) {
+//		myScreenData = sd;
+//		myScreenData.update(Arrays.asList((myTurtle)));
+//
+////		myTurtle = myScreenData.getTurtle();
+//	}
 	
 	public void initializeNewWorkspace(Map<String,ObservableList<Drawable>> workspaceParams) {
 		//TODO: Implement this method

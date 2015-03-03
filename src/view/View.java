@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import model.Drawable;
 import model.Model;
 import model.Receiver;
-import model.ScreenData;
 import model.database.Database;
 
 public class View implements WorkspaceCreator {
@@ -46,7 +45,7 @@ public class View implements WorkspaceCreator {
 				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
 		myDisplay = Display.getInstance();
-		Scene scene = myDisplay.init(makeDatabase(), myModel);
+		Scene scene = myDisplay.init(myModel);
 		makeWorkspace();
 		// CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
