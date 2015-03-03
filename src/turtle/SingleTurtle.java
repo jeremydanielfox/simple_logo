@@ -1,18 +1,22 @@
-package model;
+package turtle;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import view.Drawer;
 import javafx.geometry.Point2D;
 import line.LineList;
 import line.SingleLine;
+import model.Mover;
+import model.PolarVector;
+import model.UnboundedMover;
 
 
-public class Turtle {
+public class SingleTurtle implements Turtle{
     private static int ourId = 0;
 
     private Point2D myPosition;
-    private Point2D myPreviousPosition;
+    private Point2D myLastPosition;
     private double myHeading;
     private LineList myLines;
     //private List<SingleLine> myLines;
@@ -27,15 +31,20 @@ public class Turtle {
         ourId = -1;
     }
 
-    public Turtle (Point2D offset) {
-    	HOME = offset;
+    public SingleTurtle () {
+    	//HOME = offset;
         myId = ourId++;
         myPosition = HOME;
-        myPreviousPosition = HOME; // seems sloppy...
+        myLastPosition = HOME;
         myHeading = 0;
         myLines = new LineList(myId, new ArrayList<SingleLine>());
         visible = true;
         penUp = false;
+    }
+    
+    @Override
+    public void beDrawn (Drawer drawer) {
+        drawer.drawTurtle(myPosition, myHeading, visible);
     }
 
     public void move (PolarVector vector) {
@@ -77,7 +86,7 @@ public class Turtle {
     }
 
     protected void setPosition (Point2D position) {
-        myPreviousPosition = new Point2D(myPosition.getX(), myPosition.getY());
+        myLastPosition = new Point2D(myPosition.getX(), myPosition.getY());
         myPosition = position;
     }
 
@@ -104,7 +113,7 @@ public class Turtle {
     }
 
     protected Point2D getPreviousPosition () {
-        return myPreviousPosition;
+        return myLastPosition;
     }
 
     public double getHeading () {
@@ -142,5 +151,4 @@ public class Turtle {
     protected boolean isPenUp () {
         return penUp;
     }
-
 }

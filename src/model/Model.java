@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-
+import turtle.SingleTurtle;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import model.Parser.TokenProperty;
@@ -18,12 +18,12 @@ import model.node.CommandList;
 
 public class Model implements Receiver {
 	private List<Entry<String, Pattern>> myPatterns;
-	private Turtle myTurtle;
+	private SingleTurtle myTurtle;
 	private ScreenData myScreenData;
 	//private List<Workspace> myWorkspaces;
 
 	public Model(Point2D offset) {
-		myTurtle = new Turtle(offset);
+		myTurtle = new SingleTurtle();
 		//myScreenData.update(Arrays.asList((myTurtle)));
 	}
 

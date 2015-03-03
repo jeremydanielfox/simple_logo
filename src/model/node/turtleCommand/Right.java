@@ -1,14 +1,14 @@
 package model.node.turtleCommand;
 
-import model.Turtle;
+import turtle.SingleTurtle;
 import model.node.OneArgOperation;
 
 
 public class Right extends OneArgOperation {
 
-  private Turtle myTurtle;
+  private SingleTurtle myTurtle;
     
-    public Right (Turtle t) {
+    public Right (SingleTurtle t) {
         myTurtle = t;
     }
     

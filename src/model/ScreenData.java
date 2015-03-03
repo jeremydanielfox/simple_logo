@@ -3,6 +3,7 @@ package model;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import turtle.SingleTurtle;
 import javafx.collections.ObservableList;
 import line.SingleLine;
 
@@ -16,33 +17,33 @@ public class ScreenData {
         myTurtleData = td;
     }
 
-    public void initialize (List<Turtle> turtles) {
+    public void initialize (List<SingleTurtle> turtles) {
         myTurtleData.addAll(turtles.stream().map(this::makeTurtleData)
                 .collect(Collectors.toList()));
     }
     
     // add checkIfClear method to add lines, listener that checks if a turtle is cleared, if it is, needs to 
     // clear line data
-    public void update (List<Turtle> turtles) {
+    public void update (List<SingleTurtle> turtles) {
     	checkIfClear(turtles);
         addLines(turtles);
         setTurtleData(turtles);
     }
     
-    private void checkIfClear(List<Turtle> turtles) {
-    	for (Turtle current: turtles) {
+    private void checkIfClear(List<SingleTurtle> turtles) {
+    	for (SingleTurtle current: turtles) {
     		if (current.getLineDatas().isEmpty())
     			myLines.clear();
     	}
     }
  
-    private void addLines (List<Turtle> turtles) {
-        for (Turtle t : turtles) { // could possibly use lambda
+    private void addLines (List<SingleTurtle> turtles) {
+        for (SingleTurtle t : turtles) { // could possibly use lambda
             myLines.addAll(t.getLineDatas());
         }
     }
 
-    private void setTurtleData (List<Turtle> turtles) {
+    private void setTurtleData (List<SingleTurtle> turtles) {
         myTurtleData.addAll(turtles.stream().map(this::makeTurtleData)
                             .collect(Collectors.toList()));
         //TODO: modify current TurtleData instead of creating new ones each time
@@ -56,7 +57,7 @@ public class ScreenData {
         return myTurtleData;
     }
 
-    private TurtleData makeTurtleData (Turtle t) {
+    private TurtleData makeTurtleData (SingleTurtle t) {
         return new TurtleData(t.getPosition().getX(), t.getPosition().getY(), t.getHeading(),
                               t.getId(), t.isVisible());
     }

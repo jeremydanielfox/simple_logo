@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import turtle.SingleTurtle;
 import model.Parser.TokenProperty;
-import model.Turtle;
 
 
 public final class NodeFactory {
@@ -29,7 +29,7 @@ public final class NodeFactory {
         String[] basicCmds = new String[] { "Constant", "Variable", "Command" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
-        reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {Turtle.class}),
+        reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {SingleTurtle.class}),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
         reflectionMap.put(new Wrapper("basic", new Class<?> [] {String.class}),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
@@ -53,7 +53,7 @@ public final class NodeFactory {
         return instance;
     }
 
-    public static TreeNode get (TokenProperty tokenProp, Turtle turtle) {
+    public static TreeNode get (TokenProperty tokenProp, SingleTurtle turtle) {
         String type = tokenProp.getType();
         String token = tokenProp.getToken();
         Wrapper wrapper = getWrapper(type);

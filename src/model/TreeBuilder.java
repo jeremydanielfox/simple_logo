@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import turtle.SingleTurtle;
 import model.Parser.TokenProperty;
 import model.node.CommandList;
 import model.node.EvalNode;
@@ -19,9 +20,9 @@ import Exceptions.UnexpectedEndOfInstructionsException;
 
 public class TreeBuilder {
     
-    private static Turtle myTurtle;
+    private static SingleTurtle myTurtle;
 
-    public static CommandList build (Turtle turtle, List<TokenProperty> tokenList) {
+    public static CommandList build (SingleTurtle turtle, List<TokenProperty> tokenList) {
         myTurtle = turtle;
         return buildCommandList(tokenList);
     }

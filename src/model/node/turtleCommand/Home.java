@@ -1,13 +1,13 @@
 package model.node.turtleCommand;
 
-import model.Turtle;
+import turtle.SingleTurtle;
 import model.node.ZeroArgOperation;
 
 public class Home extends ZeroArgOperation {
 
-    private Turtle myTurtle;
+    private SingleTurtle myTurtle;
     
-    public Home (Turtle t) {
+    public Home (SingleTurtle t) {
         myTurtle = t;
     }
 

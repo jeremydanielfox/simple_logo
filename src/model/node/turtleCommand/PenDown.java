@@ -1,13 +1,13 @@
 package model.node.turtleCommand;
 
-import model.Turtle;
+import turtle.SingleTurtle;
 import model.node.ZeroArgOperation;
 
 public class PenDown extends ZeroArgOperation {
 
-    private Turtle myTurtle;
+    private SingleTurtle myTurtle;
     
-    public PenDown (Turtle t) {
+    public PenDown (SingleTurtle t) {
         myTurtle = t;
     }
 

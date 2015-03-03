@@ -15,7 +15,7 @@ public class SingleLine implements Line {
 
     @Override
     public void beDrawn (Drawer drawer) {
-       drawer.draw(start, finish);
+       drawer.drawLine(start, finish);
     }
     
     public Point2D getStart () {

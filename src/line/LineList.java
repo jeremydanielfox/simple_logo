@@ -7,6 +7,7 @@ import javafx.geometry.Point2D;
 
 // would belong to a turtle
 public class LineList implements Line {
+    private static int ourId = 0;
 
     private int myId;
     private List<SingleLine> myList;

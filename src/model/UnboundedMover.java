@@ -1,5 +1,6 @@
 package model;
 
+import turtle.SingleTurtle;
 import javafx.geometry.Point2D;
 import line.SingleLine;
 
@@ -10,7 +11,7 @@ public class UnboundedMover implements Mover {
 	}
 
 	@Override
-	public void moveTurtle(Turtle turtle, PolarVector vector) {
+	public void moveTurtle(SingleTurtle turtle, PolarVector vector) {
 		double r = vector.getRadius();
 		double theta = vector.getTheta();
 		turtle.setHeading(turtle.getHeading() + theta);
@@ -25,7 +26,7 @@ public class UnboundedMover implements Mover {
 	}
 
 	@Override
-	public void drawLines(Turtle turtle) {
+	public void drawLines(SingleTurtle turtle) {
 		if (!turtle.isPenUp()) {
 			SingleLine temp = new SingleLine(turtle.getPreviousPosition(),
 					turtle.getPosition());

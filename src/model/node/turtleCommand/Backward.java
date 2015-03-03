@@ -1,13 +1,13 @@
 package model.node.turtleCommand;
 
-import model.Turtle;
+import turtle.SingleTurtle;
 import model.node.OneArgOperation;
 
 public class Backward extends OneArgOperation {
     
-    private Turtle myTurtle;
+    private SingleTurtle myTurtle;
     
-    public Backward (Turtle t) {
+    public Backward (SingleTurtle t) {
         myTurtle = t;
     }
     

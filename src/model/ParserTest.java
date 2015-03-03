@@ -8,15 +8,15 @@ import java.util.ResourceBundle;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
-import javafx.geometry.Point2D;
 import org.junit.Test;
+import turtle.SingleTurtle;
 
 
 public class ParserTest {
 
     private List<Entry<String, Pattern>> myPatterns;
     private Pattern pattern;
-    private Turtle myTurtle;
+    private SingleTurtle myTurtle;
 
     // @Test
     // public void testMultiply () {
@@ -27,7 +27,7 @@ public class ParserTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testMover () {
-        myTurtle = new Turtle(new Point2D(0, 0));
+        myTurtle = new SingleTurtle();
         myTurtle.rotate(45);
         myTurtle.translate(10);
 //        UnboundedMover mover = new UnboundedMover();

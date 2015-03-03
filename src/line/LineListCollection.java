@@ -7,6 +7,7 @@ import view.Drawer;
 
 // would belong to a workspace
 public class LineListCollection implements Line {
+    private static int ourId = 0;
 
     private int myId;
     private List<LineList> myLineLists;
@@ -19,6 +20,10 @@ public class LineListCollection implements Line {
     @Override
     public void beDrawn (Drawer drawer) {
         myLineLists.forEach(linelist -> linelist.beDrawn(drawer));
+    }
+    
+    public void beCleared (Drawer drawer) {
+        myLineLists.forEach(linelist -> linelist.clear());
     }
 
     public List<LineList> getLineLists () {
