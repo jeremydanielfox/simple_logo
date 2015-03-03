@@ -1,4 +1,4 @@
-package line;
+package model.line;
 
 import java.util.Collections;
 import java.util.List;

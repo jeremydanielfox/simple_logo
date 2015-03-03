@@ -15,8 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-import line.SingleLine;
 import model.TurtleData;
+import model.line.SingleLine;
 
 public class TurtleView {
 

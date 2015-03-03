@@ -2,7 +2,7 @@ package model;
 
 import turtle.SingleTurtle;
 import javafx.geometry.Point2D;
-import line.SingleLine;
+import model.line.SingleLine;
 
 public class UnboundedMover implements Mover {
 

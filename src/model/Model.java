@@ -13,9 +13,9 @@ import turtle.SingleTurtle;
 import turtle.TurtleList;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
-import line.LineListCollection;
 import model.Parser.TokenProperty;
 import model.database.Database;
+import model.line.LineListCollection;
 import model.node.CommandList;
 
 public class Model implements Receiver {

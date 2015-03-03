@@ -1,5 +1,6 @@
-package line;
+package model.line;
 
+import model.Drawable;
 import view.Drawer;
 
 

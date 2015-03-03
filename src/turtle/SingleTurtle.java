@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import view.Drawer;
 import javafx.geometry.Point2D;
-import line.LineList;
-import line.SingleLine;
 import model.Mover;
 import model.PolarVector;
 import model.UnboundedMover;
+import model.line.LineList;
+import model.line.SingleLine;
 
 
 public class SingleTurtle implements Turtle{

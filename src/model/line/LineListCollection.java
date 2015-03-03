@@ -1,12 +1,13 @@
-package line;
+package model.line;
 
 import java.util.Collections;
 import java.util.List;
+import model.Drawable;
 import view.Drawer;
 
 
 // would belong to a workspace
-public class LineListCollection implements Line {
+public class LineListCollection implements Line, Drawable {
     private static int ourId = 0;
 
     private int myId;

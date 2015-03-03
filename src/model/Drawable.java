@@ -1,5 +1,6 @@
 package model;
 
+import view.Drawer;
 import view.TurtleView;
 
 /**
@@ -7,8 +8,9 @@ import view.TurtleView;
  * @author Jeremy
  *
  */
-public abstract class Drawable {
+public interface Drawable {
 
-	public abstract void Draw(TurtleView tv);
-	public abstract void Clear(TurtleView tv);
+    public void beDrawn (Drawer drawer);
+    
+    public void beCleared (Drawer drawer);
 }
