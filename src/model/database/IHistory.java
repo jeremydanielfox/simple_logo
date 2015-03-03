@@ -8,7 +8,7 @@ import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.basic.Variable;
 
-public interface History {
+public interface IHistory {
     
     public void putVariable (String name, EvalNode node);
     

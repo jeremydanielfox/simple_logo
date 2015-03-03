@@ -28,7 +28,7 @@ public class UnboundedMover implements Mover {
 	@Override
 	public void drawLines(SingleTurtle turtle) {
 		if (!turtle.isPenUp()) {
-			SingleLine temp = new SingleLine(turtle.getPreviousPosition(),
+			SingleLine temp = new SingleLine(turtle.getLastPosition(),
 					turtle.getPosition());
 			turtle.addLine(temp);
 			System.out.println(temp.toString());

@@ -17,8 +17,6 @@ import model.node.TreeNode;
 
 public final class Database {
 
-
-
     private static Database instance;
     private static Map<String, EvalNode> varsMap = new HashMap<String, EvalNode>();
     private static Map<String, CommandWrapper> cmdsMap = new HashMap<String, CommandWrapper>();

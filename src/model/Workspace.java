@@ -11,12 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import line.LineListCollection;
 import model.database.Database.CommandWrapper;
-import model.database.History;
+import model.database.IHistory;
 import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.basic.Variable;
 
-public class Workspace implements History {
+public class Workspace implements IHistory {
     private static int ourId = 0;
     
     private int myId;

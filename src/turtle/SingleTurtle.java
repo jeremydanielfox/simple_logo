@@ -84,13 +84,13 @@ public class SingleTurtle implements Turtle{
         return myId;
     }
 
-    protected void setPosition (Point2D position) {
+    public void setPosition (Point2D position) {
         myLastPosition = new Point2D(myPosition.getX(), myPosition.getY());
         myPosition = position;
     }
 
     // heading must be between 0 and 360
-    protected void setHeading (double heading) {
+    public void setHeading (double heading) {
         if (heading >= 0 && heading < 360) {
             myHeading = heading;
             return;
@@ -103,7 +103,7 @@ public class SingleTurtle implements Turtle{
         }
     }
 
-    protected void addLine (SingleLine data) {
+    public void addLine (SingleLine data) {
         myLines.add(data);
     }
 
@@ -111,7 +111,7 @@ public class SingleTurtle implements Turtle{
         return myPosition;
     }
 
-    protected Point2D getPreviousPosition () {
+    public Point2D getLastPosition () {
         return myLastPosition;
     }
 
@@ -147,7 +147,7 @@ public class SingleTurtle implements Turtle{
         return visible;
     }
 
-    protected boolean isPenUp () {
+    public boolean isPenUp () {
         return penUp;
     }
 }

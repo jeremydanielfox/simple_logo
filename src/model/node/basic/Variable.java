@@ -2,16 +2,20 @@ package model.node.basic;
 
 import java.util.Optional;
 import model.database.Database;
+import model.database.Writer;
 import model.node.EvalNode;
 import model.node.ZeroArgOperation;
+import model.writable.Writable;
 
 
 public class Variable extends ZeroArgOperation {
 
     protected String myName;
+    private Writer myWriter;
 
-    public Variable (String name) {
+    public Variable (Writer writer, String name) {
         myName = name;
+        myWriter = writer;
     }
 
     @Override
