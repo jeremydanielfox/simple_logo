@@ -47,7 +47,7 @@ public class Repeat extends EvalNode {
         // TODO: could hold multiple Nodes (e.g repeat 10 [fd 10 rt 90] )
         return (EvalNode) getEvalChild("commands");
     }
-    
+
     @Override
     protected ChildBuilder[] addChildBuilders () {
         return new ChildBuilder[] { new ChildBuilder("max", EvalNode.class),

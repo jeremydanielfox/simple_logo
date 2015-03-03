@@ -1,13 +1,16 @@
 package model;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.AbstractMap.SimpleEntry;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+
+import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import model.Parser.TokenProperty;
 import model.database.Database;
@@ -66,5 +69,9 @@ public class Model implements Receiver {
 		myScreenData.update(Arrays.asList((myTurtle)));
 
 //		myTurtle = myScreenData.getTurtle();
+	}
+	
+	public void initializeNewWorkspace(Map<String,ObservableList<Drawable>> workspaceParams) {
+		//TODO: Implement this method
 	}
 }

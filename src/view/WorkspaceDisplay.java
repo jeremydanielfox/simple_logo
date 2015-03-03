@@ -3,15 +3,19 @@ package view;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import model.Receiver;
+import model.database.Database;
 
-public class Workspace {
+public class WorkspaceDisplay {
 
-	BorderPane myRoot;
-	TurtleView myTurtleView;
-	HistoryPane myHistory;
-	VariablePane myVariables;
+	private BorderPane myRoot;
+	private TurtleView myTurtleView;
+	private HistoryPane myHistory;
+	private VariablePane myVariables;
+	private Database myDatabase;
+	private static int myID = -1;
 
-	public Workspace() {
+	public WorkspaceDisplay(Database db) {
+		myID++;
 	}
 
 	public Node init(Receiver receiver) {
@@ -19,6 +23,8 @@ public class Workspace {
 		myRoot.setRight(makeHistory(receiver));
 		myRoot.setCenter(makeTurtleView());
 		myRoot.setLeft(makeVariables(receiver));
+		Feed feed = new Feed(receiver, myDatabase);
+		myRoot.setBottom(feed.getFeed());
 		return myRoot;
 	}
 
@@ -40,12 +46,20 @@ public class Workspace {
 		return tvNode;
 	}
 
-	public TurtleView getTV() {
+	public TurtleView getTurtleView() {
 		return this.myTurtleView;
 	}
-	
+
 	public Node getRoot() {
 		return myRoot;
+	}
+
+	public VariablePane getVariablePane() {
+		return myVariables;
+	}
+
+	public HistoryPane getHistoryPane() {
+		return myHistory;
 	}
 
 }

@@ -1,6 +1,7 @@
 package model;
 
 import javafx.geometry.Point2D;
+import line.SingleLine;
 
 public class UnboundedMover implements Mover {
 
@@ -26,7 +27,7 @@ public class UnboundedMover implements Mover {
 	@Override
 	public void drawLines(Turtle turtle) {
 		if (!turtle.isPenUp()) {
-			LineData temp = new LineData(turtle.getPreviousPosition(),
+			SingleLine temp = new SingleLine(turtle.getPreviousPosition(),
 					turtle.getPosition());
 			turtle.addLine(temp);
 			System.out.println(temp.toString());

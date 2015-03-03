@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javafx.geometry.Point2D;
+import line.LineList;
+import line.SingleLine;
 
 
 public class Turtle {
@@ -12,7 +14,8 @@ public class Turtle {
     private Point2D myPosition;
     private Point2D myPreviousPosition;
     private double myHeading;
-    private List<LineData> myLines;
+    private LineList myLines;
+    //private List<SingleLine> myLines;
     private boolean visible;
     private boolean penUp;
 
@@ -30,7 +33,7 @@ public class Turtle {
         myPosition = HOME;
         myPreviousPosition = HOME; // seems sloppy...
         myHeading = 0;
-        myLines = new ArrayList<LineData>();
+        myLines = new LineList(myId, new ArrayList<SingleLine>());
         visible = true;
         penUp = false;
     }
@@ -92,7 +95,7 @@ public class Turtle {
         }
     }
 
-    protected void addLine (LineData data) {
+    protected void addLine (SingleLine data) {
         myLines.add(data);
     }
 
@@ -108,8 +111,8 @@ public class Turtle {
         return myHeading;
     }
 
-    protected List<LineData> getLineDatas () {
-        return Collections.unmodifiableList(myLines);
+    protected LineList getLines () {
+        return myLines;
     }
 
     public double setVisible () {
