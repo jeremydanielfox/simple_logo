@@ -1,7 +1,7 @@
 package view;
 
-import model.Receiver;
-import model.database.Database;
+import java.util.HashMap;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -17,10 +17,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import model.Receiver;
+import model.database.Database;
 
 public class VariablePane {
 
-	private Database myData;
 	private Receiver myReceiver;
 	private BorderPane myRoot;
 	private VBox myVBox;
@@ -29,24 +30,24 @@ public class VariablePane {
 	private ObservableList<String> myList;
 	private Stage myStage;
 
-	public VariablePane(Receiver receiver, Database db) {
+	public VariablePane(Receiver receiver) {
 		myReceiver = receiver;
-		myData = db;
 	}
 
 	public Node init() {
-//		myData = Database.getInstance();
 		myVBox = new VBox();
+		myMap = FXCollections.observableHashMap();
 		HBox titleBox = new HBox();
 		Label title = new Label("Variables");
 		title.setFont(new Font(30));
 		Button editButton = new Button("Edit");
-		editButton.setOnMouseClicked(e -> handleEditInput(myListView.getSelectionModel().getSelectedItem()));
+		editButton.setOnMouseClicked(e -> handleEditInput(myListView
+				.getSelectionModel().getSelectedItem()));
 		editButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		Button addButton = new Button("Add");
-		addButton.setOnMouseClicked(e -> handleAddInput(myListView.getSelectionModel().getSelectedItem()));
+		addButton.setOnMouseClicked(e -> handleAddInput(myListView
+				.getSelectionModel().getSelectedItem()));
 		addButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		myMap = myData.getVarsHistory();
 		myList = FXCollections.observableArrayList(myMap.keySet());
 		myListView = new ListView<String>(myList);
 		myListView.setPrefHeight(0);
@@ -64,13 +65,14 @@ public class VariablePane {
 		Label myVarName = new Label(name);
 		TextField myVarText = new TextField(myMap.get(name));
 		Button doneButton = new Button("Done");
-		doneButton.setOnMouseClicked(e -> handleEditOutput(name, myVarText.getText()));
+		doneButton.setOnMouseClicked(e -> handleEditOutput(name,
+				myVarText.getText()));
 		myRoot.getChildren().addAll(myVarName, myVarText, doneButton);
 		Scene myScene = new Scene(myRoot);
 		myStage.setScene(myScene);
 		myStage.show();
 	}
-	
+
 	private void handleEditOutput(String name, String value) {
 		myReceiver.giveText("set " + name + " " + value);
 		myMap.put(name, value);
@@ -79,6 +81,10 @@ public class VariablePane {
 
 	private void handleAddInput(String var) {
 		Feed.addText(var);
+	}
+
+	public void put(String key, String value) {
+		myMap.put(key, value);
 	}
 
 }

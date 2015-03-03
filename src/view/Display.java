@@ -30,7 +30,7 @@ public class Display {
 	private BorderPane myRoot;
 	private MenuBar myMenuBar;
 	private TabPane myWorkspaceDisplays;
-	private Collection<Workspace> myWorkspaces;
+	private Collection<WorkspaceDisplay> myWorkspaces;
 	private Feed myFeed;
 	private Model myModel;
 	private static final double TAB_MIN_WIDTH = 50;
@@ -67,11 +67,11 @@ public class Display {
 	private void setupWorkspaces(Receiver receiver, Database db) {
 		myWorkspaceDisplays = new TabPane();
 		myWorkspaceDisplays.setTabMinWidth(TAB_MIN_WIDTH);
-		makeWorkspace(receiver, db);
+		makeWorkspaceDisplay(receiver, db);
 	}
 
-	public void makeWorkspace(Receiver receiver, Database db) {
-		Workspace myWorkspace = new Workspace(db);
+	public void makeWorkspaceDisplay(Receiver receiver, Database db) {
+		WorkspaceDisplay myWorkspace = new WorkspaceDisplay(db);
 		Node workspaceNode = myWorkspace.init(receiver);
 		myWorkspaces.add(myWorkspace);
 		Tab tab = new Tab();
@@ -120,10 +120,10 @@ public class Display {
 		return myRoot;
 	}
 
-	public Workspace getSelectedWorkspace() {
+	public WorkspaceDisplay getSelectedWorkspace() {
 		for (Tab currentTab : myWorkspaceDisplays.getTabs()) {
 			if (currentTab.isSelected())
-				for (Workspace currentWS : myWorkspaces) {
+				for (WorkspaceDisplay currentWS : myWorkspaces) {
 					if (currentWS.getRoot().equals(currentTab.getContent()))
 						return currentWS;
 				}

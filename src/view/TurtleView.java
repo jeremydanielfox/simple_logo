@@ -53,7 +53,7 @@ public class TurtleView {
 		setBackgroundColor(BACKGROUND_COLOR);
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myLineCanvas,
-				myTurtleCanvas,myTurtlesGroup);
+				myTurtleCanvas, myTurtlesGroup);
 
 		myLineCanvas.widthProperty()
 				.bind(myLayers.widthProperty().subtract(20));
@@ -67,6 +67,18 @@ public class TurtleView {
 		myLineCanvas.heightProperty().addListener(observable -> redraw());
 		myTurtleCanvas.widthProperty().addListener(observable -> redraw());
 		myTurtleCanvas.heightProperty().addListener(observable -> redraw());
+	}
+
+	public GraphicsContext getTurtleGraphicsContext() {
+		return myTurtleGC;
+	}
+
+	public GraphicsContext getLineGraphicsContext() {
+		return myLineGC;
+	}
+
+	public Canvas getTurtleCanvas() {
+		return myTurtleCanvas;
 	}
 
 	private void redraw() {
@@ -107,40 +119,41 @@ public class TurtleView {
 	}
 
 	public void drawTurtle(TurtleData currentData) {
-		drawRotatedImage(myTurtleGC, turtleImage, currentData.getHeading(),
+		drawRotatedTurtle(myTurtleGC, currentData.getHeading(),
 				currentData.getX(), currentData.getY());
-//		TurtleImage inList = getTurtleImage(currentData);
-//		
-//		if (inList==null) {
-//			TurtleImage temp = new TurtleImage(currentData.getX(),
-//					currentData.getY(), currentData.getHeading(), turtleImage);
-//			myTurtlesGroup.getChildren().add(temp);
-//			myTurtlesList.add(temp);
-//		}
-//		else {
-//			System.out.println(inList.getTranslateX());
-//			inList.setTranslateX(inList.getX()-100);
-//			inList.setOpacity(0.5);
-//			System.out.println(inList.getTranslateX());
-//////			inList.setX(inList.getX()+currentData.getX());
-//////			inList.setY(inList.getY()+currentData.getY());
-////			TranslateTransition tt = new TranslateTransition(Duration.seconds(3),inList);
-////			tt.setFromX(inList.getX());
-////			tt.setFromY(inList.getY());
-////			tt.setToX(inList.getX()+currentData.getX());
-////			tt.setToY(inList.getY()+currentData.getY());
-//////			tt.setByX(currentData.getX());
-//////			tt.setByY(currentData.getY());
-////			tt.setCycleCount(Timeline.INDEFINITE);
-////			tt.play();
-//////			inList.setTranslateX(currentData.getX());
-//////			inList.setTranslateY(currentData.getY());
-//////			inList.setRotate(currentData.getHeading());
-//		}
+		// TurtleImage inList = getTurtleImage(currentData);
+		//
+		// if (inList==null) {
+		// TurtleImage temp = new TurtleImage(currentData.getX(),
+		// currentData.getY(), currentData.getHeading(), turtleImage);
+		// myTurtlesGroup.getChildren().add(temp);
+		// myTurtlesList.add(temp);
+		// }
+		// else {
+		// System.out.println(inList.getTranslateX());
+		// inList.setTranslateX(inList.getX()-100);
+		// inList.setOpacity(0.5);
+		// System.out.println(inList.getTranslateX());
+		// //// inList.setX(inList.getX()+currentData.getX());
+		// //// inList.setY(inList.getY()+currentData.getY());
+		// // TranslateTransition tt = new
+		// TranslateTransition(Duration.seconds(3),inList);
+		// // tt.setFromX(inList.getX());
+		// // tt.setFromY(inList.getY());
+		// // tt.setToX(inList.getX()+currentData.getX());
+		// // tt.setToY(inList.getY()+currentData.getY());
+		// //// tt.setByX(currentData.getX());
+		// //// tt.setByY(currentData.getY());
+		// // tt.setCycleCount(Timeline.INDEFINITE);
+		// // tt.play();
+		// //// inList.setTranslateX(currentData.getX());
+		// //// inList.setTranslateY(currentData.getY());
+		// //// inList.setRotate(currentData.getHeading());
+		// }
 	}
-	
+
 	private TurtleImage getTurtleImage(TurtleData data) {
-		for (TurtleImage current: myTurtlesList) {
+		for (TurtleImage current : myTurtlesList) {
 			if (current.getID() == data.getID())
 				return current;
 		}
@@ -168,8 +181,9 @@ public class TurtleView {
 	 *            the top left y coordinate where the image will be plotted (in
 	 *            canvas coordinates).
 	 */
-	private void drawRotatedImage(GraphicsContext gc, Image image,
-			double angle, double tlpx, double tlpy) {
+	public void drawRotatedTurtle(GraphicsContext gc, double angle,
+			double tlpx, double tlpy) {
+		Image image = turtleImage;
 		gc.save(); // saves the current state on stack, including the current
 					// transform
 		rotate(gc, angle, tlpx + image.getWidth() / 2, tlpy + image.getHeight()
@@ -203,7 +217,7 @@ public class TurtleView {
 		myTurtleGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
 	}
-	
+
 	public void clearLines() {
 		myLineGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
