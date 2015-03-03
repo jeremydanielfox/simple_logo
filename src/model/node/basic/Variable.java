@@ -16,8 +16,9 @@ public class Variable extends ZeroArgOperation {
 
     @Override
     public double evaluate () {
-        Optional<String> opt = Optional.of(myName);
-        EvalNode node = opt.map(Database.getInstance()::getVariable).orElseGet(() -> new Constant("0"));
+        EvalNode node =
+                Optional.of(myName).map(Database.getInstance()::getVariable)
+                        .orElseGet( () -> new Constant("0"));
         return node.evaluate();
     }
 
@@ -25,7 +26,7 @@ public class Variable extends ZeroArgOperation {
     public void update (double value) {
         Database.getInstance().putVariable(myName, new Constant(String.valueOf(value)));
     }
-    
+
     @Override
     public String toString () {
         return myName;

@@ -29,17 +29,17 @@ public final class NodeFactory {
         String[] basicCmds = new String[] { "Constant", "Variable", "Command" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
-        reflectionMap.put(new Wrapper("turtleCommand", Turtle.class),
+        reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {Turtle.class}),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
-        reflectionMap.put(new Wrapper("basic", String.class),
+        reflectionMap.put(new Wrapper("basic", new Class<?> [] {String.class}),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
-        reflectionMap.put(new Wrapper("mathOperation", null),
+        reflectionMap.put(new Wrapper("mathOperation", new Class<?>[0]),
                           new ArrayList<String>(Arrays.asList(mathOpCmds)));
-        reflectionMap.put(new Wrapper("booleanOperation", null),
+        reflectionMap.put(new Wrapper("booleanOperation", new Class<?>[0]),
                           new ArrayList<String>(Arrays.asList(boolCmds)));
-        reflectionMap.put(new Wrapper("controlStructure", null),
+        reflectionMap.put(new Wrapper("controlStructure", new Class<?>[0]),
                           new ArrayList<String>(Arrays.asList(ctrlStructCmds)));
-        reflectionMap.put(new Wrapper("syntax", null),
+        reflectionMap.put(new Wrapper("syntax", new Class<?>[0]),
                           new ArrayList<String>(Arrays.asList(syntaxCmds)));
     }
 
@@ -87,7 +87,7 @@ public final class NodeFactory {
         // TODO: look into oodesign pattern, intializing within the node itself
         else {
             try {
-                return reflectionFactory(wrapper.getPackage(), type);
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), new Object[0]);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -99,8 +99,8 @@ public final class NodeFactory {
 
     private static TreeNode reflectionFactory (String packageName,
                                                String type,
-                                               Class<?> argType,
-                                               Object arg)
+                                               Class<?>[] argType,
+                                               Object... arg)
                                                           throws Exception {
         try {
             Class<?> targetClass =
@@ -122,29 +122,6 @@ public final class NodeFactory {
         }
     }
 
-    private static TreeNode reflectionFactory (String packageName,
-                                               String type)
-                                                           throws Exception {
-        try {
-            Class<?> targetClass =
-                    Class.forName(String.format("model.node.%s.%s", packageName, type));
-            try {
-                Constructor<?> constructor = targetClass.getConstructor();
-                return (TreeNode) constructor.newInstance();
-
-            }
-            catch (NoSuchMethodException | SecurityException e) {
-                System.err.println("incorrect constructor");
-                e.printStackTrace();
-                throw new RuntimeException(); // do something other than throw error to stop program
-            }
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(); // do something other than throw error to stop program
-        }
-    }
-
     private static Wrapper getWrapper (String type) {
         for (Wrapper w : reflectionMap.keySet()) {
             if (reflectionMap.get(w).contains(type)) { return w; }
@@ -155,9 +132,9 @@ public final class NodeFactory {
 
     static class Wrapper {
         private String name;
-        private Class<?> arg;
+        private Class<?> [] arg;
 
-        public Wrapper (String packageName, Class<?> constructorArg) {
+        public Wrapper (String packageName, Class<?>[] constructorArg) {
             this.name = packageName;
             this.arg = constructorArg;
         }
@@ -166,7 +143,7 @@ public final class NodeFactory {
             return name;
         }
 
-        public Class<?> getArg () {
+        public Class<?>[] getArg () {
             return arg;
         }
     }

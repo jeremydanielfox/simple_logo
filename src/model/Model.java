@@ -17,10 +17,11 @@ public class Model implements Receiver {
 	private List<Entry<String, Pattern>> myPatterns;
 	private Turtle myTurtle;
 	private ScreenData myScreenData;
+	//private List<Workspace> myWorkspaces;
 
 	public Model(Point2D offset) {
 		myTurtle = new Turtle(offset);
-//		myScreenData.update(Arrays.asList((myTurtle)));
+		//myScreenData.update(Arrays.asList((myTurtle)));
 	}
 
 	public void giveText(String text) {
