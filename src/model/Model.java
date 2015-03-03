@@ -16,14 +16,14 @@ import model.Parser.TokenProperty;
 import model.database.Database;
 import model.node.CommandList;
 
-public class Model implements Receiver {
+public class Model implements Receiver, LanguageSetter {
 	private List<Entry<String, Pattern>> myPatterns;
 	private Turtle myTurtle;
 	private ScreenData myScreenData;
 
 	public Model(Point2D offset) {
 		myTurtle = new Turtle(offset);
-//		myScreenData.update(Arrays.asList((myTurtle)));
+		// myScreenData.update(Arrays.asList((myTurtle)));
 	}
 
 	public void giveText(String text) {
@@ -31,18 +31,18 @@ public class Model implements Receiver {
 	}
 
 	public ScreenData updateModel(String feed) {
-            Database.getInstance().addFeed(feed);
-            Parser parser = new Parser(myPatterns);
-            List<TokenProperty> feedList = parser.parse(feed);
-            CommandList tree = TreeBuilder.build(myTurtle, feedList);
-            //CommandList tree = parser.parse(feed);
-            tree.evaluate();
-            
-            //Database.getInstance().printVarsHistory(); //for testing
-            
-            myScreenData.update(Arrays.asList(myTurtle));
-            return myScreenData;
-        }
+		Database.getInstance().addFeed(feed);
+		Parser parser = new Parser(myPatterns);
+		List<TokenProperty> feedList = parser.parse(feed);
+		CommandList tree = TreeBuilder.build(myTurtle, feedList);
+		// CommandList tree = parser.parse(feed);
+		tree.evaluate();
+
+		// Database.getInstance().printVarsHistory(); //for testing
+
+		myScreenData.update(Arrays.asList(myTurtle));
+		return myScreenData;
+	}
 
 	public void setLanguage(String language) {
 		myPatterns = makePatterns(language);
@@ -67,10 +67,11 @@ public class Model implements Receiver {
 		myScreenData = sd;
 		myScreenData.update(Arrays.asList((myTurtle)));
 
-//		myTurtle = myScreenData.getTurtle();
+		// myTurtle = myScreenData.getTurtle();
 	}
-	
-	public void initializeNewWorkspace(Map<String,ObservableList<Drawable>> workspaceParams) {
-		//TODO: Implement this method
+
+	public void initializeNewWorkspace(
+			Map<String, ObservableList<Drawable>> workspaceParams) {
+		// TODO: Implement this method
 	}
 }

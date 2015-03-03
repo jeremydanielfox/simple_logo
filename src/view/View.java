@@ -13,30 +13,21 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Drawable;
+import model.LanguageSetter;
 import model.Model;
 import model.Receiver;
-import model.ScreenData;
-import model.database.Database;
 
 public class View implements WorkspaceCreator {
 
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/view");
 
-	private static View instance;
 	private Stage myStage;
 	private Model myModel;
 	private Display myDisplay;
 
 	public View() {
 	}
-
-	// remove this getInstance method
-	// public View getInstance() {
-	// if (instance == null)
-	// instance = new View();
-	// return instance;
-	// }
 
 	public void init(Stage s) {
 		myStage = s;
@@ -46,9 +37,8 @@ public class View implements WorkspaceCreator {
 				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
 		myDisplay = Display.getInstance();
-		Scene scene = myDisplay.init(makeDatabase(), myModel);
+		Scene scene = myDisplay.init(myModel);
 		makeWorkspace();
-		// CommandSender.setReceiver((Receiver) myModel);
 		myStage.setScene(scene);
 		myStage.show();
 	}
@@ -95,35 +85,10 @@ public class View implements WorkspaceCreator {
 					.put(c.getKey(), c.getValueAdded());
 		});
 		myModel.initializeNewWorkspace(myDrawables);
-		myDisplay.makeWorkspaceDisplay((Receiver) myModel, null);
+		myDisplay.makeWorkspaceDisplay((Receiver) myModel);
 	}
 
-	public Model getModel() {
-		return myModel;
-		// }
-		//
-		// private Database makeDatabase() {
-		// ObservableList<String> feed = FXCollections.observableArrayList();
-		// ObservableMap<String, String> vars = FXCollections
-		// .observableMap(new HashMap<String, String>());
-		// vars.addListener(new MapChangeListener<String, String>() {
-		//
-		// @Override
-		// public void onChanged(
-		// javafx.collections.MapChangeListener.Change<? extends String, ?
-		// extends String> change) {
-		// // TODO Auto-generated method stub
-		// if (change.wasAdded()) {
-		//
-		// }
-		//
-		// }
-		//
-		// });
-		// ObservableMap<String, String> cmds = FXCollections
-		// .observableMap(new HashMap<String, String>());
-		// return new Database(feed, vars, cmds);
-		// }
-
+	public LanguageSetter getLanguageSetter() {
+		return (LanguageSetter) myModel;
 	}
 }
