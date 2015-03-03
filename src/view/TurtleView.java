@@ -3,7 +3,6 @@ package view;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
-
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
@@ -16,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-import model.LineData;
+import line.SingleLine;
 import model.TurtleData;
 
 public class TurtleView {
@@ -113,7 +112,7 @@ public class TurtleView {
 		turtleImage = img;
 	}
 
-	public void drawLines(LineData current) {
+	public void drawLines(SingleLine current) {
 		myLineGC.strokeLine(current.getStart().getX(), current.getStart()
 				.getY(), current.getFinish().getX(), current.getFinish().getY());
 	}

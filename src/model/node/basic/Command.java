@@ -6,6 +6,7 @@ import Exceptions.UnrecognizedTokenException;
 import model.database.Database;
 import model.node.ChildBuilder;
 import model.node.EvalNode;
+import model.writable.Writable;
 
 
 public class Command extends EvalNode {

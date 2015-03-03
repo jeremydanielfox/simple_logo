@@ -51,17 +51,31 @@ public class TurtleData extends Drawable {
 		myVisible = visible;
 	}
 
-	@Override
+	
 	public void Draw(TurtleView tv) {
 		tv.drawRotatedTurtle(tv.getTurtleGraphicsContext(), this.getHeading(),
 				this.getX(), this.getY());
 
 	}
 
-	@Override
+	
 	public void Clear(TurtleView tv) {
 		tv.getTurtleGraphicsContext().clearRect(0, 0,
 				tv.getTurtleCanvas().getWidth(),
 				tv.getTurtleCanvas().getHeight());
 	}
+
+//	@Override
+//	public void Draw(TurtleView tv) {
+//		tv.drawRotatedTurtle(tv.getTurtleGraphicsContext(), this.getHeading(),
+//				this.getX(), this.getY());
+//
+//	}
+//
+//	@Override
+//	public void Clear(TurtleView tv) {
+//		tv.getTurtleGraphicsContext().clearRect(0, 0,
+//				tv.getTurtleCanvas().getWidth(),
+//				tv.getTurtleCanvas().getHeight());
+//	}
 }

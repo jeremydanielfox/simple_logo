@@ -1,18 +1,25 @@
-package model;
+package turtle;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import view.Drawer;
 import javafx.geometry.Point2D;
+import line.LineList;
+import line.SingleLine;
+import model.Mover;
+import model.PolarVector;
+import model.UnboundedMover;
 
 
-public class Turtle {
+public class SingleTurtle implements Turtle{
     private static int ourId = 0;
 
     private Point2D myPosition;
-    private Point2D myPreviousPosition;
+    private Point2D myLastPosition;
     private double myHeading;
-    private List<LineData> myLines;
+    private LineList myLines;
+    //private List<SingleLine> myLines;
     private boolean visible;
     private boolean penUp;
 
@@ -24,15 +31,20 @@ public class Turtle {
         ourId = -1;
     }
 
-    public Turtle (Point2D offset) {
-    	HOME = offset;
+    public SingleTurtle () {
+    	//HOME = offset;
         myId = ourId++;
         myPosition = HOME;
-        myPreviousPosition = HOME; // seems sloppy...
+        myLastPosition = HOME;
         myHeading = 0;
-        myLines = new ArrayList<LineData>();
+        myLines = new LineList(myId, new ArrayList<SingleLine>());
         visible = true;
         penUp = false;
+    }
+    
+    @Override
+    public void beDrawn (Drawer drawer) {
+        drawer.drawTurtle(myPosition, myHeading, visible);
     }
 
     public void move (PolarVector vector) {
@@ -40,9 +52,8 @@ public class Turtle {
         // update TurtleData, add to list somewhere...
     }
 
-    public double translate (double distance) {
+    public void translate (double distance) {
         move(new PolarVector(distance, 0));
-        return distance;
     }
 
     public double rotate (double angle) {
@@ -73,13 +84,13 @@ public class Turtle {
         return myId;
     }
 
-    protected void setPosition (Point2D position) {
-        myPreviousPosition = new Point2D(myPosition.getX(), myPosition.getY());
+    public void setPosition (Point2D position) {
+        myLastPosition = new Point2D(myPosition.getX(), myPosition.getY());
         myPosition = position;
     }
 
     // heading must be between 0 and 360
-    protected void setHeading (double heading) {
+    public void setHeading (double heading) {
         if (heading >= 0 && heading < 360) {
             myHeading = heading;
             return;
@@ -92,7 +103,7 @@ public class Turtle {
         }
     }
 
-    protected void addLine (LineData data) {
+    public void addLine (SingleLine data) {
         myLines.add(data);
     }
 
@@ -100,16 +111,16 @@ public class Turtle {
         return myPosition;
     }
 
-    protected Point2D getPreviousPosition () {
-        return myPreviousPosition;
+    public Point2D getLastPosition () {
+        return myLastPosition;
     }
 
     public double getHeading () {
         return myHeading;
     }
 
-    protected List<LineData> getLineDatas () {
-        return Collections.unmodifiableList(myLines);
+    protected LineList getLines () {
+        return myLines;
     }
 
     public double setVisible () {
@@ -136,8 +147,7 @@ public class Turtle {
         return visible;
     }
 
-    protected boolean isPenUp () {
+    public boolean isPenUp () {
         return penUp;
     }
-
 }

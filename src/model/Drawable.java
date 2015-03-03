@@ -7,8 +7,8 @@ import view.TurtleView;
  * @author Jeremy
  *
  */
-public abstract class Drawable {
+public interface Drawable {
 
-	public abstract void Draw(TurtleView tv);
-	public abstract void Clear(TurtleView tv);
+	public abstract void draw(TurtleView tv);
+	public abstract void clear(TurtleView tv);
 }

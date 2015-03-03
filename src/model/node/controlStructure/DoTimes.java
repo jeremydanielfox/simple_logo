@@ -15,15 +15,10 @@ public class DoTimes extends Repeat {
         updateVar(0);
         return 0;
     }
-    
-    @Override
-    protected Variable getVarChild () {
-        return (Variable) getEvalChild("var");
-    }
 
     @Override
     protected void updateVar (double value) {
-        getVarChild().update(value);
+        ((Variable) getEvalChild("var")).update(value);
     }
 
     @Override

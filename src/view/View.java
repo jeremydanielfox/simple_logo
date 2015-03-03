@@ -16,6 +16,10 @@ import model.Drawable;
 import model.LanguageSetter;
 import model.Model;
 import model.Receiver;
+<<<<<<< HEAD
+=======
+import model.database.Database;
+>>>>>>> c2dd9120c89819b6bbe3e862106d68a8e3c98f53
 
 public class View implements WorkspaceCreator {
 

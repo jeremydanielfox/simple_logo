@@ -81,7 +81,6 @@ public final class Database {
         return definingSignal;
     }
 
-
 //	public static synchronized Database getInstance() {
 //		if (instance == null)
 //			instance = new Database();
@@ -94,6 +93,14 @@ public final class Database {
 	public EvalNode getVariable(String name) {
 		return varsMap.get(name);
 	}
+
+
+
+//	public static synchronized Database getInstance() {
+//		if (instance == null)
+//			instance = new Database();
+//		return instance;
+//	}
 
 
     public CommandWrapper getCommand (String name) {
