@@ -1,9 +1,10 @@
 package model.turtle;
 
+import model.Drawable;
 import javafx.geometry.Point2D;
 import view.Drawer;
 
-public interface Turtle {
+public interface Turtle extends Drawable{
 
     public void beDrawn(Drawer drawer);
     

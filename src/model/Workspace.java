@@ -39,13 +39,13 @@ public class Workspace implements IHistory {
             .observableMap(new HashMap<String, String>());
     
     
-    public Workspace(TurtleList turtles, LineListCollection linelists){
+    public Workspace(){
         myId = ourId++;
-        myTurtles = turtles;
-        myLineLists = linelists;
-        
-        // initializes one turtle by default
+        myTurtles = new TurtleList(myId);
         addTurtle();
+        // initializes one by default
+        myLineLists = new LineListCollection(myId, myTurtles);
+        
     }
     
     // adds turtles one at time

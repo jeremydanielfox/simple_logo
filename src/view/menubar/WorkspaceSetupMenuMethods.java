@@ -22,7 +22,7 @@ public class WorkspaceSetupMenuMethods {
 	}
 
 	public void newWorkspace() {
-		Display.getInstance().makeWorkspaceDisplay(null,null);
+		Display.getInstance().makeWorkspaceDisplay(null);
 	}
 	
 	public void loadPresetWorkspace() {

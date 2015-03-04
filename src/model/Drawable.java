@@ -1,7 +1,6 @@
 package model;
 
 import view.Drawer;
-import view.TurtleView;
 
 /**
  * 
@@ -11,4 +10,5 @@ import view.TurtleView;
 public interface Drawable {
 
     public void beDrawn (Drawer drawer);
+
 }

@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import model.Receiver;
 import model.database.Database;
+import model.line.LineListCollection;
 
 public class WorkspaceDisplay {
 
@@ -11,10 +12,10 @@ public class WorkspaceDisplay {
 	private TurtleView myTurtleView;
 	private HistoryPane myHistory;
 	private VariablePane myVariables;
-	private Database myDatabase;
 	private static int myID = -1;
 
-	public WorkspaceDisplay(Database db) {
+
+	public WorkspaceDisplay() {
 		myID++;
 	}
 
@@ -23,7 +24,7 @@ public class WorkspaceDisplay {
 		myRoot.setRight(makeHistory(receiver));
 		myRoot.setCenter(makeTurtleView());
 		myRoot.setLeft(makeVariables(receiver));
-		Feed feed = new Feed(receiver, myDatabase);
+		Feed feed = new Feed(receiver);
 		myRoot.setBottom(feed.getFeed());
 		return myRoot;
 	}

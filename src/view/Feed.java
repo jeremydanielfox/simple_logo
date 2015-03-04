@@ -1,7 +1,6 @@
 package view;
 
 import java.util.ResourceBundle;
-
 import Exceptions.SlogoException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,13 +18,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Receiver;
 import model.database.Database;
+import model.line.LineListCollection;
 
 public class Feed {
+    
+    
 	private Receiver myReceiver;
 	private HBox myObjects;
 	private Button add;
 	private Button enter;
-	private Database myData;
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/feed");
 	private static TextArea prompter;
@@ -37,9 +38,8 @@ public class Feed {
 	private static final String ADD_TEXT = myValues.getString("Add_Text");
 	private static final String ENTER_TEXT = myValues.getString("Enter_Text");
 
-	protected Feed(Receiver receiver, Database db) {
+	protected Feed(Receiver receiver) {
 		myReceiver = receiver;
-		myData = db;
 		myObjects = new HBox();
 		setupPrompter();
 		setupAdd();
@@ -85,7 +85,7 @@ public class Feed {
 			HBox myTitleBox = new HBox();
 			Label myTitle = new Label("Commands");
 			Button myAddButton = new Button("Add");
-			ObservableMap<String, String> myMap = myData.getCmdsHistory();
+			ObservableMap<String, String> myMap = FXCollections.observableHashMap();// = myData.getCmdsHistory();
 			ObservableList<String> myList = FXCollections
 					.observableArrayList(myMap.keySet());
 			ListView<String> myListView = new ListView<String>(myList);

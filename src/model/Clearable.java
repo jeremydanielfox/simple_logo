@@ -1,7 +1,7 @@
 package model;
 
-public interface Clearable {
-    
-    
+import view.Clearer;
 
+public interface Clearable {
+	public void beCleared(Clearer clearer);
 }

@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.Parser.TokenProperty;
+import model.Workspace;
 import model.turtle.SingleTurtle;
+import model.turtle.Turtle;
 
 
 public final class NodeFactory {
@@ -29,7 +31,7 @@ public final class NodeFactory {
         String[] basicCmds = new String[] { "Constant", "Variable", "Command" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
-        reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {SingleTurtle.class}),
+        reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {Turtle.class}),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
         reflectionMap.put(new Wrapper("basic", new Class<?> [] {String.class}),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
@@ -53,7 +55,7 @@ public final class NodeFactory {
         return instance;
     }
 
-    public static TreeNode get (TokenProperty tokenProp, SingleTurtle turtle) {
+    public static TreeNode get (TokenProperty tokenProp, Workspace workspace) {
         String type = tokenProp.getType();
         String token = tokenProp.getToken();
         Wrapper wrapper = getWrapper(type);
@@ -73,7 +75,7 @@ public final class NodeFactory {
         // require turtle
         else if (wrapper.getPackage().equals("turtleCommand")) {
             try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), turtle);
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), workspace.getTurtles());
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -82,9 +84,7 @@ public final class NodeFactory {
         }
 
         // all other cases
-        // TODO: fix - last argument not necessary
-        // now have two factories
-        // TODO: look into oodesign pattern, intializing within the node itself
+        // TODO: look into oodesign pattern, initializing within the node itself
         else {
             try {
                 return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), new Object[0]);

@@ -5,11 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import view.Drawer;
 import javafx.geometry.Point2D;
-import model.Mover;
-import model.PolarVector;
-import model.UnboundedMover;
 import model.line.LineList;
 import model.line.SingleLine;
+import model.turtle.mover.Mover;
+import model.turtle.mover.UnboundedMover;
 
 
 public class SingleTurtle implements Turtle{
@@ -37,7 +36,7 @@ public class SingleTurtle implements Turtle{
         myPosition = HOME;
         myLastPosition = HOME;
         myHeading = 0;
-        myLines = new LineList(myId, new ArrayList<SingleLine>());
+        myLines = new LineList();
         visible = true;
         penUp = false;
     }
@@ -119,7 +118,7 @@ public class SingleTurtle implements Turtle{
         return myHeading;
     }
 
-    protected LineList getLines () {
+    public LineList getLines () {
         return myLines;
     }
 

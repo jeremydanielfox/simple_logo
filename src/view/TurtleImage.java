@@ -10,14 +10,14 @@ public class TurtleImage extends ImageView {
 			.getBundle("resources/values/turtle");
 	private static final int WIDTH = Integer.parseInt(myValues
 			.getString("Width"));
-	private static int ID = 0;
 	private int myID;
 	private boolean penDown;
 	private boolean hidden;
 
-	protected TurtleImage(double xpos, double ypos,double heading, Image img) {
-		//this.setTranslateX(xpos);
-		//this.setTranslateY(ypos);
+	protected TurtleImage(double xpos, double ypos, double heading, int id,
+			Image img) {
+		this.setTranslateX(xpos);
+		this.setTranslateY(ypos);
 		this.setRotate(heading);
 		this.setImage(img);
 		this.setFitWidth(WIDTH);
@@ -26,8 +26,7 @@ public class TurtleImage extends ImageView {
 		this.setCache(true);
 		penDown = true;
 		hidden = false;
-		myID = ID;
-		ID++;
+		myID = id;
 	}
 
 	protected void move(double xpos, double ypos) {

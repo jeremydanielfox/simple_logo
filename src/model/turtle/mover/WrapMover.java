@@ -1,5 +1,6 @@
-package model;
+package model.turtle.mover;
 
+import model.turtle.PolarVector;
 import model.turtle.SingleTurtle;
 import javafx.geometry.Point2D;
 

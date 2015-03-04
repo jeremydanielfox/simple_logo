@@ -46,10 +46,10 @@ public class Display {
 		return instance;
 	}
 
-	public Scene init(Database db, Model model) {
+	public Scene init(Model model) {
 		myModel = model;
-		myFeed = new Feed((Receiver) myModel, db);
-		setupWorkspaces((Receiver) myModel, db);
+		myFeed = new Feed((Receiver) myModel);
+		setupWorkspaces((Receiver) myModel);
 		try {
 			makeMenuBar();
 		} catch (BadResourcePackageException e) {
@@ -64,14 +64,14 @@ public class Display {
 		return this.myScene;
 	}
 
-	private void setupWorkspaces(Receiver receiver, Database db) {
+	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
 		myWorkspaceDisplays.setTabMinWidth(TAB_MIN_WIDTH);
-		makeWorkspaceDisplay(receiver, db);
+		makeWorkspaceDisplay(receiver);
 	}
 
-	public void makeWorkspaceDisplay(Receiver receiver, Database db) {
-		WorkspaceDisplay myWorkspace = new WorkspaceDisplay(db);
+	public void makeWorkspaceDisplay(Receiver receiver) {
+		WorkspaceDisplay myWorkspace = new WorkspaceDisplay();
 		Node workspaceNode = myWorkspace.init(receiver);
 		myWorkspaces.add(myWorkspace);
 		Tab tab = new Tab();

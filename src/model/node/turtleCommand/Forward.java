@@ -2,14 +2,15 @@ package model.node.turtleCommand;
 
 import model.node.OneArgOperation;
 import model.turtle.SingleTurtle;
+import model.turtle.Turtle;
 
 
 public class Forward extends OneArgOperation {
 
-  private SingleTurtle myTurtle;
+  private Turtle myTurtle;
     
-    public Forward (SingleTurtle t) {
-        myTurtle = t;
+    public Forward (Turtle turtle) {
+        myTurtle = turtle;
     }
     
     @Override

@@ -20,10 +20,10 @@ import Exceptions.UnexpectedEndOfInstructionsException;
 
 public class TreeBuilder {
     
-    private static SingleTurtle myTurtle;
+    private static Workspace myWorkspace;
 
-    public static CommandList build (SingleTurtle turtle, List<TokenProperty> tokenList) {
-        myTurtle = turtle;
+    public static CommandList build (Workspace workspace, List<TokenProperty> tokenList) {
+        myWorkspace = workspace;
         return buildCommandList(tokenList);
     }
         
@@ -138,7 +138,7 @@ public class TreeBuilder {
     }
     
     private static TreeNode getNextNode(Queue<TokenProperty> tokenQueue){
-        return NodeFactory.get(tokenQueue.poll(), myTurtle);
+        return NodeFactory.get(tokenQueue.poll(), myWorkspace);
     }
     
     private static boolean isNextToken(Queue<TokenProperty> tokenQueue, String token){
