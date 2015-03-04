@@ -1,6 +1,8 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -16,10 +18,8 @@ import model.Drawable;
 import model.LanguageSetter;
 import model.Model;
 import model.Receiver;
-<<<<<<< HEAD
-=======
-import model.database.Database;
->>>>>>> c2dd9120c89819b6bbe3e862106d68a8e3c98f53
+import model.line.LineListCollection;
+import turtle.TurtleList;
 
 public class View implements WorkspaceCreator {
 
@@ -45,6 +45,19 @@ public class View implements WorkspaceCreator {
 		makeWorkspace();
 		myStage.setScene(scene);
 		myStage.show();
+	}
+
+	private List<Renderable> makeForModel() {
+		List<Renderable> myList = new ArrayList<>();
+		ObservableList<Drawable> lineList = FXCollections.observableArrayList();
+		ObservableList<Drawable> turtleList = FXCollections.observableArrayList();
+		LineListCollection myLineList = new LineListCollection(0, (List) lineList);
+		TurtleList myTurtles = new TurtleList(0, FXCollections.observableArrayList());
+		myList.add((Renderable) myLineList);
+		myList.add((Renderable)myLineList);
+		myList.forEach(r -> {
+			r.
+		});
 	}
 
 	private ObservableList<Drawable> createDrawables() {
@@ -88,7 +101,7 @@ public class View implements WorkspaceCreator {
 			myDisplay.getSelectedWorkspace().getVariablePane()
 					.put(c.getKey(), c.getValueAdded());
 		});
-		myModel.initializeNewWorkspace(myDrawables);
+		myModel.initializeWorkspace(myDrawables);
 		myDisplay.makeWorkspaceDisplay((Receiver) myModel);
 	}
 

@@ -3,8 +3,8 @@ package view;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -14,11 +14,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.util.Duration;
-import line.SingleLine;
+import model.Clearable;
+import model.Drawable;
 import model.TurtleData;
+import model.line.SingleLine;
 
-public class TurtleView {
+public class TurtleView implements Drawer, Clearer {
 
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/turtleview");
@@ -32,10 +33,6 @@ public class TurtleView {
 	private Rectangle myBackground;
 	private Image turtleImage = new Image("images/plain-turtle-small.png",
 			TURTLE_WIDTH, TURTLE_HEIGHT, true, true);
-	// private static final int WIDTH = Integer.parseInt(myValues
-	// .getString("Width"));
-	// private static final int HEIGHT = Integer.parseInt(myValues
-	// .getString("Height"));
 	private static final int TURTLE_WIDTH = Integer.parseInt(myValues
 			.getString("TurtleWidth"));
 	private static final int TURTLE_HEIGHT = Integer.parseInt(myValues
@@ -212,13 +209,42 @@ public class TurtleView {
 				r.getTx(), r.getTy());
 	}
 
+	@Override
 	public void clearTurtles() {
 		myTurtleGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
 	}
 
+	@Override
 	public void clearLines() {
 		myLineGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
+	}
+
+	@Override
+	public void clear(Clearable clearable) {
+		clearable.beCleared(this);
+	}
+
+	@Override
+	public void drawLine(Point2D start, Point2D end) {
+		myLineGC.strokeLine(start.getX(), start.getY(), end.getX(), end.getY());
+	}
+
+	@Override
+	public void drawTurtle(Point2D location, double heading, boolean visible) {
+		Image image = turtleImage;
+		myTurtleGC.save(); // saves the current state on stack, including the
+							// current
+		// transform
+		rotate(myTurtleGC, heading, location.getX() + image.getWidth() / 2,
+				location.getY() + image.getHeight() / 2);
+		myTurtleGC.drawImage(image, location.getX(), location.getY());
+		myTurtleGC.restore(); // back to original state (before rotation)
+	}
+
+	@Override
+	public void draw(Drawable drawable) {
+		drawable.beDrawn(this);
 	}
 }

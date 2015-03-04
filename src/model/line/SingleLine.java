@@ -1,4 +1,4 @@
-package line;
+package model.line;
 
 import view.Drawer;
 import javafx.geometry.Point2D;

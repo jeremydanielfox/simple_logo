@@ -3,11 +3,15 @@ package turtle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import model.Clearable;
+import model.Drawable;
 import javafx.geometry.Point2D;
+import view.Clearer;
 import view.Drawer;
 
 // one per workspace
-public class TurtleList implements Turtle {
+public class TurtleList implements Turtle, Clearable {
     private static int ourId;
     
     private int myId;
@@ -24,6 +28,10 @@ public class TurtleList implements Turtle {
         allTurtles.forEach(turtle -> turtle.beDrawn(drawer));
     }
     
+    public void beCleared (Clearer clearer) {
+        clearScreen();
+        clearer.clearTurtles();
+    }
     
     public void add (SingleTurtle... turtles) {
         allTurtles.addAll(Arrays.asList(turtles));
@@ -68,5 +76,6 @@ public class TurtleList implements Turtle {
         activeTurtles.forEach(turtle -> turtle.clearScreen());
         return 0;
     }
+	
 
 }
