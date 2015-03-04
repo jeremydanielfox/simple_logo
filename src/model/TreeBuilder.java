@@ -5,7 +5,6 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
-import turtle.SingleTurtle;
 import model.Parser.TokenProperty;
 import model.node.CommandList;
 import model.node.EvalNode;
@@ -14,6 +13,7 @@ import model.node.Parameters;
 import model.node.TreeNode;
 import model.node.basic.Variable;
 import model.node.controlStructure.MakeUserInstruction;
+import model.turtle.SingleTurtle;
 import Exceptions.IncorrectSyntaxException;
 import Exceptions.UnexpectedEndOfInstructionsException;
 

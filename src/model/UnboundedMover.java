@@ -1,8 +1,8 @@
 package model;
 
-import turtle.SingleTurtle;
 import javafx.geometry.Point2D;
 import model.line.SingleLine;
+import model.turtle.SingleTurtle;
 
 public class UnboundedMover implements Mover {
 

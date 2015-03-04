@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import turtle.SingleTurtle;
-import turtle.TurtleList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -15,6 +13,8 @@ import model.line.LineListCollection;
 import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.basic.Variable;
+import model.turtle.SingleTurtle;
+import model.turtle.TurtleList;
 
 public class Workspace implements IHistory {
     private static int ourId = 0;

@@ -1,6 +1,6 @@
 package model;
 
-import turtle.SingleTurtle;
+import model.turtle.SingleTurtle;
 
 
 public interface Mover {

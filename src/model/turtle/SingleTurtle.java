@@ -1,4 +1,4 @@
-package turtle;
+package model.turtle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,7 +76,7 @@ public class SingleTurtle implements Turtle{
     }
     
     public double clearScreen ()  {
-        myLines.clear();
+        //myLines.clear();
         return goHome();
     }
 

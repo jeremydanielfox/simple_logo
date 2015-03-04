@@ -1,4 +1,4 @@
-package turtle;
+package model.turtle;
 
 import java.util.ArrayList;
 import java.util.Arrays;

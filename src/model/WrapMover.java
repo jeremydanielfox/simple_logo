@@ -1,6 +1,6 @@
 package model;
 
-import turtle.SingleTurtle;
+import model.turtle.SingleTurtle;
 import javafx.geometry.Point2D;
 
 

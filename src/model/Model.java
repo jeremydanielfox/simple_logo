@@ -9,14 +9,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-import turtle.SingleTurtle;
-import turtle.TurtleList;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import model.Parser.TokenProperty;
 import model.database.Database;
 import model.line.LineListCollection;
 import model.node.CommandList;
+import model.turtle.SingleTurtle;
+import model.turtle.TurtleList;
 
 public class Model implements Receiver {
 	private List<Entry<String, Pattern>> myPatterns;

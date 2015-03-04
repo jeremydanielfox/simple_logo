@@ -11,6 +11,4 @@ import view.TurtleView;
 public interface Drawable {
 
     public void beDrawn (Drawer drawer);
-    
-    public void beCleared (Drawer drawer);
 }

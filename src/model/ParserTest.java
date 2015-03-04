@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import model.turtle.SingleTurtle;
 import org.junit.Test;
-import turtle.SingleTurtle;
 
 
 public class ParserTest {

@@ -1,4 +1,4 @@
-package turtle;
+package model.turtle;
 
 import javafx.geometry.Point2D;
 import view.Drawer;
