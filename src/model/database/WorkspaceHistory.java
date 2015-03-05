@@ -19,10 +19,12 @@ public class WorkspaceHistory implements Recordable, Database {
     private Map<String, Writable> varsMap;
     private Map<String, Writable> cmdsMap;
     private List<Map<String, Writable>> histories;
+    private boolean definingSignal;
 
     
     public WorkspaceHistory () {     
         initializeMaps();
+        definingSignal = false;
     }
     
     private void initializeMaps () {
@@ -55,5 +57,14 @@ public class WorkspaceHistory implements Recordable, Database {
         else{
             return cmdsMap.get(name);
         }
+    }
+    
+    @Override
+    public void setDefiningSignal(boolean bool){
+        definingSignal  = bool;
+    }
+    
+    public boolean getDefiningSignal (){
+        return definingSignal;
     }
 }

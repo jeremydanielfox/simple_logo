@@ -21,14 +21,14 @@ public class MakeUserInstruction extends EvalNode {
 
     public MakeUserInstruction (Writer writer) {
         super();
-        OldDatabase.getInstance().setDefiningSignal(true);
+        writer.setDefiningSignal(true);
         myWriter = writer;
     }
 
     // TODO: determine how command could be unsuccessfully added...
     @Override
     public double evaluate () {
-        update();
+        update2();
         return 1;
     }
 

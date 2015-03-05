@@ -68,8 +68,7 @@ public class Display {
 
 	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
-		myWorkspaceDisplays.setTabMinWidth(Integer.parseInt(myValues
-				.getString("TAB_MIN_WIDTH")));
+		myWorkspaceDisplays.setTabMinWidth(Integer.parseInt(myValues.getString("TAB_MIN_WIDTH")));
 		
 		//REMNANTS OF MERGE CONFLICT, NOT SURE IF IMPORTANT
 //		makeWorkspaceDisplay(receiver);

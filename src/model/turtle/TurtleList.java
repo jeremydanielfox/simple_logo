@@ -115,7 +115,26 @@ public class TurtleList implements Turtle, Clearable {
         activeTurtlesMap.values().forEach(turtle -> turtle.setVisible());
         return 1;
     }
+    
+    @Override
+    public double setInvisible () {
+        activeTurtlesMap.values().forEach(turtle -> turtle.setInvisible());
+        return 1;
+    }
 
+    @Override
+    public double setPenUp () {
+        activeTurtlesMap.values().forEach(turtle -> turtle.setPenUp());
+        return 1;
+    }
+    
+
+    @Override
+    public double setPenDown () {
+        activeTurtlesMap.values().forEach(turtle -> turtle.setPenDown());
+        return 0;
+    }
+    
     @Override
     public double clearScreen () {
         activeTurtlesMap.values().forEach(turtle -> turtle.clearScreen());

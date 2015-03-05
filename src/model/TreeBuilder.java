@@ -16,6 +16,7 @@ import model.node.basic.Constant;
 import model.node.database.Variable;
 import model.node.writer.MakeUserInstruction;
 import Exceptions.IncorrectSyntaxException;
+import Exceptions.UnclosedListException;
 import Exceptions.UnexpectedEndOfInstructionsException;
 
 
@@ -110,7 +111,7 @@ public class TreeBuilder {
                                           Stack<Integer> bracketChecker) {
         // ran out of nodes
         if (tokenQueue.isEmpty()) {
-            // throw unclosed List exception
+            throw new UnclosedListException();
         }
 
         // normal case: end of list and all brackets closed
