@@ -30,6 +30,7 @@ public class View implements WorkspaceCreator {
 	private Display myDisplay;
 
 	public View() {
+
 	}
 
 	public void init(Stage s) {
@@ -39,7 +40,7 @@ public class View implements WorkspaceCreator {
 		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]),
 				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
-		myDisplay = Display.getInstance();
+		myDisplay = Display.getInstance(getLanguageSetter());
 		Scene scene = myDisplay.init(myModel);
 		// makeWorkspace();
 		initializeWorkspace();

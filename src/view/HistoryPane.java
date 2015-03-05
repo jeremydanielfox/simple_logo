@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.Receiver;
 
-public class HistoryPane {
+public class HistoryPane implements DataPane {
 	private static final int FONT_SIZE = 30;
 	private Receiver myReceiver;
 	private VBox myRoot;
@@ -20,16 +20,15 @@ public class HistoryPane {
 	private ListView<String> myListView;
 	private ObservableList<String> myList;
 
-	public HistoryPane(Receiver receiver,int id) {
+	public HistoryPane(Receiver receiver, int id) {
 		myReceiver = receiver;
 		myID = id;
 	}
 
-
 	public Node init() {
 		// myData = Database.getInstance();
 		myRoot = new VBox();
-		myList = FXCollections.observableArrayList();
+		myList = FXCollections.observableArrayList(myMap.keySet());
 		HBox titleBox = new HBox();
 		Label title = new Label("History");
 		title.setFont(new Font(FONT_SIZE));
@@ -47,7 +46,7 @@ public class HistoryPane {
 	private void handleMouseInput() {
 		if (myListView.getSelectionModel().getSelectedItem() != null) {
 			myReceiver.giveText(myListView.getSelectionModel()
-					.getSelectedItem(),myID);
+					.getSelectedItem(), myID);
 			myListView.getSelectionModel().clearSelection();
 		}
 	}

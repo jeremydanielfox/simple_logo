@@ -1,7 +1,5 @@
 package view;
 
-import java.util.HashMap;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -18,21 +16,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Receiver;
-import model.database.Database;
 
-public class VariablePane {
+public class VariablePane implements DataPane {
 
 	private Receiver myReceiver;
 	private BorderPane myRoot;
 	private VBox myVBox;
 	private ListView<String> myListView;
-	private ObservableMap<String, String> myMap;
 	private ObservableList<String> myList;
 	private Stage myStage;
 	private int myID;
 	private Feed myFeed;
 
-	public VariablePane(Receiver receiver,int id,Feed feed) {
+	public VariablePane(Receiver receiver, int id, Feed feed) {
 		myReceiver = receiver;
 		myID = id;
 		myFeed = feed;
@@ -40,7 +36,6 @@ public class VariablePane {
 
 	public Node init() {
 		myVBox = new VBox();
-		myMap = FXCollections.observableHashMap();
 		HBox titleBox = new HBox();
 		Label title = new Label("Variables");
 		title.setFont(new Font(30));
@@ -78,7 +73,7 @@ public class VariablePane {
 	}
 
 	private void handleEditOutput(String name, String value) {
-		myReceiver.giveText("set " + name + " " + value,myID);
+		myReceiver.giveText("set " + name + " " + value, myID);
 		myMap.put(name, value);
 		myStage.close();
 	}

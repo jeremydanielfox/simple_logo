@@ -1,12 +1,14 @@
 package view;
 
 import java.util.ResourceBundle;
+
 import Exceptions.SlogoException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,6 +32,8 @@ public class Feed {
 			.getBundle("resources/values/feed");
 	private TextArea prompter;
 	private int myID;
+	private Stage myStage;
+
 	private static final int ADD_WIDTH = Integer.parseInt(myValues
 			.getString("Add_Width"));
 	private static final int ADD_HEIGHT = Integer.parseInt(myValues
@@ -78,31 +82,18 @@ public class Feed {
 		add.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		add.setOnAction(e -> {
 			// Database myData = Database.getInstance();
-			Stage myStage = new Stage();
+			myStage = new Stage();
 			myStage.setHeight(ADD_WIDTH);
 			myStage.setWidth(ADD_HEIGHT);
-
-			VBox myRoot = new VBox();
-			HBox myTitleBox = new HBox();
-			Label myTitle = new Label("Commands");
-			Button myAddButton = new Button("Add");
-			ObservableMap<String, String> myMap = FXCollections
-					.observableHashMap();// = myData.getCmdsHistory();
-			ObservableList<String> myList = FXCollections
-					.observableArrayList(myMap.keySet());
-			ListView<String> myListView = new ListView<String>(myList);
-			myListView.setPrefHeight(0);
-			VBox.setVgrow(myListView, Priority.ALWAYS);
-			 myAddButton.setOnMouseClicked(e2 -> {
-			 this.addText(myListView.getSelectionModel().getSelectedItem());
-			 myStage.close();
-			 });
-			myTitleBox.getChildren().addAll(myTitle, myAddButton);
-			myRoot.getChildren().addAll(myTitleBox, myListView);
-			Scene myScene = new Scene(myRoot);
+			CommandPane cp = new CommandPane(this);
+			Scene myScene = new Scene((Parent) cp.init());
 			myStage.setScene(myScene);
 			myStage.show();
 		});
+	}
+
+	public Stage getStage() {
+		return this.myStage;
 	}
 
 	/**
