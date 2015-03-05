@@ -35,7 +35,7 @@ public final class NodeFactory {
         reflectionMap = new HashMap<Wrapper, List<String>>();
         reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {Turtle.class}),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
-        reflectionMap.put(new Wrapper("writer", new Class<?> [] {Writer.class}),
+        reflectionMap.put(new Wrapper("writer", new Class<?> [] {model.database.Writer.class}),
                           new ArrayList<String>(Arrays.asList(writerCmds)));
         reflectionMap.put(new Wrapper("basic", new Class<?> [] {String.class}),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
