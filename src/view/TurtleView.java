@@ -16,7 +16,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import model.Clearable;
 import model.Drawable;
-import model.TurtleData;
 import model.line.SingleLine;
 
 public class TurtleView implements Drawer, Clearer {
@@ -114,47 +113,47 @@ public class TurtleView implements Drawer, Clearer {
 				.getY(), current.getFinish().getX(), current.getFinish().getY());
 	}
 
-	public void drawTurtle(TurtleData currentData) {
-		drawRotatedTurtle(myTurtleGC, currentData.getHeading(),
-				currentData.getX(), currentData.getY());
-		// TurtleImage inList = getTurtleImage(currentData);
-		//
-		// if (inList==null) {
-		// TurtleImage temp = new TurtleImage(currentData.getX(),
-		// currentData.getY(), currentData.getHeading(), turtleImage);
-		// myTurtlesGroup.getChildren().add(temp);
-		// myTurtlesList.add(temp);
-		// }
-		// else {
-		// System.out.println(inList.getTranslateX());
-		// inList.setTranslateX(inList.getX()-100);
-		// inList.setOpacity(0.5);
-		// System.out.println(inList.getTranslateX());
-		// //// inList.setX(inList.getX()+currentData.getX());
-		// //// inList.setY(inList.getY()+currentData.getY());
-		// // TranslateTransition tt = new
-		// TranslateTransition(Duration.seconds(3),inList);
-		// // tt.setFromX(inList.getX());
-		// // tt.setFromY(inList.getY());
-		// // tt.setToX(inList.getX()+currentData.getX());
-		// // tt.setToY(inList.getY()+currentData.getY());
-		// //// tt.setByX(currentData.getX());
-		// //// tt.setByY(currentData.getY());
-		// // tt.setCycleCount(Timeline.INDEFINITE);
-		// // tt.play();
-		// //// inList.setTranslateX(currentData.getX());
-		// //// inList.setTranslateY(currentData.getY());
-		// //// inList.setRotate(currentData.getHeading());
-		// }
-	}
-
-	private TurtleImage getTurtleImage(TurtleData data) {
-		for (TurtleImage current : myTurtlesList) {
-			if (current.getID() == data.getID())
-				return current;
-		}
-		return null;
-	}
+	// public void drawTurtle(TurtleData currentData) {
+	// drawRotatedTurtle(myTurtleGC, currentData.getHeading(),
+	// currentData.getX(), currentData.getY());
+	// // TurtleImage inList = getTurtleImage(currentData);
+	// //
+	// // if (inList==null) {
+	// // TurtleImage temp = new TurtleImage(currentData.getX(),
+	// // currentData.getY(), currentData.getHeading(), turtleImage);
+	// // myTurtlesGroup.getChildren().add(temp);
+	// // myTurtlesList.add(temp);
+	// // }
+	// // else {
+	// // System.out.println(inList.getTranslateX());
+	// // inList.setTranslateX(inList.getX()-100);
+	// // inList.setOpacity(0.5);
+	// // System.out.println(inList.getTranslateX());
+	// // //// inList.setX(inList.getX()+currentData.getX());
+	// // //// inList.setY(inList.getY()+currentData.getY());
+	// // // TranslateTransition tt = new
+	// // TranslateTransition(Duration.seconds(3),inList);
+	// // // tt.setFromX(inList.getX());
+	// // // tt.setFromY(inList.getY());
+	// // // tt.setToX(inList.getX()+currentData.getX());
+	// // // tt.setToY(inList.getY()+currentData.getY());
+	// // //// tt.setByX(currentData.getX());
+	// // //// tt.setByY(currentData.getY());
+	// // // tt.setCycleCount(Timeline.INDEFINITE);
+	// // // tt.play();
+	// // //// inList.setTranslateX(currentData.getX());
+	// // //// inList.setTranslateY(currentData.getY());
+	// // //// inList.setRotate(currentData.getHeading());
+	// // }
+	// }
+	//
+	// private TurtleImage getTurtleImage(TurtleData data) {
+	// for (TurtleImage current : myTurtlesList) {
+	// if (current.getID() == data.getID())
+	// return current;
+	// }
+	// return null;
+	// }
 
 	public void drawRotatedTurtle() {
 

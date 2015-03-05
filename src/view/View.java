@@ -55,11 +55,24 @@ public class View implements WorkspaceCreator {
     private void initializeWorkspace () {
         Workspace workspace = new Workspace();
         LineListCollection lineList = workspace.getLines();
-        lineList.addListener((ListChangeListener.Change<? extends LineList>) c -> {
+//        lineList.addChangeListener((obs, ov, nv) -> {
+//            System.out.println("triggered");
+//            nv.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
+//        });
+        
+        lineList.addListener(c -> {
+            System.out.println("triggered");
             while (c.next()) {
-                c.getAddedSublist().forEach(d -> d.draw());
-                c.getRemovedSublist().forEach(d -> d.clear());
+                for (Drawable drawable : c.getAddedSubList()) {
+                   drawable.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
+                }
             }
+//            c.getAddedSubList().forEach(d -> d.beDrawn(myDisplay.getSelectedWorkspace()
+//                                                .getTurtleView()));
+
+            //c.getRemoved().forEach(d -> d.beCleared(myDisplay.getSelectedWorkspace()
+            //                               .getTurtleView()));
+
         });
         myModel.setWorkspace(workspace);
     }
