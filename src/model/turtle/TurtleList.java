@@ -39,6 +39,7 @@ public class TurtleList implements Turtle, Clearable {
     @Override
     public void beDrawn (Drawer drawer) {
         // could be a map
+    	allTurtlesMap.forEach((k,v) -> allTurtles.add(v));
         allTurtles.forEach(turtle -> turtle.beDrawn(drawer));
     }
 
