@@ -11,7 +11,7 @@ import model.writable.VariableWritable;
 import model.writable.Writable;
 import view.Historian;
 
-public class WorkspaceHistory implements Recordable, Writer, Database {
+public class WorkspaceHistory implements Recordable, Database {
 
     //private List<String> feedHistory;
     private Map<Class<? extends Writable>, Map <String, Writable>> historiesMap;

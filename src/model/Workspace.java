@@ -23,15 +23,10 @@ public class Workspace {
         myTurtles = new TurtleList(myId);
         
         // initializes one by default
-        addTurtle();
+        //addTurtle();
         myLineLists = new LineListCollection(myId, myTurtles);
         myHistory = new WorkspaceHistory();
         
-    }
-    
-    // adds turtles one at time
-    public void addTurtle(){
-        myTurtles.add(new SingleTurtle());
     }
 
     public int getId () {

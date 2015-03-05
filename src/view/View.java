@@ -21,6 +21,7 @@ public class View implements WorkspaceCreator {
     private Model myModel;
     private Display myDisplay;
 
+
     public View () {
     }
 
@@ -34,9 +35,9 @@ public class View implements WorkspaceCreator {
         myDisplay = Display.getInstance();
         Scene scene = myDisplay.init(myModel);
         initializeWorkspace();
-        initializeWorkspace();
         myStage.setScene(scene);
         myStage.show();
+        //turtles.goHome();
     }
 
     private void initializeWorkspace () {

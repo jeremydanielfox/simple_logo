@@ -2,7 +2,9 @@ package model.turtle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,17 +19,26 @@ public class TurtleList implements Turtle, Clearable {
     private static int ourId;
 
     private int myId;
+    private Map<Integer, SingleTurtle> allTurtlesMap;
+    private Map<Integer, SingleTurtle> activeTurtlesMap;
+    
     private ObservableList<SingleTurtle> allTurtles;
-    private List<SingleTurtle> activeTurtles;
 
     public TurtleList (int id) {
         myId = id;
         allTurtles = FXCollections.observableArrayList();
-        activeTurtles = allTurtles; // to be changed
+        //adds turtle by default;
+        allTurtles.add(new SingleTurtle(1));
+        
+        // initialize maps
+        allTurtlesMap = new HashMap<Integer, SingleTurtle>();
+        allTurtlesMap.put(allTurtles.get(0).getId(), allTurtles.get(0));
+        activeTurtlesMap = allTurtlesMap;
     }
 
     @Override
     public void beDrawn (Drawer drawer) {
+        // could be a map
         allTurtles.forEach(turtle -> turtle.beDrawn(drawer));
     }
 
@@ -36,23 +47,18 @@ public class TurtleList implements Turtle, Clearable {
         clearer.clearTurtles();
     }
     
-    public void setActive (List<Integer> list) {
-        SingleTurtle turtle = new SingleTurtle();
-        //activeTurtles.add(turtle);
-        allTurtles.add(turtle);
-//        activeTurtles = new ArrayList<SingleTurtle>();
-//        outerloop:
-//        for (int id : list){
-//            for (SingleTurtle turtle : allTurtles){
-//                if (turtle.getId()==id){
-//                    activeTurtles.add(turtle);
-//                    break outerloop;
-//                }
-//            }
-//            // id not found
-//            activeTurtles.add(new SingleTurtle());
-//        }
-// 
+    public void setActive (List<Integer> idList) {
+       activeTurtlesMap = new HashMap<Integer, SingleTurtle>();
+       for (int id: idList){
+           if (allTurtlesMap.containsKey(id)){
+               activeTurtlesMap.put(id, allTurtlesMap.get(id));
+           }
+           else {
+               SingleTurtle turtle = new SingleTurtle(id);
+               activeTurtlesMap.put(id, turtle);
+               allTurtlesMap.put(id, turtle);
+           }
+       }
     }
 
     public void add (SingleTurtle ... turtles) {
@@ -82,12 +88,12 @@ public class TurtleList implements Turtle, Clearable {
 
     @Override
     public void translate (double distance) {
-        activeTurtles.forEach(turtle -> turtle.translate(distance));
+        activeTurtlesMap.values().forEach(turtle -> turtle.translate(distance));
     }
 
     @Override
     public double rotate (double angle) {
-        activeTurtles.forEach(turtle -> turtle.rotate(angle));
+        activeTurtlesMap.values().forEach(turtle -> turtle.rotate(angle));
         return angle;
     }
 
@@ -100,20 +106,24 @@ public class TurtleList implements Turtle, Clearable {
     // TODO: fix return value
     @Override
     public double goHome () {
-        activeTurtles.forEach(turtle -> turtle.goHome());
+        activeTurtlesMap.values().forEach(turtle -> turtle.goHome());
         return 0;
     }
     
     @Override
     public double setVisible () {
-        activeTurtles.forEach(turtle -> turtle.setVisible());
+        activeTurtlesMap.values().forEach(turtle -> turtle.setVisible());
         return 1;
     }
 
     @Override
     public double clearScreen () {
-        activeTurtles.forEach(turtle -> turtle.clearScreen());
+        activeTurtlesMap.values().forEach(turtle -> turtle.clearScreen());
         return 0;
+    }
+    
+    public int getId () {
+        return myId;
     }
 
     public void addLocationListener (InvalidationListener listener) {

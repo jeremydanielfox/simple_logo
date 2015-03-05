@@ -30,11 +30,11 @@ public class SingleTurtle implements Turtle{
     private static final Mover MOVER = new UnboundedMover();
 
     
-    public SingleTurtle () {
-        myId = ourId++;
+    public SingleTurtle (int id) {
+        myId = id;
         myPosition = HOME;
-        myPositionProperty = new SimpleObjectProperty<Point2D>(myPosition);
         myLastPosition = HOME;
+        myPositionProperty = new SimpleObjectProperty<Point2D>(myPosition);
         myHeading = 0;
         myHeadingProperty = new SimpleDoubleProperty(myHeading);
         myLines = new LineList();
