@@ -1,5 +1,8 @@
 package view;
 
+import java.util.Map;
+
+import model.writable.Writable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.Node;
@@ -13,5 +16,7 @@ public interface DataPane {
 	public default ObservableMap<String, String> getMap() {
 		return myMap;
 	}
+	
+    public void record(Map<String, Writable> history);
 
 }

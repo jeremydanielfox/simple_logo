@@ -1,13 +1,13 @@
-package model.node.controlStructure;
+package model.node.writer;
 
 import java.util.List;
-import model.database.Database;
+import model.database.OldDatabase;
 import model.database.Writer;
 import model.node.ChildBuilder;
 import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.Parameters;
-import model.node.basic.Variable;
+import model.node.database.Variable;
 import model.writable.VariableWritable;
 import model.writable.Writable;
 
@@ -27,7 +27,7 @@ public class MakeVariable extends EvalNode {
     }
 
     private void update () {
-        Database.getInstance().putVariable(getEvalChild("var").toString(),
+        OldDatabase.getInstance().putVariable(getEvalChild("var").toString(),
                                            getEvalChild("expr"));
     }
     

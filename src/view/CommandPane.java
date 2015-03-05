@@ -1,8 +1,10 @@
 package view;
 
+import java.util.Map;
+
+import model.writable.Writable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,6 +39,12 @@ public class CommandPane implements DataPane {
 		myTitleBox.getChildren().addAll(myTitle, myAddButton);
 		myRoot.getChildren().addAll(myTitleBox, myListView);
 		return myRoot;
+	}
+	
+	@Override
+	public void record(Map<String, Writable> history) {
+		history.forEach((k, v) -> myMap.put(k, v.getValue()));
+
 	}
 
 }

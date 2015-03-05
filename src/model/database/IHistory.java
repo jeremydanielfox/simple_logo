@@ -3,10 +3,10 @@ package model.database;
 import java.util.List;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import model.database.Database.CommandWrapper;
+import model.database.OldDatabase.CommandWrapper;
 import model.node.CommandList;
 import model.node.EvalNode;
-import model.node.basic.Variable;
+import model.node.database.Variable;
 
 public interface IHistory {
     

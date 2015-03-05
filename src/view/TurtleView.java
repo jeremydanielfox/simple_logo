@@ -3,7 +3,6 @@ package view;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
@@ -20,7 +19,7 @@ import model.Clearable;
 import model.Drawable;
 import model.line.SingleLine;
 
-public class TurtleView implements Drawer, Clearer {
+public class TurtleView implements Drawer {
 
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/turtleview");
@@ -40,6 +39,8 @@ public class TurtleView implements Drawer, Clearer {
 			.getString("TurtleWidth"));
 	private static final int TURTLE_HEIGHT = Integer.parseInt(myValues
 			.getString("TurtleHeight"));
+	private int turtleXOffset = TURTLE_WIDTH / 2;
+	private int turtleYOffset = TURTLE_HEIGHT / 2;
 	private static final double LINE_WIDTH = 2;
 	private static final Color BACKGROUND_COLOR = Color.BLACK;
 	private static final Color PEN_COLOR = Color.PINK;
@@ -114,6 +115,7 @@ public class TurtleView implements Drawer, Clearer {
 	}
 
 	public void drawLines(SingleLine current) {
+		clearLines();
 		myLineGC.strokeLine(current.getStart().getX(), current.getStart()
 				.getY(), current.getFinish().getX(), current.getFinish().getY());
 	}
@@ -160,7 +162,6 @@ public class TurtleView implements Drawer, Clearer {
 	// return null;
 	// }
 
-
 	/**
 	 * Draws an image on a graphics context.
 	 *
@@ -182,7 +183,7 @@ public class TurtleView implements Drawer, Clearer {
 			double tlpx, double tlpy) {
 		Image image = turtleImage;
 		gc.save(); // saves the current state on stack, including the current
-					// transform
+		// transform
 		rotate(gc, angle, tlpx + image.getWidth() / 2, tlpy + image.getHeight()
 				/ 2);
 		gc.drawImage(image, tlpx, tlpy);
@@ -210,35 +211,35 @@ public class TurtleView implements Drawer, Clearer {
 				r.getTx(), r.getTy());
 	}
 
-	@Override
 	public void clearTurtles() {
 		myTurtleGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
 	}
 
-	@Override
 	public void clearLines() {
 		myLineGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
 	}
 
-	@Override
-	public void clear(Clearable clearable) {
-		clearable.beCleared(this);
-	}
+	// @Override
+	// public void clear (Clearable clearable) {
+	// clearable.beCleared(this);
+	// }
 
 	@Override
 	public void drawLine(Point2D start, Point2D end) {
-		myLineGC.strokeLine(start.getX() + myXOffset.get(), start.getY()
-				+ myYOffset.get(), end.getX() + myXOffset.get(), end.getY()
-				+ myYOffset.get());
+		myLineGC.strokeLine(start.getX() + myXOffset.get() + turtleXOffset,
+				start.getY() + turtleYOffset + myYOffset.get(), end.getX()
+						+ turtleXOffset + myXOffset.get(), end.getY()
+						+ myYOffset.get() + turtleYOffset);
 	}
 
 	@Override
 	public void drawTurtle(Point2D location, double heading, boolean visible) {
+		clearTurtles();
 		Image image = turtleImage;
 		myTurtleGC.save(); // saves the current state on stack, including the
-							// current
+		// current
 		// transform
 		rotate(myTurtleGC, heading,
 				location.getX() + myXOffset.get() + image.getWidth() / 2,

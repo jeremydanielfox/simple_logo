@@ -1,14 +1,16 @@
 package model.turtle;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import view.Drawer;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point2D;
 import model.line.LineList;
 import model.line.SingleLine;
 import model.turtle.mover.Mover;
 import model.turtle.mover.UnboundedMover;
+import view.Drawer;
 
 
 public class SingleTurtle implements Turtle{
@@ -18,11 +20,13 @@ public class SingleTurtle implements Turtle{
     private Point2D myLastPosition;
     private double myHeading;
     private LineList myLines;
-    //private List<SingleLine> myLines;
     private boolean visible;
     private boolean penUp;
 
     private int myId;
+
+    private ObjectProperty<Point2D> myPositionProperty;
+    private DoubleProperty myHeadingProperty;
     private static Point2D HOME = new Point2D(0, 0);
     private static final Mover MOVER = new UnboundedMover();
 
@@ -31,11 +35,12 @@ public class SingleTurtle implements Turtle{
     }
 
     public SingleTurtle () {
-    	//HOME = offset;
         myId = ourId++;
         myPosition = HOME;
+        myPositionProperty = new SimpleObjectProperty<Point2D>(myPosition);
         myLastPosition = HOME;
         myHeading = 0;
+        myHeadingProperty = new SimpleDoubleProperty(myHeading);
         myLines = new LineList();
         visible = true;
         penUp = false;
@@ -49,6 +54,14 @@ public class SingleTurtle implements Turtle{
     public void move (PolarVector vector) {
         MOVER.moveTurtle(this, vector);
         // update TurtleData, add to list somewhere...
+    }
+    
+    public void addLocationListener(InvalidationListener listener){
+        myPositionProperty.addListener(listener);
+    }
+    
+    public void addHeadingListener(InvalidationListener listener){
+        myHeadingProperty.addListener(listener);
     }
 
     public void translate (double distance) {
@@ -71,11 +84,12 @@ public class SingleTurtle implements Turtle{
         double r = HOME.distance(getPosition());
         setHeading(0);
         setPosition(HOME);
+        move(new PolarVector(0,0));
         return r;
     }
     
     public double clearScreen ()  {
-        //myLines.clear();
+        myLines.clear();
         return goHome();
     }
 
@@ -149,4 +163,13 @@ public class SingleTurtle implements Turtle{
     public boolean isPenUp () {
         return penUp;
     }
+
+    public ObjectProperty<Point2D> getPositionProperty () {
+        return myPositionProperty;
+    }
+    
+    public DoubleProperty getHeadingProperty () {
+        return myHeadingProperty;
+    }
+
 }

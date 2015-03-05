@@ -51,7 +51,6 @@ public class Display {
 
 	public Scene init(Model model) {
 		myModel = model;
-		// myFeed = new Feed((Receiver) myModel);
 		setupWorkspaces((Receiver) myModel);
 		try {
 			makeMenuBar();
@@ -71,11 +70,14 @@ public class Display {
 		myWorkspaceDisplays = new TabPane();
 		myWorkspaceDisplays.setTabMinWidth(Integer.parseInt(myValues
 				.getString("TAB_MIN_WIDTH")));
-		makeWorkspaceDisplay(receiver);
+		
+		//REMNANTS OF MERGE CONFLICT, NOT SURE IF IMPORTANT
+//		makeWorkspaceDisplay(receiver);
+		
 	}
 
-	public void makeWorkspaceDisplay(Receiver receiver) {
-		WorkspaceDisplay myWorkspace = new WorkspaceDisplay();
+	public void makeWorkspaceDisplay(Receiver receiver, int id) {
+		WorkspaceDisplay myWorkspace = new WorkspaceDisplay(id);
 		Node workspaceNode = myWorkspace.init(receiver);
 		myWorkspaces.add(myWorkspace);
 		Tab tab = new Tab();

@@ -2,8 +2,8 @@ package model.turtle;
 
 import java.util.Arrays;
 import java.util.List;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import model.Clearable;
@@ -90,8 +90,12 @@ public class TurtleList implements Turtle, Clearable {
         return 0;
     }
 
-    public void addListener (ListChangeListener<? super Turtle> listener) {
-        allTurtles.addListener(listener);
+    public void addLocationListener (InvalidationListener listener) {
+       allTurtles.forEach(turtle -> turtle.addLocationListener(listener));
+    }
+    
+    public void addHeadingListener (InvalidationListener listener) {
+        allTurtles.forEach(turtle -> turtle.addHeadingListener(listener));
     }
 
 }

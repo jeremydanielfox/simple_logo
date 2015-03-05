@@ -1,8 +1,9 @@
 package view;
 
+import java.util.Map;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Receiver;
+import model.writable.Writable;
 
 public class VariablePane implements DataPane {
 
@@ -84,6 +86,12 @@ public class VariablePane implements DataPane {
 
 	public void put(String key, String value) {
 		myMap.put(key, value);
+	}
+
+	@Override
+	public void record(Map<String, Writable> history) {
+		history.forEach((k, v) -> myMap.put(k, v.getValue()));
+
 	}
 
 }

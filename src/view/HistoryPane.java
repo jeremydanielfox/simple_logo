@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Map;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -11,8 +13,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.Receiver;
+import model.writable.Writable;
 
 public class HistoryPane implements DataPane {
+	
 	private static final int FONT_SIZE = 30;
 	private Receiver myReceiver;
 	private VBox myRoot;
@@ -53,6 +57,12 @@ public class HistoryPane implements DataPane {
 
 	public void add(String str) {
 		myList.add(str);
+	}
+
+	@Override
+	public void record(Map<String, Writable> history) {
+		history.forEach((k, v) -> myList.add(k));
+
 	}
 
 }

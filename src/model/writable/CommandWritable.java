@@ -2,7 +2,7 @@ package model.writable;
 
 import java.util.List;
 import model.node.CommandList;
-import model.node.basic.Variable;
+import model.node.database.Variable;
 
 public class CommandWritable extends Writable {
     private String name;

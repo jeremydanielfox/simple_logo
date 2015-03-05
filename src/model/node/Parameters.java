@@ -1,7 +1,7 @@
 package model.node;
 
 import java.util.List;
-import model.node.basic.Variable;
+import model.node.database.Variable;
 
 //TODO: decide if should be considered and EvalNode
 public class Parameters extends EvalNode {
