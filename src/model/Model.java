@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import model.Parser.TokenProperty;
-import model.database.Database;
+import model.database.OldDatabase;
 import model.line.LineListCollection;
 import model.node.CommandList;
 import model.turtle.SingleTurtle;
@@ -35,7 +35,7 @@ public class Model implements Receiver, LanguageSetter {
 
     public void updateModel (String feed, int id) {
         currentWorkspace = myWorkspaces.get(id);
-        Database.getInstance().addFeed(feed);
+        OldDatabase.getInstance().addFeed(feed);
         Parser parser = new Parser(myPatterns);
         List<TokenProperty> feedList = parser.parse(feed);
         CommandList tree = TreeBuilder.build(currentWorkspace, feedList);

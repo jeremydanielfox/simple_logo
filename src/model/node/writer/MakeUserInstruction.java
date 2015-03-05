@@ -1,14 +1,14 @@
 package model.node.writer;
 
 import java.util.List;
-import model.database.Database;
+import model.database.OldDatabase;
 import model.database.Writer;
 import model.node.ChildBuilder;
 import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.Parameters;
-import model.node.basic.Command;
-import model.node.basic.Variable;
+import model.node.database.Command;
+import model.node.database.Variable;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 import model.writable.CommandWritable;
@@ -21,7 +21,7 @@ public class MakeUserInstruction extends EvalNode {
 
     public MakeUserInstruction (Writer writer) {
         super();
-        Database.getInstance().setDefiningSignal(true);
+        OldDatabase.getInstance().setDefiningSignal(true);
         myWriter = writer;
     }
 
@@ -39,7 +39,7 @@ public class MakeUserInstruction extends EvalNode {
     }
 
     private void update () {
-        Database.getInstance().putCommand(getEvalChild("name").toString(),
+        OldDatabase.getInstance().putCommand(getEvalChild("name").toString(),
                                           ((Parameters) getEvalChild("params")).getList(),
                                           (CommandList) getEvalChild("commands"));
     }

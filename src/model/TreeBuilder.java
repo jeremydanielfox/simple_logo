@@ -11,7 +11,7 @@ import model.node.EvalNode;
 import model.node.NodeFactory;
 import model.node.Parameters;
 import model.node.TreeNode;
-import model.node.basic.Variable;
+import model.node.database.Variable;
 import model.node.writer.MakeUserInstruction;
 import model.turtle.SingleTurtle;
 import Exceptions.IncorrectSyntaxException;

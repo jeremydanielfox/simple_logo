@@ -11,7 +11,7 @@ import model.writable.VariableWritable;
 import model.writable.Writable;
 import view.Historian;
 
-public class WorkspaceHistory implements Recordable, Writer {
+public class WorkspaceHistory implements Recordable, Writer, Database {
 
     //private List<String> feedHistory;
     private Map<Class<? extends Writable>, Map <String, Writable>> historiesMap;
@@ -45,5 +45,15 @@ public class WorkspaceHistory implements Recordable, Writer {
         // front-end will just call writable.getValue;
         Map<String, Writable> map = Optional.of(historiesMap.get(writable.getClass())).orElse(feedMap);
         map.put(writable.getName(), writable);
+    }
+    
+    @Override
+    public Writable getWritable (String name){
+        if (name.startsWith(":")) {
+            return varsMap.get(name);
+        }
+        else{
+            return cmdsMap.get(name);
+        }
     }
 }

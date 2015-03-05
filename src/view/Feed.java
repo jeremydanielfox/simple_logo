@@ -17,7 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Receiver;
-import model.database.Database;
+import model.database.OldDatabase;
 import model.line.LineListCollection;
 
 public class Feed {
