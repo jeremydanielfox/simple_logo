@@ -24,6 +24,6 @@ public class Variable extends ZeroArgOperation {
     
     @Override
     public String toString () {
-        return myName;
+        return myName + " ";
     }
 }
