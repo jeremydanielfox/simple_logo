@@ -36,6 +36,7 @@ public class Model implements Receiver {
             tree.evaluate();
             
             //Database.getInstance().printVarsHistory(); //for testing
+            Database.getInstance().printCmdsHistory();
             
             myScreenData.update(Arrays.asList(myTurtle));
             return myScreenData;
