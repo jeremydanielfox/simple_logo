@@ -26,7 +26,6 @@ public class Model implements Receiver, LanguageSetter {
 
     public Model (Point2D offset) {
         myWorkspaces = new ArrayList<Workspace>();
-        // myScreenData.update(Arrays.asList((myTurtle)));
     }
 
     public void giveText (String text, int id) {
@@ -56,10 +55,9 @@ public class Model implements Receiver, LanguageSetter {
         while (iter.hasMoreElements()) {
             String key = iter.nextElement();
             String regex = resources.getString(key);
-            patterns.add(new SimpleEntry<String, Pattern>(key,
-                                                          // THIS IS THE KEY LINE
-                                                          Pattern.compile(regex,
-                                                                          Pattern.CASE_INSENSITIVE)));
+            patterns.add(new SimpleEntry<String, Pattern>(
+                    key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+                                                          // THIS IS THE KEY LINE                   
         }
         return patterns;
     }

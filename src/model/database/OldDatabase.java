@@ -126,6 +126,14 @@ public final class OldDatabase {
     		 System.out.println(s + " " + getVarsHistory().get(s));
 		 }
     }
+ 
+   public void printCmdsHistory(){  //for testing
+       System.out.println("CmdsHistory:");
+       for (String s : getCmdsHistory().keySet()){
+               System.out.println(s + " " + getCmdsHistory().get(s));
+               }
+       System.out.println("EndCmdsHistory");
+   }
 
     public static class CommandWrapper {
         private List<Variable> params;

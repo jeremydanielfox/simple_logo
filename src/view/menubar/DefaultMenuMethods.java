@@ -2,7 +2,9 @@ package view.menubar;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public final class DefaultMenuMethods {
 
@@ -18,8 +20,10 @@ public final class DefaultMenuMethods {
 		return;
 	}
 
-	public void loadCommand() {
-		System.out.println("Not Implemented");
+	public void loadCommand() throws FileNotFoundException {
+		String content = new Scanner(new File("Slogo_Functions")).useDelimiter("\\Z").next();
+		System.out.println(content);
+		//TODO: pass this to backend
 	}
 
 	public void saveCommand() {
