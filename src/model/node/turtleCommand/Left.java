@@ -1,7 +1,8 @@
 package model.node.turtleCommand;
 
-import model.Turtle;
 import model.node.OneArgOperation;
+import model.turtle.SingleTurtle;
+import model.turtle.Turtle;
 
 
 public class Left extends OneArgOperation {

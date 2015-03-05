@@ -1,7 +1,8 @@
 package model.node.turtleCommand;
 
-import model.Turtle;
 import model.node.OneArgOperation;
+import model.turtle.SingleTurtle;
+import model.turtle.Turtle;
 
 public class Backward extends OneArgOperation {
     
@@ -13,6 +14,8 @@ public class Backward extends OneArgOperation {
     
     @Override
     public double evaluate () {
-        return myTurtle.translate(-getArg()); 
+        double result = -getArg();
+        myTurtle.translate(result); 
+        return result;
     }
 }

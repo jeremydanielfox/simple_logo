@@ -1,19 +1,19 @@
-package model;
+package model.turtle;
 
 public class PolarVector {
 	private double myRadius;
 	private double myTheta;
 
-	protected PolarVector(double r, double t) {
+	public PolarVector(double r, double t) {
 		myRadius = r;
 		myTheta = t;
 	}
 
-	protected double getRadius() {
+	public double getRadius() {
 		return myRadius;
 	}
 
-	protected double getTheta() {
+	public double getTheta() {
 		return myTheta;
 	}
 }

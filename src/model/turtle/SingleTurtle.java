@@ -1,48 +1,67 @@
-package model;
+package model.turtle;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point2D;
+import model.line.LineList;
+import model.line.SingleLine;
+import model.turtle.mover.Mover;
+import model.turtle.mover.UnboundedMover;
+import view.Drawer;
 
 
-public class Turtle {
-    private static int ourId = 0;
+public class SingleTurtle implements Turtle{
+    private static int ourId = 1;
 
     private Point2D myPosition;
-    private Point2D myPreviousPosition;
+    private Point2D myLastPosition;
     private double myHeading;
-    private List<LineData> myLines;
+    private LineList myLines;
     private boolean visible;
     private boolean penUp;
-
     private int myId;
+
+    private ObjectProperty<Point2D> myPositionProperty;
+    private DoubleProperty myHeadingProperty;
     private static Point2D HOME = new Point2D(0, 0);
     private static final Mover MOVER = new UnboundedMover();
 
-    public static void reset () {
-        ourId = -1;
-    }
-
-    public Turtle (Point2D offset) {
-    	HOME = offset;
-        myId = ourId++;
+    
+    public SingleTurtle (int id) {
+        myId = id;
         myPosition = HOME;
-        myPreviousPosition = HOME; // seems sloppy...
+        myLastPosition = HOME;
+        myPositionProperty = new SimpleObjectProperty<Point2D>(myPosition);
         myHeading = 0;
-        myLines = new ArrayList<LineData>();
+        myHeadingProperty = new SimpleDoubleProperty(myHeading);
+        myLines = new LineList();
         visible = true;
         penUp = false;
+    }
+    
+    @Override
+    public void beDrawn (Drawer drawer) {
+        drawer.drawTurtle(myPosition, myHeading, visible);
     }
 
     public void move (PolarVector vector) {
         MOVER.moveTurtle(this, vector);
         // update TurtleData, add to list somewhere...
     }
+    
+    public void addLocationListener(InvalidationListener listener){
+        myPositionProperty.addListener(listener);
+    }
+    
+    public void addHeadingListener(InvalidationListener listener){
+        myHeadingProperty.addListener(listener);
+    }
 
-    public double translate (double distance) {
+    public void translate (double distance) {
         move(new PolarVector(distance, 0));
-        return distance;
     }
 
     public double rotate (double angle) {
@@ -61,6 +80,7 @@ public class Turtle {
         double r = HOME.distance(getPosition());
         setHeading(0);
         setPosition(HOME);
+        move(new PolarVector(0,0));
         return r;
     }
     
@@ -73,13 +93,13 @@ public class Turtle {
         return myId;
     }
 
-    protected void setPosition (Point2D position) {
-        myPreviousPosition = new Point2D(myPosition.getX(), myPosition.getY());
+    public void setPosition (Point2D position) {
+        myLastPosition = new Point2D(myPosition.getX(), myPosition.getY());
         myPosition = position;
     }
 
     // heading must be between 0 and 360
-    protected void setHeading (double heading) {
+    public void setHeading (double heading) {
         if (heading >= 0 && heading < 360) {
             myHeading = heading;
             return;
@@ -92,7 +112,7 @@ public class Turtle {
         }
     }
 
-    protected void addLine (LineData data) {
+    public void addLine (SingleLine data) {
         myLines.add(data);
     }
 
@@ -100,16 +120,16 @@ public class Turtle {
         return myPosition;
     }
 
-    protected Point2D getPreviousPosition () {
-        return myPreviousPosition;
+    public Point2D getLastPosition () {
+        return myLastPosition;
     }
 
     public double getHeading () {
         return myHeading;
     }
 
-    protected List<LineData> getLineDatas () {
-        return Collections.unmodifiableList(myLines);
+    public LineList getLines () {
+        return myLines;
     }
 
     public double setVisible () {
@@ -136,8 +156,16 @@ public class Turtle {
         return visible;
     }
 
-    protected boolean isPenUp () {
+    public boolean isPenUp () {
         return penUp;
+    }
+
+    public ObjectProperty<Point2D> getPositionProperty () {
+        return myPositionProperty;
+    }
+    
+    public DoubleProperty getHeadingProperty () {
+        return myHeadingProperty;
     }
 
 }

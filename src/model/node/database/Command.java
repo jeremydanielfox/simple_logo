@@ -1,32 +1,36 @@
-package model.node.basic;
+package model.node.database;
 
 import java.util.ArrayList;
 import java.util.List;
-import Exceptions.UnrecognizedTokenException;
 import model.database.Database;
+import model.database.OldDatabase;
 import model.node.ChildBuilder;
 import model.node.EvalNode;
+import model.writable.CommandWritable;
+import Exceptions.UnrecognizedTokenException;
 
 
 public class Command extends EvalNode {
 
     private String name;
+    private Database database;
     private List<Variable> params;
 
-    public Command (String name) {
+    public Command (String name, Database database) {
         super(true);
         // two cases:
         // 1) being defined (e.g. to square[:dist])
         // 2) all further times (e.g. square 50)
         this.name = name;
+        this.database = database;
         params = new ArrayList<Variable>();
         if (beingDefined()){
-            Database.getInstance().setDefiningSignal(false);
+            database.setDefiningSignal(false);
             super.setChildBuilders();
         }
         else{
             verify();
-            params = Database.getInstance().getCommand(name).getParameters();
+            params = ((CommandWritable) database.getWritable(name)).getParameters();
             super.setChildBuilders();       
         }
     }
@@ -36,11 +40,11 @@ public class Command extends EvalNode {
         for (int i = 0; i < params.size(); i++) {
             params.get(i).update(getEvalChild(String.format("var%d", i)).evaluate());
         }
-        return Database.getInstance().getCommand(name).getCommandList().evaluate();
+        return ((CommandWritable) database.getWritable(name)).getCommands().evaluate();
     }
 
     protected boolean beingDefined () {
-        return (Database.getInstance().getDefiningSignal());
+        return database.getDefiningSignal();
     }
     
     @Override
@@ -53,7 +57,7 @@ public class Command extends EvalNode {
     }
 
     private void verify () {
-        if (Database.getInstance().getCommand(name).equals(null)) { 
+        if (database.getWritable(name) == null){
             throw new UnrecognizedTokenException(name); 
         }
     }

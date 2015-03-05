@@ -3,7 +3,7 @@ package model.node.controlStructure;
 import model.node.ChildBuilder;
 import model.node.CommandList;
 import model.node.EvalNode;
-import model.node.basic.Variable;
+import model.node.database.Variable;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 
@@ -15,15 +15,10 @@ public class DoTimes extends Repeat {
         updateVar(0);
         return 0;
     }
-    
-    @Override
-    protected Variable getVarChild () {
-        return (Variable) getEvalChild("var");
-    }
 
     @Override
     protected void updateVar (double value) {
-        getVarChild().update(value);
+        ((Variable) getEvalChild("var")).update(value);
     }
 
     @Override

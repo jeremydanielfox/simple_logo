@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,16 +19,21 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Receiver;
-import model.database.Database;
+import model.database.OldDatabase;
+import model.line.LineListCollection;
 
 public class Feed {
+
 	private Receiver myReceiver;
 	private HBox myObjects;
 	private Button add;
 	private Button enter;
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/feed");
-	private static TextArea prompter;
+	private TextArea prompter;
+	private int myID;
+	private Stage myStage;
+
 	private static final int ADD_WIDTH = Integer.parseInt(myValues
 			.getString("Add_Width"));
 	private static final int ADD_HEIGHT = Integer.parseInt(myValues
@@ -36,7 +42,8 @@ public class Feed {
 	private static final String ADD_TEXT = myValues.getString("Add_Text");
 	private static final String ENTER_TEXT = myValues.getString("Enter_Text");
 
-	protected Feed(Receiver receiver) {
+	protected Feed(Receiver receiver, int id) {
+		myID = id;
 		myReceiver = receiver;
 		myObjects = new HBox();
 		setupPrompter();
@@ -55,9 +62,9 @@ public class Feed {
 			@Override
 			public void handle(ActionEvent e) {
 				if (prompter.getText() != null)
-//				myReceiver.giveText(prompter.getText());
 					try {
-						myReceiver.giveText(prompter.getText());
+						String text = prompter.getText();
+						myReceiver.giveText(prompter.getText(), myID);
 					} catch (SlogoException ex) {
 						ErrorDisplay.getInstance().displayError(ex);
 					}
@@ -74,31 +81,19 @@ public class Feed {
 		add = new Button(ADD_TEXT);
 		add.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		add.setOnAction(e -> {
-			Database myData = Database.getInstance();
-			Stage myStage = new Stage();
+			// Database myData = Database.getInstance();
+			myStage = new Stage();
 			myStage.setHeight(ADD_WIDTH);
 			myStage.setWidth(ADD_HEIGHT);
-			
-			VBox myRoot = new VBox();
-			HBox myTitleBox = new HBox();
-			Label myTitle = new Label("Commands");
-			Button myAddButton = new Button("Add");
-			ObservableMap<String, String> myMap = myData.getCmdsHistory();
-			ObservableList<String> myList = FXCollections
-					.observableArrayList(myMap.keySet());
-			ListView<String> myListView = new ListView<String>(myList);
-			myListView.setPrefHeight(0);
-			VBox.setVgrow(myListView, Priority.ALWAYS);
-			myAddButton.setOnMouseClicked(e2 -> {
-				Feed.addText(myListView.getSelectionModel().getSelectedItem());
-				myStage.close();
-			});
-			myTitleBox.getChildren().addAll(myTitle, myAddButton);
-			myRoot.getChildren().addAll(myTitleBox, myListView);
-			Scene myScene = new Scene(myRoot);
+			CommandPane cp = new CommandPane(this);
+			Scene myScene = new Scene((Parent) cp.init());
 			myStage.setScene(myScene);
 			myStage.show();
 		});
+	}
+
+	public Stage getStage() {
+		return this.myStage;
 	}
 
 	/**
@@ -114,7 +109,7 @@ public class Feed {
 		return myObjects;
 	}
 
-	public static void addText(String text) {
+	public void addText(String text) {
 		prompter.insertText(prompter.getCaretPosition(), text);
 	}
 

@@ -1,31 +1,45 @@
-package model.node.controlStructure;
+package model.node.writer;
 
-import model.database.Database;
+import java.util.List;
+import model.database.OldDatabase;
+import model.database.Writer;
 import model.node.ChildBuilder;
 import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.Parameters;
-import model.node.basic.Command;
+import model.node.database.Command;
+import model.node.database.Variable;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
+import model.writable.CommandWritable;
+import model.writable.Writable;
 
 
 public class MakeUserInstruction extends EvalNode {
-    
-    public MakeUserInstruction(){
+
+    private Writer myWriter;
+
+    public MakeUserInstruction (Writer writer) {
         super();
-        Database.getInstance().setDefiningSignal(true);
+        writer.setDefiningSignal(true);
+        myWriter = writer;
     }
 
     // TODO: determine how command could be unsuccessfully added...
     @Override
     public double evaluate () {
-        update();
+        update2();
         return 1;
     }
 
+    private void update2 () {
+        myWriter.write(new CommandWritable(getEvalChild("name").toString(),
+                                           ((Parameters) getEvalChild("params")).getList(),
+                                           (CommandList) getEvalChild("commands")));
+    }
+
     private void update () {
-        Database.getInstance().putCommand(getEvalChild("name").toString(),
+        OldDatabase.getInstance().putCommand(getEvalChild("name").toString(),
                                           ((Parameters) getEvalChild("params")).getList(),
                                           (CommandList) getEvalChild("commands"));
     }
@@ -40,4 +54,5 @@ public class MakeUserInstruction extends EvalNode {
                                    new ChildBuilder("commands", CommandList.class),
                                    new ChildBuilder("listEnd", ListEnd.class) };
     }
+
 }

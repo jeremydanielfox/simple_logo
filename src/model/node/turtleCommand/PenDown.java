@@ -1,7 +1,7 @@
 package model.node.turtleCommand;
 
-import model.Turtle;
 import model.node.ZeroArgOperation;
+import model.turtle.Turtle;
 
 public class PenDown extends ZeroArgOperation {
 

@@ -1,18 +1,20 @@
-package model;
+package model.turtle.mover;
 
+import model.turtle.PolarVector;
+import model.turtle.SingleTurtle;
 import javafx.geometry.Point2D;
 
 
 public class WrapMover implements Mover {
 
     @Override
-    public void moveTurtle (Turtle turtle, PolarVector vector) {
+    public void moveTurtle (SingleTurtle turtle, PolarVector vector) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void drawLines (Turtle turtle) {
+    public void drawLines (SingleTurtle turtle) {
         // TODO Auto-generated method stub
         
     }
