@@ -12,12 +12,10 @@ public class WorkspaceDisplay {
 	private TurtleView myTurtleView;
 	private HistoryPane myHistory;
 	private VariablePane myVariables;
-	private static int ourID = -1;
 	private int myID;
 
-	public WorkspaceDisplay() {
-		ourID++;
-		myID = ourID;
+	public WorkspaceDisplay(int id) {
+		myID = id;
 	}
 
 	public Node init(Receiver receiver) {

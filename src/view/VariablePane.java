@@ -1,6 +1,6 @@
 package view;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +18,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Receiver;
-import model.database.Database;
+import model.writable.Writable;
 
-public class VariablePane {
+public class VariablePane implements Historian {
 
 	private Receiver myReceiver;
 	private BorderPane myRoot;
@@ -32,7 +32,7 @@ public class VariablePane {
 	private int myID;
 	private Feed myFeed;
 
-	public VariablePane(Receiver receiver,int id,Feed feed) {
+	public VariablePane(Receiver receiver, int id, Feed feed) {
 		myReceiver = receiver;
 		myID = id;
 		myFeed = feed;
@@ -78,7 +78,7 @@ public class VariablePane {
 	}
 
 	private void handleEditOutput(String name, String value) {
-		myReceiver.giveText("set " + name + " " + value,myID);
+		myReceiver.giveText("set " + name + " " + value, myID);
 		myMap.put(name, value);
 		myStage.close();
 	}
@@ -89,6 +89,12 @@ public class VariablePane {
 
 	public void put(String key, String value) {
 		myMap.put(key, value);
+	}
+
+	@Override
+	public void record(Map<String, Writable> history) {
+		history.forEach((k, v) -> myMap.put(k, v.getValue()));
+
 	}
 
 }

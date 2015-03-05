@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
-
-import javafx.scene.Group;
-
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -17,7 +14,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import model.Model;
 import model.Receiver;
-import model.database.Database;
 import view.menubar.MenuBuilder;
 import Exceptions.BadResourcePackageException;
 
@@ -48,7 +44,6 @@ public class Display {
 
 	public Scene init(Model model) {
 		myModel = model;
-//		myFeed = new Feed((Receiver) myModel);
 		setupWorkspaces((Receiver) myModel);
 		try {
 			makeMenuBar();
@@ -67,11 +62,10 @@ public class Display {
 	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
 		myWorkspaceDisplays.setTabMinWidth(TAB_MIN_WIDTH);
-		makeWorkspaceDisplay(receiver);
 	}
 
-	public void makeWorkspaceDisplay(Receiver receiver) {
-		WorkspaceDisplay myWorkspace = new WorkspaceDisplay();
+	public void makeWorkspaceDisplay(Receiver receiver, int id) {
+		WorkspaceDisplay myWorkspace = new WorkspaceDisplay(id);
 		Node workspaceNode = myWorkspace.init(receiver);
 		myWorkspaces.add(myWorkspace);
 		Tab tab = new Tab();

@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Map;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -11,8 +13,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.Receiver;
+import model.writable.Writable;
 
-public class HistoryPane {
+public class HistoryPane implements Historian {
 	private static final int FONT_SIZE = 30;
 	private Receiver myReceiver;
 	private VBox myRoot;
@@ -20,11 +23,10 @@ public class HistoryPane {
 	private ListView<String> myListView;
 	private ObservableList<String> myList;
 
-	public HistoryPane(Receiver receiver,int id) {
+	public HistoryPane(Receiver receiver, int id) {
 		myReceiver = receiver;
 		myID = id;
 	}
-
 
 	public Node init() {
 		// myData = Database.getInstance();
@@ -47,13 +49,19 @@ public class HistoryPane {
 	private void handleMouseInput() {
 		if (myListView.getSelectionModel().getSelectedItem() != null) {
 			myReceiver.giveText(myListView.getSelectionModel()
-					.getSelectedItem(),myID);
+					.getSelectedItem(), myID);
 			myListView.getSelectionModel().clearSelection();
 		}
 	}
 
 	public void add(String str) {
 		myList.add(str);
+	}
+
+	@Override
+	public void record(Map<String, Writable> history) {
+		history.forEach((k, v) -> myList.add(k));
+
 	}
 
 }
