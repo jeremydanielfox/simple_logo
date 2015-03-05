@@ -1,13 +1,13 @@
 package model.node.turtleCommand;
 
 import model.node.ZeroArgOperation;
-import model.turtle.SingleTurtle;
+import model.turtle.Turtle;
 
 public class ClearScreen extends ZeroArgOperation {
     
-    private SingleTurtle myTurtle;
+    private Turtle myTurtle;
 
-    public ClearScreen (SingleTurtle t) {
+    public ClearScreen (Turtle t) {
         myTurtle = t;
     }
 

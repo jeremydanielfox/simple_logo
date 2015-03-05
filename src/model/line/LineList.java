@@ -27,7 +27,7 @@ public class LineList implements Line, Clearable {
 
         @Override
         public void beCleared(Clearer clearer) {
-                myList.clear();
+//                myList.clear();
                 clearer.clearLines();
                 
         }

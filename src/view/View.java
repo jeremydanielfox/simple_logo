@@ -23,6 +23,7 @@ import model.Receiver;
 import model.Workspace;
 import model.line.LineList;
 import model.line.LineListCollection;
+import model.turtle.TurtleList;
 
 
 public class View implements WorkspaceCreator {
@@ -54,47 +55,25 @@ public class View implements WorkspaceCreator {
 
     private void initializeWorkspace () {
         Workspace workspace = new Workspace();
-        LineListCollection lineList = workspace.getLines();
-//        lineList.addChangeListener((obs, ov, nv) -> {
-//            System.out.println("triggered");
-//            nv.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
+        LineListCollection lineLists = workspace.getLines();
+        TurtleList turtles = workspace.getTurtles();
+        lineLists.addListener(c -> {
+            System.out.println("triggered1");
+            myDisplay.getSelectedWorkspace().getTurtleView().clearLines();
+            myDisplay.getSelectedWorkspace().getTurtleView().clearTurtles();
+            lineLists.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
+            turtles.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
+        });
+//        TurtleList turtles = workspace.getTurtles();
+//        turtles.addLocationListener((o) -> {
+//            System.out.println("triggered2");
+//        });
+//        turtles.addHeadingListener((o) ->{
+//            System.out.println("triggered3");
 //        });
         
-        lineList.addListener(c -> {
-            System.out.println("triggered");
-            while (c.next()) {
-                for (Drawable drawable : c.getAddedSubList()) {
-                   drawable.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
-                }
-            }
-//            c.getAddedSubList().forEach(d -> d.beDrawn(myDisplay.getSelectedWorkspace()
-//                                                .getTurtleView()));
-
-            //c.getRemoved().forEach(d -> d.beCleared(myDisplay.getSelectedWorkspace()
-            //                               .getTurtleView()));
-
-        });
         myModel.setWorkspace(workspace);
     }
-
-    // private ObservableList<Drawable> createDrawables () {
-    // ObservableList<Drawable> list = FXCollections.observableArrayList();
-    // list.addListener( (ListChangeListener.Change<? extends Drawable> c) -> {
-    // while (c.next()) {
-    // for (Drawable removeItem : c.getRemoved()) {
-    // removeItem.Clear(myDisplay.getSelectedWorkspace()
-    // .getTurtleView());
-    // break;
-    // }
-    // for (Drawable addItem : c.getAddedSubList()) {
-    // addItem.Draw(myDisplay.getSelectedWorkspace()
-    // .getTurtleView());
-    // }
-    // }
-    // });
-    // return list;
-    //
-    // }
 
     public void makeWorkspace () {
         String[] drawNames = new String[] { "Lines", "Turtles", "Stamps" };
