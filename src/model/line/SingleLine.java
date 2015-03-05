@@ -1,10 +1,13 @@
 package model.line;
 
-import view.Drawer;
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
+import view.Drawer;
 
 
-public class SingleLine implements Line {
+public class SingleLine implements Line,ObservableValue<SingleLine> {
     private Point2D start;
     private Point2D finish;
 
@@ -30,6 +33,40 @@ public class SingleLine implements Line {
         return "Start = " + start.toString() + ". Finish =  "
                + finish.toString();
     }
+
+	@Override
+	public void addListener(InvalidationListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeListener(InvalidationListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addListener(ChangeListener<? super SingleLine> listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeListener(ChangeListener<? super SingleLine> listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SingleLine getValue() {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
+	
+
     
     
     //

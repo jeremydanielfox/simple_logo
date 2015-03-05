@@ -1,32 +1,22 @@
 package model.line;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.stream.Collectors;
+
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import model.Clearable;
-import model.Drawable;
 import model.turtle.SingleTurtle;
 import model.turtle.TurtleList;
 import view.Clearer;
 import view.Drawer;
-import view.Renderable;
 
 
 // would belong to a workspace
-public class LineListCollection implements Line, Clearable {
+public class LineListCollection implements Line, Clearable,ChangeListener<LineList>,ObservableValue<LineListCollection> {
 
     private int myId;
     private ObservableList<LineList> myLineLists;
@@ -40,6 +30,7 @@ public class LineListCollection implements Line, Clearable {
         myLineLists = FXCollections.observableArrayList();
         for (SingleTurtle turtle : turtles.getAllTurtles()) {
             myLineLists.add(turtle.getLines());
+            turtle.getLines().addListener(this);
         }
     }
 
@@ -66,11 +57,50 @@ public class LineListCollection implements Line, Clearable {
 
     }
 
-    public void addListener (ListChangeListener<? super Line> listener) {
-        myLineLists.addListener(listener);
-        myLineLists.forEach(lineList -> lineList.addListener(listener));
-        // addListener((ListChangeListener<? super LineList>) listener);
-    }
+//    public void addListener (ListChangeListener<? super Line> listener) {
+//        myLineLists.addListener(listener);
+//        myLineLists.forEach(lineList -> lineList.addListener(listener));
+//        // addListener((ListChangeListener<? super LineList>) listener);
+//    }
+
+	@Override
+	public void changed(ObservableValue<? extends LineList> observable,
+			LineList oldValue, LineList newValue) {
+		// TODO Auto-generated method stub
+		myLineLists.remove(oldValue);
+		myLineLists.add(newValue);
+		
+	}
+
+@Override
+public void addListener(InvalidationListener listener) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void removeListener(InvalidationListener listener) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void addListener(ChangeListener<? super LineListCollection> listener) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void removeListener(ChangeListener<? super LineListCollection> listener) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public LineListCollection getValue() {
+	// TODO Auto-generated method stub
+	return this;
+}
 
 //
 //    @Override

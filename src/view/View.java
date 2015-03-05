@@ -55,37 +55,42 @@ public class View implements WorkspaceCreator {
 		// System.out.println("triggered");
 		// nv.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
 		// });
-
 		lineList.addListener(c -> {
-			System.out.println("triggered");
-			while (c.next()) {
-				for (Drawable drawable : c.getAddedSubList()) {
-					drawable.beDrawn(myDisplay.getSelectedWorkspace()
-							.getTurtleView());
-				}
-//				c.getRemoved().forEach(d -> d.);
-			}
-			// c.getAddedSubList().forEach(d ->
-			// d.beDrawn(myDisplay.getSelectedWorkspace()
-			// .getTurtleView()));
-
-			// c.getRemoved().forEach(d ->
-			// d.beCleared(myDisplay.getSelectedWorkspace()
-			// .getTurtleView()));
-
+			lineList.beDrawn(myDisplay.getSelectedWorkspace().getTurtleView());
 		});
-		
-		turtles.addListener(c -> {
-			System.out.println("Caught turtle");
-			while (c.next()) {
-				c.getAddedSubList().forEach(
-						d -> d.beDrawn(myDisplay.getSelectedWorkspace()
-								.getTurtleView()));
-			}
-		});
+
+		// lineList.addListener(c -> {
+		// System.out.println("triggered");
+		// while (c.next()) {
+		// for (Drawable drawable : c.getAddedSubList()) {
+		// drawable.beDrawn(myDisplay.getSelectedWorkspace()
+		// .getTurtleView());
+		// }
+		// // c.getRemoved().forEach(d -> d.);
+		// }
+		// c.getAddedSubList().forEach(d ->
+		// d.beDrawn(myDisplay.getSelectedWorkspace()
+		// .getTurtleView()));
+
+		// c.getRemoved().forEach(d ->
+		// d.beCleared(myDisplay.getSelectedWorkspace()
+		// .getTurtleView()));
+
+		// });
+		//
+		// turtles.addListener(c -> {
+		// System.out.println("Caught turtle");
+		// while (c.next()) {
+		// c.getAddedSubList().forEach(
+		// d -> d.beDrawn(myDisplay.getSelectedWorkspace()
+		// .getTurtleView()));
+		// }
+		// });
 		myModel.setWorkspace(workspace);
-		myDisplay.makeWorkspaceDisplay((Receiver) myModel);
 	}
+
+	// myDisplay.makeWorkspaceDisplay((Receiver) myModel);
+	// }
 
 	// private ObservableList<Drawable> createDrawables () {
 	// ObservableList<Drawable> list = FXCollections.observableArrayList();
