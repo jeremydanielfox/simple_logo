@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,13 +19,12 @@ import javafx.stage.Stage;
 import model.Receiver;
 import model.writable.Writable;
 
-public class VariablePane implements Historian {
+public class VariablePane implements DataPane {
 
 	private Receiver myReceiver;
 	private BorderPane myRoot;
 	private VBox myVBox;
 	private ListView<String> myListView;
-	private ObservableMap<String, String> myMap;
 	private ObservableList<String> myList;
 	private Stage myStage;
 	private int myID;
@@ -40,7 +38,6 @@ public class VariablePane implements Historian {
 
 	public Node init() {
 		myVBox = new VBox();
-		myMap = FXCollections.observableHashMap();
 		HBox titleBox = new HBox();
 		Label title = new Label("Variables");
 		title.setFont(new Font(30));

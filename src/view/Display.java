@@ -1,7 +1,5 @@
 package view;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
@@ -12,6 +10,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import model.LanguageSetter;
 import model.Model;
 import model.Receiver;
 import view.menubar.MenuBuilder;
@@ -24,22 +23,30 @@ public class Display {
 
 	private Scene myScene;
 	private BorderPane myRoot;
-	private MenuBar myMenuBar;
+	private LanguageSetter myLangSetter;
 	private TabPane myWorkspaceDisplays;
 	private Collection<WorkspaceDisplay> myWorkspaces;
 	private Feed myFeed;
 	private Model myModel;
-	private static final double TAB_MIN_WIDTH = 50;
 
-	protected Display() {
+	protected Display(LanguageSetter ls) {
 		myRoot = new BorderPane();
 		myWorkspaces = new ArrayList<>();
+		myLangSetter = ls;
 	}
 
-	public static Display getInstance() {
+	public static Display getInstance(LanguageSetter ls) {
 		if (instance == null)
-			instance = new Display();
+			instance = new Display(ls);
 		return instance;
+	}
+
+	public Display getDisplay() {
+		return this;
+	}
+
+	public LanguageSetter getLangSetter() {
+		return this.myLangSetter;
 	}
 
 	public Scene init(Model model) {
@@ -61,7 +68,12 @@ public class Display {
 
 	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
-		myWorkspaceDisplays.setTabMinWidth(TAB_MIN_WIDTH);
+		myWorkspaceDisplays.setTabMinWidth(Integer.parseInt(myValues
+				.getString("TAB_MIN_WIDTH")));
+		
+		//REMNANTS OF MERGE CONFLICT, NOT SURE IF IMPORTANT
+//		makeWorkspaceDisplay(receiver);
+		
 	}
 
 	public void makeWorkspaceDisplay(Receiver receiver, int id) {
@@ -74,40 +86,8 @@ public class Display {
 	}
 
 	private void makeMenuBar() throws BadResourcePackageException {
-		myMenuBar = new MenuBar();
-		File dir = new File("src/resources/menus/");
-		File[] dirArray = dir.listFiles();
-		if (dirArray != null) {
-			for (File file : dirArray) {
-				String source = file.getName().replaceAll(".properties", "");
-				ResourceBundle rb = ResourceBundle.getBundle("resources/menus/"
-						+ source);
-				ArrayList<Object> params = new ArrayList<Object>();
-				if (rb.containsKey("Params")) {
-					for (String s : rb.getString("Params").split(", ")) {
-						try {
-							Object o = Class
-									.forName(s)
-									.getDeclaredMethod("getInstance",
-											(Class<?>[]) null)
-									.invoke(null, (Object[]) null);
-							params.add(o);
-						} catch (IllegalAccessException
-								| IllegalArgumentException
-								| InvocationTargetException
-								| NoSuchMethodException | SecurityException
-								| ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-				MenuBuilder mb = new MenuBuilder(myMenuBar, rb, params);
-				myMenuBar = mb.build();
-			}
-		} else {
-			throw new BadResourcePackageException();
-		}
-		myRoot.setTop(myMenuBar);
+		MenuBuilder menuBuilder = new MenuBuilder(new MenuBar(), this);
+		myRoot.setTop(menuBuilder.getMenuBar());
 	}
 
 	public BorderPane getRoot() {

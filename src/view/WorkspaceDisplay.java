@@ -22,21 +22,21 @@ public class WorkspaceDisplay {
 		myRoot = new BorderPane();
 		myRoot.setRight(makeHistory(receiver));
 		myRoot.setCenter(makeTurtleView());
-		
+
 		Feed feed = new Feed(receiver, this.getID());
 		myRoot.setBottom(feed.getFeed());
-		myRoot.setLeft(makeVariables(receiver,feed));
+		myRoot.setLeft(makeVariables(receiver, feed));
 		return myRoot;
 	}
 
 	private Node makeHistory(Receiver receiver) {
-		myHistory = new HistoryPane(receiver,myID);
+		myHistory = new HistoryPane(receiver, myID);
 		Node histNode = myHistory.init();
 		return histNode;
 	}
 
-	private Node makeVariables(Receiver receiver,Feed feed) {
-		myVariables = new VariablePane(receiver,myID,feed);
+	private Node makeVariables(Receiver receiver, Feed feed) {
+		myVariables = new VariablePane(receiver, myID, feed);
 		Node varNode = myVariables.init();
 		return varNode;
 	}

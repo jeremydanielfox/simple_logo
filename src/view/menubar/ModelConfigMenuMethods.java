@@ -3,13 +3,13 @@ package view.menubar;
 import java.io.File;
 import java.util.ArrayList;
 
+import model.LanguageSetter;
 import javafx.stage.FileChooser;
-import view.View;
 
 public class ModelConfigMenuMethods {
 
 	private static ModelConfigMenuMethods instance;
-	private View myView;
+	private LanguageSetter myLangSetter;
 
 	protected static ModelConfigMenuMethods getInstance() {
 		if (instance == null)
@@ -18,7 +18,7 @@ public class ModelConfigMenuMethods {
 	}
 
 	public void setParams(ArrayList<Object> params) {
-		myView = (View) params.get(0);
+		myLangSetter = (LanguageSetter) params.get(0);
 	}
 
 	public void chooseLanguage() {
@@ -27,9 +27,8 @@ public class ModelConfigMenuMethods {
 				"Resource files (*.properties)", "*.PROPERTIES");
 		fileChooser.getExtensionFilters().add(extFilter);
 		File file = fileChooser.showOpenDialog(null);
-		myView.getLanguageSetter().setLanguage(
-				file.getPath().replaceAll("^.*/src/", "")
-						.replaceAll(".properties", ""));
+		myLangSetter.setLanguage(file.getPath().replaceAll("^.*/src/", "")
+				.replaceAll(".properties", ""));
 	}
 
 }

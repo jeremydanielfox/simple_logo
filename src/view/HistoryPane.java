@@ -15,7 +15,8 @@ import javafx.scene.text.Font;
 import model.Receiver;
 import model.writable.Writable;
 
-public class HistoryPane implements Historian {
+public class HistoryPane implements DataPane {
+	
 	private static final int FONT_SIZE = 30;
 	private Receiver myReceiver;
 	private VBox myRoot;
@@ -31,7 +32,7 @@ public class HistoryPane implements Historian {
 	public Node init() {
 		// myData = Database.getInstance();
 		myRoot = new VBox();
-		myList = FXCollections.observableArrayList();
+		myList = FXCollections.observableArrayList(myMap.keySet());
 		HBox titleBox = new HBox();
 		Label title = new Label("History");
 		title.setFont(new Font(FONT_SIZE));
