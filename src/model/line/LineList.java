@@ -59,7 +59,7 @@ public class LineList implements Line, Clearable {
 		return myList.toString();
 	}
 	
-	public void addListener(ListChangeListener listener) {
+	public void addListener(ListChangeListener<? super Line> listener) {
 	    myList.addListener(listener);
 	}
 }
