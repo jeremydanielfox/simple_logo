@@ -11,11 +11,11 @@ import model.writable.Writable;
 public class Variable extends ZeroArgOperation {
 
     protected String myName;
-    private Writer myWriter;
+    //private Writer myWriter;
 
-    public Variable (Writer writer, String name) {
+    public Variable  (String name) {
         myName = name;
-        myWriter = writer;
+        //myWriter = writer;
     }
 
     @Override

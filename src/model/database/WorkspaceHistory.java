@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Map.Entry;
-import model.node.basic.Constant;
 import model.writable.CommandWritable;
 import model.writable.VariableWritable;
 import model.writable.Writable;
@@ -21,18 +19,10 @@ public class WorkspaceHistory implements Recordable, Writer {
     private Map<String, Writable> varsMap;
     private Map<String, Writable> cmdsMap;
     private List<Map<String, Writable>> histories;
-    
-//    private History feedHistory;
-//    private History cmdHistory;
-//    private History varHistory;
-//    private List<History> myHistories;
+
     
     public WorkspaceHistory () {     
         initializeMaps();
-//        feedHistory = new History("feed");
-//        cmdHistory = new History("command");
-//        varHistory = new History("variable");
-//        myHistories = new ArrayList<History>(Arrays.asList(feedHistory,cmdHistory, varHistory));
     }
     
     private void initializeMaps () {
@@ -42,7 +32,7 @@ public class WorkspaceHistory implements Recordable, Writer {
         historiesMap = new HashMap<Class<? extends Writable>, Map<String, Writable>>();
         historiesMap.put(CommandWritable.class, cmdsMap);
         historiesMap.put(VariableWritable.class, varsMap);    
-        histories.addAll(Arrays.asList(feedMap, varsMap, cmdsMap));
+        histories = new ArrayList<Map<String, Writable>>(Arrays.asList(feedMap, varsMap, cmdsMap));
     }
 
     @Override

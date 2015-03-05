@@ -18,60 +18,58 @@ import model.node.CommandList;
 import model.turtle.SingleTurtle;
 import model.turtle.TurtleList;
 
+
 public class Model implements Receiver, LanguageSetter {
-	private List<Entry<String, Pattern>> myPatterns;
-	private List<Workspace> myWorkspaces;
-	private Workspace currentWorkspace;
+    private List<Entry<String, Pattern>> myPatterns;
+    private List<Workspace> myWorkspaces;
+    private Workspace currentWorkspace;
 
-	public Model(Point2D offset) {
-		myWorkspaces = new ArrayList<Workspace>();
-		// myScreenData.update(Arrays.asList((myTurtle)));
-	}
+    public Model (Point2D offset) {
+        myWorkspaces = new ArrayList<Workspace>();
+        // myScreenData.update(Arrays.asList((myTurtle)));
+    }
 
-	public void giveText(String text, int id) {
-		updateModel(text);
-	}
+    public void giveText (String text, int id) {
+        updateModel(text, id);
+    }
 
-	public void updateModel(String feed) {
-		currentWorkspace = myWorkspaces.get(0);
-		Database.getInstance().addFeed(feed);
-		Parser parser = new Parser(myPatterns);
-		List<TokenProperty> feedList = parser.parse(feed);
-		CommandList tree = TreeBuilder.build(currentWorkspace, feedList);
-		// CommandList tree = parser.parse(feed);
-		tree.evaluate();
+    public void updateModel (String feed, int id) {
+        currentWorkspace = myWorkspaces.get(id);
+        Database.getInstance().addFeed(feed);
+        Parser parser = new Parser(myPatterns);
+        List<TokenProperty> feedList = parser.parse(feed);
+        CommandList tree = TreeBuilder.build(currentWorkspace, feedList);
+        tree.evaluate();
 
-		// Database.getInstance().printVarsHistory(); //for testing
+        // Database.getInstance().printVarsHistory(); //for testing
+    }
 
-		// myScreenData.update(Arrays.asList(myTurtle));
-		// return myScreenData;
-	}
+    public void setLanguage (String language) {
+        myPatterns = makePatterns(language);
+        myPatterns.addAll(makePatterns("resources/languages/Syntax"));
+    }
 
-	public void setLanguage(String language) {
-		myPatterns = makePatterns(language);
-		myPatterns.addAll(makePatterns("resources/languages/Syntax"));
-	}
+    private List<Entry<String, Pattern>> makePatterns (String syntax) {
+        ResourceBundle resources = ResourceBundle.getBundle(syntax);
+        List<Entry<String, Pattern>> patterns = new ArrayList<>();
+        Enumeration<String> iter = resources.getKeys();
+        while (iter.hasMoreElements()) {
+            String key = iter.nextElement();
+            String regex = resources.getString(key);
+            patterns.add(new SimpleEntry<String, Pattern>(key,
+                                                          // THIS IS THE KEY LINE
+                                                          Pattern.compile(regex,
+                                                                          Pattern.CASE_INSENSITIVE)));
+        }
+        return patterns;
+    }
 
-	private List<Entry<String, Pattern>> makePatterns(String syntax) {
-		ResourceBundle resources = ResourceBundle.getBundle(syntax);
-		List<Entry<String, Pattern>> patterns = new ArrayList<>();
-		Enumeration<String> iter = resources.getKeys();
-		while (iter.hasMoreElements()) {
-			String key = iter.nextElement();
-			String regex = resources.getString(key);
-			patterns.add(new SimpleEntry<String, Pattern>(key,
-			// THIS IS THE KEY LINE
-					Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
-		}
-		return patterns;
-	}
+    public void setWorkspace (Workspace workspace) {
+        myWorkspaces.add(workspace);
+    }
 
-	public void setWorkspace(Workspace workspace) {
-		myWorkspaces.add(workspace);
-	}
-
-	public void initalizeWorkspace(TurtleList turtles,
-			LineListCollection linelists) {
-		myWorkspaces.add(new Workspace());
-	}
+    public void initalizeWorkspace (TurtleList turtles,
+                                    LineListCollection linelists) {
+        myWorkspaces.add(new Workspace());
+    }
 }

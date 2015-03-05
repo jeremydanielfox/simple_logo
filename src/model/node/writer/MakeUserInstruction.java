@@ -1,4 +1,4 @@
-package model.node.controlStructure;
+package model.node.writer;
 
 import java.util.List;
 import model.database.Database;

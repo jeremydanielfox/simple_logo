@@ -12,7 +12,7 @@ import model.node.NodeFactory;
 import model.node.Parameters;
 import model.node.TreeNode;
 import model.node.basic.Variable;
-import model.node.controlStructure.MakeUserInstruction;
+import model.node.writer.MakeUserInstruction;
 import model.turtle.SingleTurtle;
 import Exceptions.IncorrectSyntaxException;
 import Exceptions.UnexpectedEndOfInstructionsException;

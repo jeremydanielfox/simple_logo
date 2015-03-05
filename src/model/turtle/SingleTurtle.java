@@ -20,7 +20,6 @@ public class SingleTurtle implements Turtle{
     private Point2D myLastPosition;
     private double myHeading;
     private LineList myLines;
-    //private List<SingleLine> myLines;
     private boolean visible;
     private boolean penUp;
 

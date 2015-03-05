@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import model.database.Database.CommandWrapper;
 import model.database.IHistory;
+import model.database.WorkspaceHistory;
+import model.database.Writer;
 import model.line.LineListCollection;
 import model.node.CommandList;
 import model.node.EvalNode;
@@ -22,8 +24,8 @@ public class Workspace implements IHistory {
     private int myId;
     private LineListCollection myLineLists; 
     private TurtleList myTurtles;
-    // TODO:
     // private DisplayProperties myDisplay;
+    private WorkspaceHistory myHistory;
     
     //private Map<String,ObservableList<Drawable>> myDrawableMap;
     
@@ -42,9 +44,11 @@ public class Workspace implements IHistory {
     public Workspace(){
         myId = ourId++;
         myTurtles = new TurtleList(myId);
-        addTurtle();
+        
         // initializes one by default
+        addTurtle();
         myLineLists = new LineListCollection(myId, myTurtles);
+        myHistory = new WorkspaceHistory();
         
     }
     
@@ -65,6 +69,10 @@ public class Workspace implements IHistory {
 
     public TurtleList getTurtles () {
         return myTurtles;
+    }
+    
+    public Writer getWriter() {
+        return (Writer) myHistory;
     }
 
     @Override

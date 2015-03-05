@@ -1,5 +1,6 @@
 package model.node;
 
+import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -22,17 +23,20 @@ public final class NodeFactory {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
                               "ClearScreen", "ShowTurtle", "HideTurtle" };
+        String [] writerCmds = 
+                new String[] {"MakeVariable", "MakeUserInstruction" };
         String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient", "Random", "Sine" };
         String[] boolCmds = new String[] { "GreaterThan", "LessThan" };
         String[] ctrlStructCmds =
-                new String[] { "Repeat", "DoTimes", "For", "MakeVariable", "MakeUserInstruction",
-                              "If", "IfElse" };
+                new String[] { "Repeat", "DoTimes", "For",  "If", "IfElse" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
         String[] basicCmds = new String[] { "Constant", "Variable", "Command" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
         reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {Turtle.class}),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
+        reflectionMap.put(new Wrapper("writer", new Class<?> [] {Writer.class}),
+                          new ArrayList<String>(Arrays.asList(writerCmds)));
         reflectionMap.put(new Wrapper("basic", new Class<?> [] {String.class}),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
         reflectionMap.put(new Wrapper("mathOperation", new Class<?>[0]),
@@ -76,6 +80,16 @@ public final class NodeFactory {
         else if (wrapper.getPackage().equals("turtleCommand")) {
             try {
                 return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), workspace.getTurtles());
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+        
+        else if (wrapper.getPackage().equals("writer")){
+            try {
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), workspace.getWriter());
             }
             catch (Exception e) {
                 e.printStackTrace();
