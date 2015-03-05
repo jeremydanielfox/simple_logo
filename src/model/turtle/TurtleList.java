@@ -90,7 +90,7 @@ public class TurtleList implements Turtle, Clearable {
         return 0;
     }
 
-    public void addListener (ListChangeListener listener) {
+    public void addListener (ListChangeListener<? super Turtle> listener) {
         allTurtles.addListener(listener);
     }
 

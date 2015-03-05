@@ -12,31 +12,33 @@ public class WorkspaceDisplay {
 	private TurtleView myTurtleView;
 	private HistoryPane myHistory;
 	private VariablePane myVariables;
-	private static int myID = -1;
-
+	private static int ourID = -1;
+	private int myID;
 
 	public WorkspaceDisplay() {
-		myID++;
+		ourID++;
+		myID = ourID;
 	}
 
 	public Node init(Receiver receiver) {
 		myRoot = new BorderPane();
 		myRoot.setRight(makeHistory(receiver));
 		myRoot.setCenter(makeTurtleView());
-		myRoot.setLeft(makeVariables(receiver));
-		Feed feed = new Feed(receiver);
+		
+		Feed feed = new Feed(receiver, this.getID());
 		myRoot.setBottom(feed.getFeed());
+		myRoot.setLeft(makeVariables(receiver,feed));
 		return myRoot;
 	}
 
 	private Node makeHistory(Receiver receiver) {
-		myHistory = new HistoryPane(receiver);
+		myHistory = new HistoryPane(receiver,myID);
 		Node histNode = myHistory.init();
 		return histNode;
 	}
 
-	private Node makeVariables(Receiver receiver) {
-		myVariables = new VariablePane(receiver);
+	private Node makeVariables(Receiver receiver,Feed feed) {
+		myVariables = new VariablePane(receiver,myID,feed);
 		Node varNode = myVariables.init();
 		return varNode;
 	}
@@ -61,6 +63,10 @@ public class WorkspaceDisplay {
 
 	public HistoryPane getHistoryPane() {
 		return myHistory;
+	}
+
+	public int getID() {
+		return myID;
 	}
 
 }

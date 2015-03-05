@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -30,6 +32,8 @@ public class TurtleView implements Drawer, Clearer {
 	private Group myTurtlesGroup = new Group();
 	private Collection<TurtleImage> myTurtlesList = new ArrayList<>();
 	private Rectangle myBackground;
+	private DoubleProperty myXOffset = new SimpleDoubleProperty();
+	private DoubleProperty myYOffset = new SimpleDoubleProperty();
 	private Image turtleImage = new Image("images/plain-turtle-small.png",
 			TURTLE_WIDTH, TURTLE_HEIGHT, true, true);
 	private static final int TURTLE_WIDTH = Integer.parseInt(myValues
@@ -49,7 +53,8 @@ public class TurtleView implements Drawer, Clearer {
 		myLayers = new StackPane();
 		myLayers.getChildren().addAll(myBackground, myLineCanvas,
 				myTurtleCanvas, myTurtlesGroup);
-
+		myXOffset.bind(myTurtleCanvas.widthProperty().divide(2));
+		myYOffset.bind(myTurtleCanvas.widthProperty().divide(2));
 		myLineCanvas.widthProperty()
 				.bind(myLayers.widthProperty().subtract(20));
 		myLineCanvas.heightProperty().bind(
@@ -155,9 +160,6 @@ public class TurtleView implements Drawer, Clearer {
 	// return null;
 	// }
 
-	public void drawRotatedTurtle() {
-
-	}
 
 	/**
 	 * Draws an image on a graphics context.
@@ -227,7 +229,9 @@ public class TurtleView implements Drawer, Clearer {
 
 	@Override
 	public void drawLine(Point2D start, Point2D end) {
-		myLineGC.strokeLine(start.getX(), start.getY(), end.getX(), end.getY());
+		myLineGC.strokeLine(start.getX() + myXOffset.get(), start.getY()
+				+ myYOffset.get(), end.getX() + myXOffset.get(), end.getY()
+				+ myYOffset.get());
 	}
 
 	@Override
@@ -236,9 +240,11 @@ public class TurtleView implements Drawer, Clearer {
 		myTurtleGC.save(); // saves the current state on stack, including the
 							// current
 		// transform
-		rotate(myTurtleGC, heading, location.getX() + image.getWidth() / 2,
-				location.getY() + image.getHeight() / 2);
-		myTurtleGC.drawImage(image, location.getX(), location.getY());
+		rotate(myTurtleGC, heading,
+				location.getX() + myXOffset.get() + image.getWidth() / 2,
+				location.getY() + myYOffset.get() + image.getHeight() / 2);
+		myTurtleGC.drawImage(image, location.getX() + myXOffset.get(),
+				location.getY() + myYOffset.get());
 		myTurtleGC.restore(); // back to original state (before rotation)
 	}
 

@@ -48,7 +48,7 @@ public class Display {
 
 	public Scene init(Model model) {
 		myModel = model;
-		myFeed = new Feed((Receiver) myModel);
+//		myFeed = new Feed((Receiver) myModel);
 		setupWorkspaces((Receiver) myModel);
 		try {
 			makeMenuBar();

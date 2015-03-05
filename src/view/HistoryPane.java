@@ -16,11 +16,13 @@ public class HistoryPane {
 	private static final int FONT_SIZE = 30;
 	private Receiver myReceiver;
 	private VBox myRoot;
+	private int myID;
 	private ListView<String> myListView;
 	private ObservableList<String> myList;
 
-	public HistoryPane(Receiver receiver) {
+	public HistoryPane(Receiver receiver,int id) {
 		myReceiver = receiver;
+		myID = id;
 	}
 
 
@@ -45,7 +47,7 @@ public class HistoryPane {
 	private void handleMouseInput() {
 		if (myListView.getSelectionModel().getSelectedItem() != null) {
 			myReceiver.giveText(myListView.getSelectionModel()
-					.getSelectedItem());
+					.getSelectedItem(),myID);
 			myListView.getSelectionModel().clearSelection();
 		}
 	}

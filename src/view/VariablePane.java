@@ -29,9 +29,13 @@ public class VariablePane {
 	private ObservableMap<String, String> myMap;
 	private ObservableList<String> myList;
 	private Stage myStage;
+	private int myID;
+	private Feed myFeed;
 
-	public VariablePane(Receiver receiver) {
+	public VariablePane(Receiver receiver,int id,Feed feed) {
 		myReceiver = receiver;
+		myID = id;
+		myFeed = feed;
 	}
 
 	public Node init() {
@@ -74,13 +78,13 @@ public class VariablePane {
 	}
 
 	private void handleEditOutput(String name, String value) {
-		myReceiver.giveText("set " + name + " " + value);
+		myReceiver.giveText("set " + name + " " + value,myID);
 		myMap.put(name, value);
 		myStage.close();
 	}
 
 	private void handleAddInput(String var) {
-		Feed.addText(var);
+		myFeed.addText(var);
 	}
 
 	public void put(String key, String value) {
