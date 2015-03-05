@@ -22,7 +22,7 @@ public class MakeVariable extends EvalNode {
     
     @Override
     public double evaluate () {
-        update();
+        update2();
         return getEvalChild("var").evaluate();
     }
 

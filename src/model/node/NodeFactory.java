@@ -1,6 +1,5 @@
 package model.node;
 
-import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.Map;
 import model.Parser.TokenProperty;
 import model.Workspace;
 import model.database.Database;
-import model.turtle.SingleTurtle;
 import model.turtle.Turtle;
 
 
@@ -23,7 +21,7 @@ public final class NodeFactory {
     {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
-                              "ClearScreen", "ShowTurtle", "HideTurtle" };
+                              "ClearScreen", "ShowTurtle", "HideTurtle", "Tell"};
         String [] writerCmds = 
                 new String[] {"MakeVariable", "MakeUserInstruction" };
         String[] databaseCmds = 

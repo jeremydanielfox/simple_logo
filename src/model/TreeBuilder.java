@@ -1,19 +1,20 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 import model.Parser.TokenProperty;
 import model.node.CommandList;
 import model.node.EvalNode;
+import model.node.Ids;
 import model.node.NodeFactory;
 import model.node.Parameters;
 import model.node.TreeNode;
+import model.node.basic.Constant;
 import model.node.database.Variable;
 import model.node.writer.MakeUserInstruction;
-import model.turtle.SingleTurtle;
 import Exceptions.IncorrectSyntaxException;
 import Exceptions.UnexpectedEndOfInstructionsException;
 
@@ -79,6 +80,11 @@ public class TreeBuilder {
             return extractParameters(tokenQueue);
         }
         
+        // special case 3
+        if (current.getNextType().equals(Ids.class)) {
+            return extractIds(tokenQueue);
+        }
+        
         // default case: 
         TreeNode child = getNextNode(tokenQueue);
         // checks it's the correct type of node desired
@@ -135,6 +141,22 @@ public class TreeBuilder {
             params.add((Variable) node);
         }
         return new Parameters(params);
+    }
+    
+    private static Ids extractIds (Queue<TokenProperty> tokenQueue){
+        List<Integer> ids = new ArrayList<Integer>();
+        if (tokenQueue.isEmpty()) {
+            // throw unclosed List exception
+        }
+        while (!isNextToken(tokenQueue, "]")) {
+            TreeNode node = getNextNode(tokenQueue);
+            if (!(node instanceof Constant)){
+                // throw Expected Variable exception
+            }
+            Double d= Double.parseDouble(((Constant) node).toString());
+            ids.add(d.intValue());
+        }
+        return new Ids(ids);
     }
     
     private static TreeNode getNextNode(Queue<TokenProperty> tokenQueue){

@@ -14,7 +14,7 @@ import view.Drawer;
 
 
 public class SingleTurtle implements Turtle{
-    private static int ourId = 0;
+    private static int ourId = 1;
 
     private Point2D myPosition;
     private Point2D myLastPosition;
@@ -22,7 +22,6 @@ public class SingleTurtle implements Turtle{
     private LineList myLines;
     private boolean visible;
     private boolean penUp;
-
     private int myId;
 
     private ObjectProperty<Point2D> myPositionProperty;
@@ -30,10 +29,7 @@ public class SingleTurtle implements Turtle{
     private static Point2D HOME = new Point2D(0, 0);
     private static final Mover MOVER = new UnboundedMover();
 
-    public static void reset () {
-        ourId = -1;
-    }
-
+    
     public SingleTurtle () {
         myId = ourId++;
         myPosition = HOME;

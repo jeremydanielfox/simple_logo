@@ -1,5 +1,6 @@
 package model.turtle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.beans.InvalidationListener;
@@ -33,6 +34,25 @@ public class TurtleList implements Turtle, Clearable {
     public void beCleared (Clearer clearer) {
         clearScreen();
         clearer.clearTurtles();
+    }
+    
+    public void setActive (List<Integer> list) {
+        SingleTurtle turtle = new SingleTurtle();
+        //activeTurtles.add(turtle);
+        allTurtles.add(turtle);
+//        activeTurtles = new ArrayList<SingleTurtle>();
+//        outerloop:
+//        for (int id : list){
+//            for (SingleTurtle turtle : allTurtles){
+//                if (turtle.getId()==id){
+//                    activeTurtles.add(turtle);
+//                    break outerloop;
+//                }
+//            }
+//            // id not found
+//            activeTurtles.add(new SingleTurtle());
+//        }
+// 
     }
 
     public void add (SingleTurtle ... turtles) {
@@ -83,6 +103,12 @@ public class TurtleList implements Turtle, Clearable {
         activeTurtles.forEach(turtle -> turtle.goHome());
         return 0;
     }
+    
+    @Override
+    public double setVisible () {
+        activeTurtles.forEach(turtle -> turtle.setVisible());
+        return 1;
+    }
 
     @Override
     public double clearScreen () {
@@ -97,5 +123,7 @@ public class TurtleList implements Turtle, Clearable {
     public void addHeadingListener (InvalidationListener listener) {
         allTurtles.forEach(turtle -> turtle.addHeadingListener(listener));
     }
+
+
 
 }
