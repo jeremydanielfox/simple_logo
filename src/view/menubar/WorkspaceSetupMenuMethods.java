@@ -1,8 +1,10 @@
 package view.menubar;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javafx.stage.FileChooser;
 import model.Receiver;
@@ -35,5 +37,11 @@ public class WorkspaceSetupMenuMethods {
 		File file = myChooser.showOpenDialog(null);
 		String path = file.getPath();
 		ResourceBundle settings = ResourceBundle.getBundle(path);
+	}
+	public void loadCommand() throws FileNotFoundException {
+		FileChooser myChooser = new FileChooser();
+		File file = myChooser.showOpenDialog(null);
+		String content = new Scanner(file).useDelimiter("\\Z").next();
+		myDisplay.getReceiver().giveText(content,myDisplay.getSelectedWorkspace().getID());
 	}
 }

@@ -125,4 +125,8 @@ public class Display {
 	public Historian getHistoryHistorian() {
 		return getSelectedWorkspace().getHistoryPane();
 	}
+	
+	public Receiver getReceiver() {
+		return (Receiver) myModel;
+	}
 }

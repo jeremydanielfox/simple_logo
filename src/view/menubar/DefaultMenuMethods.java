@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import model.Receiver;
+import view.Display;
+
 public final class DefaultMenuMethods {
 
 	private static DefaultMenuMethods instance;
@@ -18,12 +21,6 @@ public final class DefaultMenuMethods {
 	
 	public void setParams(ArrayList<Object> params) {
 		return;
-	}
-
-	public void loadCommand() throws FileNotFoundException {
-		String content = new Scanner(new File("Slogo_Functions")).useDelimiter("\\Z").next();
-		System.out.println(content);
-		//TODO: pass this to backend
 	}
 
 	public void saveCommand() {

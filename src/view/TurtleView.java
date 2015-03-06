@@ -55,7 +55,7 @@ public class TurtleView implements Drawer {
 		myLayers.getChildren().addAll(myBackground, myLineCanvas,
 				myTurtleCanvas, myTurtlesGroup);
 		myXOffset.bind(myTurtleCanvas.widthProperty().divide(2));
-		myYOffset.bind(myTurtleCanvas.widthProperty().divide(2));
+		myYOffset.bind(myTurtleCanvas.heightProperty().divide(2));
 		myLineCanvas.widthProperty()
 				.bind(myLayers.widthProperty().subtract(20));
 		myLineCanvas.heightProperty().bind(
