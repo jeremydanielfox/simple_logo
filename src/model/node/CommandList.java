@@ -22,7 +22,6 @@ public class CommandList extends EvalNode {
     // toString will be represented by its children
     @Override
     public String toString (){
-    	//System.out.println(this.getChildren());
         return this.childrenToString();
     }
     

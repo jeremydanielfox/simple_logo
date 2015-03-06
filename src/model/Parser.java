@@ -82,8 +82,7 @@ public class Parser {
         }
         
         public String toString(){
-            return String.format("%s: %s", myType, myToken);
-            
+            return String.format("%s: %s", myType, myToken);      
         }
     }
 }
