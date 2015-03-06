@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
@@ -15,7 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import model.Clearable;
 import model.Drawable;
 import model.line.SingleLine;
 

@@ -2,25 +2,17 @@ package view;
 
 import java.util.ResourceBundle;
 
-import Exceptions.SlogoException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Receiver;
-import model.database.OldDatabase;
-import model.line.LineListCollection;
+import Exceptions.SlogoException;
 
 public class Feed {
 

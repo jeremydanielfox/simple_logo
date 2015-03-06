@@ -3,8 +3,6 @@ package view;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import model.Receiver;
-import model.database.OldDatabase;
-import model.line.LineListCollection;
 
 public class WorkspaceDisplay {
 
