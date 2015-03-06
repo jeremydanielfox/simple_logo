@@ -61,7 +61,7 @@ public class HistoryPane implements DataPane, Historian {
 
 	@Override
 	public void record(Map<String, Writable> history) {
-		history.forEach((k, v) -> myList.add(k));
+		history.forEach((k, v) -> myList.add(v.getValue()));
 
 	}
 

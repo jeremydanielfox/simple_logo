@@ -19,8 +19,7 @@ public class VariableWritable extends Writable {
     
     @Override
     public String getValue () {
-        // return expression.toString;
-        return null;
+         return expression.toString();
     }
 
     public EvalNode getExpression () {

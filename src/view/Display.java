@@ -24,20 +24,22 @@ public class Display {
 	private Scene myScene;
 	private BorderPane myRoot;
 	private LanguageSetter myLangSetter;
+	private WorkspaceCreator myCreator;
 	private TabPane myWorkspaceDisplays;
 	private Collection<WorkspaceDisplay> myWorkspaces;
 	private Feed myFeed;
 	private Model myModel;
 
-	protected Display(LanguageSetter ls) {
+	protected Display(LanguageSetter ls,WorkspaceCreator wc) {
 		myRoot = new BorderPane();
 		myWorkspaces = new ArrayList<>();
 		myLangSetter = ls;
+		myCreator = wc;
 	}
 
-	public static Display getInstance(LanguageSetter ls) {
+	public static Display getInstance(LanguageSetter ls,WorkspaceCreator wc) {
 		if (instance == null)
-			instance = new Display(ls);
+			instance = new Display(ls,wc);
 		return instance;
 	}
 
@@ -47,6 +49,10 @@ public class Display {
 
 	public LanguageSetter getLangSetter() {
 		return this.myLangSetter;
+	}
+	
+	public WorkspaceCreator getWorkspaceCreator() {
+		return this.myCreator;
 	}
 
 	public Scene init(Model model) {
