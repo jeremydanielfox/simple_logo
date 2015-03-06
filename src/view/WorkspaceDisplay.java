@@ -11,11 +11,11 @@ import model.Receiver;
 public class WorkspaceDisplay {
 
 	private BorderPane myRoot;
-	private Feed myFeed;
 	private TurtleView myTurtleView;
 	private HistoryPane myHistory;
 	private VariablePane myVariables;
 	private CommandPane myCommands;
+	private PalletPane myPallet;
 	private TabPane myHistories;
 	private Console myConsole;
 	private int myID;
@@ -31,22 +31,23 @@ public class WorkspaceDisplay {
 		myHistories = new TabPane();
 		myHistories.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		myHistories.setTabMinWidth(TAB_MIN_WIDTH);
-		myRoot.setRight(makeHistory(receiver));
 		myRoot.setCenter(makeTurtleView());
 		Feed myFeed = new Feed(receiver, this.getID());
 		
 		HBox hb = new HBox();
 		hb.getChildren().addAll(myFeed.getFeed(),this.makeConsole());
 		myRoot.setBottom(hb);
-		myRoot.setLeft(makeVariables(receiver, myFeed));
-		myRoot.setRight(myHistories);
+		makeHistory(receiver);
+		makeVariables(receiver, myFeed);
 		makeCommands(myFeed);
+		makePallet(receiver, myFeed);
+		myRoot.setRight(myHistories);
 		return myRoot;
 	}
 
 	private Node makeHistory(Receiver receiver) {
 		myHistory = new HistoryPane(receiver, myID);
-		Node histNode = myHistory.init();
+		Node histNode = myHistory.init("History");
 		Tab tab = new Tab();
 		tab.setContent(histNode);
 		myHistories.getTabs().add(tab);
@@ -55,7 +56,7 @@ public class WorkspaceDisplay {
 
 	private Node makeVariables(Receiver receiver, Feed feed) {
 		myVariables = new VariablePane(receiver, myID, feed);
-		Node varNode = myVariables.init();
+		Node varNode = myVariables.init("Variable");
 		Tab tab = new Tab();
 		tab.setContent(varNode);
 		myHistories.getTabs().add(tab);
@@ -64,11 +65,20 @@ public class WorkspaceDisplay {
 
 	private Node makeCommands(Feed feed) {
 		myCommands = new CommandPane(feed);
-		Node cmdsNode = myCommands.init();
+		Node cmdsNode = myCommands.init("Command");
 		Tab tab = new Tab();
 		tab.setContent(cmdsNode);
 		myHistories.getTabs().add(tab);
 		return cmdsNode;
+	}
+	
+	private Node makePallet(Receiver receiver, Feed feed) {
+		myPallet = new PalletPane(receiver, myID, feed);
+		Node pallNode = myPallet.init("Pallet");
+		Tab tab = new Tab();
+		tab.setContent(pallNode);
+		myHistories.getTabs().add(tab);
+		return pallNode;
 	}
 
 	private Node makeTurtleView() {
