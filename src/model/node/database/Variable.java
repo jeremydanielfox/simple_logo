@@ -1,9 +1,6 @@
 package model.node.database;
 
-import java.util.Optional;
 import model.database.Database;
-import model.database.OldDatabase;
-import model.node.EvalNode;
 import model.node.ZeroArgOperation;
 import model.node.basic.Constant;
 import model.writable.VariableWritable;

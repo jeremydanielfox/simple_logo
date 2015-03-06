@@ -3,7 +3,6 @@ package model.node.database;
 import java.util.ArrayList;
 import java.util.List;
 import model.database.Database;
-import model.database.OldDatabase;
 import model.node.ChildBuilder;
 import model.node.EvalNode;
 import model.writable.CommandWritable;

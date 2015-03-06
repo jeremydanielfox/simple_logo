@@ -1,18 +1,14 @@
 package model.node.writer;
 
-import java.util.List;
-import model.database.OldDatabase;
 import model.database.Writer;
 import model.node.ChildBuilder;
 import model.node.CommandList;
 import model.node.EvalNode;
 import model.node.Parameters;
 import model.node.database.Command;
-import model.node.database.Variable;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 import model.writable.CommandWritable;
-import model.writable.Writable;
 
 
 public class MakeUserInstruction extends EvalNode {
@@ -28,20 +24,14 @@ public class MakeUserInstruction extends EvalNode {
     // TODO: determine how command could be unsuccessfully added...
     @Override
     public double evaluate () {
-        update2();
+        update();
         return 1;
     }
 
-    private void update2 () {
+    private void update () {
         myWriter.write(new CommandWritable(getEvalChild("name").toString(),
                                            ((Parameters) getEvalChild("params")).getList(),
                                            (CommandList) getEvalChild("commands")));
-    }
-
-    private void update () {
-        OldDatabase.getInstance().putCommand(getEvalChild("name").toString(),
-                                          ((Parameters) getEvalChild("params")).getList(),
-                                          (CommandList) getEvalChild("commands"));
     }
 
     @Override
