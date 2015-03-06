@@ -27,6 +27,9 @@ public class MakeVariable extends EvalNode {
     }
 
     private void update () {
+        VariableWritable var = new VariableWritable(getEvalChild("var").toString(),
+                                                    getEvalChild("expr"));
+        var.setDefiningSignal(true);
         myWriter.write(new VariableWritable(getEvalChild("var").toString(),
                                             getEvalChild("expr")));
     }

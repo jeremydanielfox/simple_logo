@@ -16,15 +16,15 @@ import model.turtle.Turtle;
 public final class NodeFactory {
 
     private static NodeFactory instance;
-    private static final Map<Wrapper, List<String>> reflectionMap;
+    private static final Map<ReflectionWrapper, List<String>> reflectionMap;
     static
     {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
                               "ClearScreen", "ShowTurtle", "HideTurtle", "SetHeading", "Tell",
-                              "Ask"};
+                              "Ask" };
         String[] turtleQueries =
-                new String[] { "XCoordinate", "YCoordinate", "Heading", "ID"};
+                new String[] { "XCoordinate", "YCoordinate", "Heading", "ID" };
         String[] writerCmds =
                 new String[] { "MakeVariable", "MakeUserInstruction" };
         String[] databaseCmds =
@@ -37,32 +37,42 @@ public final class NodeFactory {
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
         String[] basicCmds = new String[] { "Constant" };
 
-        reflectionMap = new HashMap<Wrapper, List<String>>();
-        reflectionMap.put(new Wrapper("turtleCommand", new Class<?>[] { Turtle.class }),
+        reflectionMap = new HashMap<ReflectionWrapper, List<String>>();
+        reflectionMap.put(new ReflectionWrapper("turtleCommand", new Class<?>[] { Turtle.class },
+                                                new int[] { 1 }),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
-        reflectionMap.put(new Wrapper("turtleQuery",
-                                      new Class<?>[] { Turtle.class, Database.class }),
+        reflectionMap.put(new ReflectionWrapper("turtleQuery", new Class<?>[] { Turtle.class,
+                                                                               Database.class },
+                                                new int[] { 1, 2 }),
                           new ArrayList<String>(Arrays.asList(turtleQueries)));
-        reflectionMap.put(new Wrapper("writer", new Class<?>[] { model.database.Writer.class }),
+        reflectionMap.put(new ReflectionWrapper("writer",
+                                                new Class<?>[] { model.database.Writer.class },
+                                                new int[] { 3 }),
                           new ArrayList<String>(Arrays.asList(writerCmds)));
-        reflectionMap.put(new Wrapper("database", new Class<?>[] { String.class, Database.class }),
+        reflectionMap.put(new ReflectionWrapper("database", new Class<?>[] { String.class,
+                                                                            Database.class },
+                                                new int[] { 0, 2 }),
                           new ArrayList<String>(Arrays.asList(databaseCmds)));
-        reflectionMap.put(new Wrapper("basic", new Class<?>[] { String.class }),
+        reflectionMap.put(new ReflectionWrapper("basic", new Class<?>[] { String.class },
+                                                new int[] { 0 }),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
-        reflectionMap.put(new Wrapper("mathOperation", new Class<?>[0]),
+        reflectionMap.put(new ReflectionWrapper("mathOperation", new Class<?>[0], new int[0]),
                           new ArrayList<String>(Arrays.asList(mathOpCmds)));
-        reflectionMap.put(new Wrapper("booleanOperation", new Class<?>[0]),
+        reflectionMap.put(new ReflectionWrapper("booleanOperation", new Class<?>[0],
+                                                new int[0]),
                           new ArrayList<String>(Arrays.asList(boolCmds)));
-        reflectionMap.put(new Wrapper("controlStructure", new Class<?>[0]),
+        reflectionMap.put(new ReflectionWrapper("controlStructure", new Class<?>[0],
+                                                new int[0]),
                           new ArrayList<String>(Arrays.asList(ctrlStructCmds)));
-        reflectionMap.put(new Wrapper("syntax", new Class<?>[0]),
+        reflectionMap.put(new ReflectionWrapper("syntax", new Class<?>[0], new int[0]),
                           new ArrayList<String>(Arrays.asList(syntaxCmds)));
     }
+
+    private static Object[] args;
 
     private NodeFactory () {
     }
 
-    // singleton may be dangerous...
     public static synchronized NodeFactory getInstance () {
         if (instance == null)
             instance = new NodeFactory();
@@ -72,79 +82,28 @@ public final class NodeFactory {
     public static TreeNode get (TokenProperty tokenProp, Workspace workspace) {
         String type = tokenProp.getType();
         String token = tokenProp.getToken();
-        Wrapper wrapper = getWrapper(type);
+        ReflectionWrapper wrapper = getWrapper(type);
 
-        // TODO: fix so not so messy
-        // require token
-        if (wrapper.getPackage().equals("basic")) {
-            try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), token);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
+        args =
+                new Object[] { token, workspace.getTurtles(), workspace.getDatabase(),
+                              workspace.getWriter() };
+
+        try {
+            return reflectionFactory(wrapper.getPackage(), type, wrapper.getArgType(),
+                                     getArgs(wrapper.getArgIndices()));
         }
-
-        // require turtle
-        else if (wrapper.getPackage().equals("turtleCommand")) {
-            try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
-                                         workspace.getTurtles());
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
         }
+    }
 
-        else if (wrapper.getPackage().equals("turtleQuery")) {
-            try {
-                return reflectionFactory(wrapper.getPackage(), type,wrapper.getArg(),
-                                         new Object[] { workspace.getTurtles(),
-                                                       workspace.getDatabase() });
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
+    private static Object[] getArgs (int[] indices) {
+        List<Object> result = new ArrayList<Object>();
+        for (int i : indices) {
+            result.add(args[i]);
         }
-
-        else if (wrapper.getPackage().equals("writer")) {
-            try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
-                                         workspace.getWriter());
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }
-
-        else if (wrapper.getPackage().equals("database")) {
-            try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
-                                         new Object[] { token, workspace.getDatabase() });
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        }
-
-        // all other cases
-        // TODO: look into oodesign pattern, initializing within the node itself
-        else {
-            try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
-                                         new Object[0]);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-
-        }
+        return result.toArray();
     }
 
     private static TreeNode reflectionFactory (String packageName,
@@ -172,29 +131,35 @@ public final class NodeFactory {
         }
     }
 
-    private static Wrapper getWrapper (String type) {
-        for (Wrapper w : reflectionMap.keySet()) {
+    private static ReflectionWrapper getWrapper (String type) {
+        for (ReflectionWrapper w : reflectionMap.keySet()) {
             if (reflectionMap.get(w).contains(type)) { return w; }
         }
         System.err.println("reflection Map error");
         throw new RuntimeException();
     }
 
-    static class Wrapper {
+    static class ReflectionWrapper {
         private String name;
         private Class<?>[] arg;
+        private int[] argIndices;
 
-        public Wrapper (String packageName, Class<?>[] constructorArg) {
+        public ReflectionWrapper (String packageName, Class<?>[] constructorArg, int[] argIndices) {
             this.name = packageName;
             this.arg = constructorArg;
+            this.argIndices = argIndices;
         }
 
         public String getPackage () {
             return name;
         }
 
-        public Class<?>[] getArg () {
+        public Class<?>[] getArgType () {
             return arg;
+        }
+
+        public int[] getArgIndices () {
+            return argIndices;
         }
     }
 }

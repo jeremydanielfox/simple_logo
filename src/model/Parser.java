@@ -20,7 +20,7 @@ public class Parser {
     public List<TokenProperty> parse (String feed) {
         // gets all uncommented lines
         List<String> lines =
-                Arrays.asList(feed.trim().split("\\n")).stream().filter(this::isValidLine)
+                Arrays.asList(feed.trim().split("\\n")).stream().map(this::uncomment).filter(this::isValidLine)
                         .collect(Collectors.toList());
 
         List<String> tokens = new ArrayList<String>();
@@ -35,12 +35,16 @@ public class Parser {
         return tokenList;
     }
 
+    private String uncomment (String line){
+        if (line.indexOf("#") != -1){
+            return line.substring(0, line.indexOf("#"));
+        }
+        return line;
+    }
+    
     // TODO: only filters out lines that begin with #, fix to accommodate inline comment
     private boolean isValidLine (String line) {
-//        if (line.length() > 0){
-//            String comment = line.substring(line.indexOf("#")+1); // gets substring starting after # (or whole line if without one)
-//        }
-        return !line.startsWith("#") && line.length() > 0;
+        return line.length() > 0;
     }
 
     private TokenProperty getMatch (String token) {
