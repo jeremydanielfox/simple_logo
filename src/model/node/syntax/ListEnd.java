@@ -7,7 +7,7 @@ public class ListEnd extends Syntax {
     
     @Override
     public String toString () {
-        return "]" + " ";
+        return "] ";
     }
     
 }

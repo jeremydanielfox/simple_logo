@@ -1,34 +1,29 @@
 package model.node;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import model.node.database.Variable;
 
 //TODO: decide if should be considered and EvalNode
-public class Parameters extends EvalNode {
+public class Parameters extends TreeNode {
 
-    private List myList;
+    private List<? extends EvalNode> myList;
     
-    public Parameters(List<Variable> list){
+    public Parameters(List list){
         myList = list;
     }
 
     @Override
     public String toString () {
-        // TODO Auto-generated method stub
-        return null;
+        String result = "";
+        List<String> params = myList.stream().map(var -> var.toString()).collect(Collectors.toList());
+        for (String param : params){
+            result += String.format("%s", param);
+        }
+        return result;
     }
     
     public List getList () {
         return myList;
-    }
-
-    @Override
-    public double evaluate () {
-        return 0;
-    }
-
-    @Override
-    protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[0];
     }
 }

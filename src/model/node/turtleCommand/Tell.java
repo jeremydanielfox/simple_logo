@@ -30,7 +30,7 @@ public class Tell extends EvalNode {
 
     // messy, but necessary to reduce duplication
     protected List<Integer> getIds () {
-        return (List<Integer>) ((Parameters) getEvalChild("ids")).getList().stream()
+        return (List<Integer>) ((Parameters) getChild("ids")).getList().stream()
                 .map(this::convertToInteger).collect(Collectors.toList());
     }
 

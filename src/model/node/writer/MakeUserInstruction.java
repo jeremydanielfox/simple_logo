@@ -30,7 +30,7 @@ public class MakeUserInstruction extends EvalNode {
 
     private void update () {
         myWriter.write(new CommandWritable(getEvalChild("name").toString(),
-                                           ((Parameters) getEvalChild("params")).getList(),
+                                           ((Parameters) getChild("params")),
                                            (CommandList) getEvalChild("commands")));
     }
 
