@@ -21,7 +21,7 @@ public class TurtleList implements Turtle, Clearable {
     private int myId;
     private Map<Integer, SingleTurtle> allTurtlesMap;
     private Map<Integer, SingleTurtle> activeTurtlesMap;
-    private List<Integer> activeIds;
+    private int myCurrentId;
 
     private ChangeListener myTurtleListener;
     private ListChangeListener myLineListener;
@@ -35,6 +35,7 @@ public class TurtleList implements Turtle, Clearable {
         allTurtlesMap = new HashMap<Integer, SingleTurtle>();
         allTurtlesMap.put(1, new SingleTurtle(1));
         activeTurtlesMap = allTurtlesMap;
+        myCurrentId = 1;
         //activeIds = new ArrayList<Integer>();
         //activeIds.add(1);
     }
@@ -97,7 +98,10 @@ public class TurtleList implements Turtle, Clearable {
 
     @Override
     public void translate (double distance) {
-        activeTurtlesMap.values().forEach(turtle -> turtle.translate(distance));
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.translate(distance);
+        });
     }
 
     @Override
