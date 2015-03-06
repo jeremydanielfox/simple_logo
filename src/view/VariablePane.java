@@ -38,6 +38,7 @@ public class VariablePane implements DataPane, Historian {
 
 	public Node init() {
 		myVBox = new VBox();
+		myList = FXCollections.observableArrayList(myMap.keySet());
 		HBox titleBox = new HBox();
 		Label title = new Label("Variables");
 		title.setFont(new Font(30));
@@ -49,7 +50,6 @@ public class VariablePane implements DataPane, Historian {
 		addButton.setOnMouseClicked(e -> handleAddInput(myListView
 				.getSelectionModel().getSelectedItem()));
 		addButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		myList = FXCollections.observableArrayList(myMap.keySet());
 		myListView = new ListView<String>(myList);
 		myListView.setPrefHeight(0);
 		VBox.setVgrow(myListView, Priority.ALWAYS);
@@ -82,10 +82,6 @@ public class VariablePane implements DataPane, Historian {
 
 	private void handleAddInput(String var) {
 		myFeed.addText(var);
-	}
-
-	public void put(String key, String value) {
-		myMap.put(key, value);
 	}
 
 	@Override

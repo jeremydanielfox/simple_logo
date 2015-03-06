@@ -12,9 +12,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class CommandPane implements DataPane, Historian {
 
+	private static final int FONT_SIZE = 30;
 	private Feed myFeed;
 
 	public CommandPane(Feed feed) {
@@ -25,7 +27,8 @@ public class CommandPane implements DataPane, Historian {
 	public Node init() {
 		VBox myRoot = new VBox();
 		HBox myTitleBox = new HBox();
-		Label myTitle = new Label("Commands");
+		Label title = new Label("Commands");
+		title.setFont(new Font(FONT_SIZE));
 		Button myAddButton = new Button("Add");
 		ObservableList<String> myList = FXCollections.observableArrayList(myMap
 				.keySet());
@@ -36,7 +39,7 @@ public class CommandPane implements DataPane, Historian {
 			myFeed.addText(myListView.getSelectionModel().getSelectedItem());
 			myFeed.getStage().close();
 		});
-		myTitleBox.getChildren().addAll(myTitle, myAddButton);
+		myTitleBox.getChildren().addAll(title, myAddButton);
 		myRoot.getChildren().addAll(myTitleBox, myListView);
 		return myRoot;
 	}

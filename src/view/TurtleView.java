@@ -186,7 +186,7 @@ public class TurtleView implements Drawer {
 		// transform
 		rotate(gc, angle, tlpx + image.getWidth() / 2, tlpy + image.getHeight()
 				/ 2);
-		gc.drawImage(image, tlpx, tlpy);
+		gc.drawImage(image, tlpx, tlpy, TURTLE_WIDTH, TURTLE_HEIGHT);
 		gc.restore(); // back to original state (before rotation)
 	}
 
@@ -247,7 +247,7 @@ public class TurtleView implements Drawer {
 				+ image.getWidth() / 2, location.getY() + myYOffset.get()
 				+ image.getHeight() / 2);
 		myTurtleGC.drawImage(image, location.getX() + myXOffset.get(),
-				location.getY() + myYOffset.get());
+				location.getY() + myYOffset.get(), TURTLE_WIDTH, TURTLE_HEIGHT);
 		myTurtleGC.restore(); // back to original state (before rotation)
 		
 	}
