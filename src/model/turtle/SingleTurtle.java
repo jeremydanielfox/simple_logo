@@ -27,6 +27,7 @@ public class SingleTurtle implements Turtle{
     private ObjectProperty<Point2D> myPositionProperty = new SimpleObjectProperty<Point2D>();
     private DoubleProperty myHeadingProperty = new SimpleDoubleProperty();
     private BooleanProperty myVisiblityProperty = new SimpleBooleanProperty();
+    private ObjectProperty<LineList> myLineListProperty = new SimpleObjectProperty<LineList>();
     
     private static final Point2D HOME = new Point2D(0, 0);
     private static final Mover MOVER = new UnboundedMover();
@@ -34,10 +35,11 @@ public class SingleTurtle implements Turtle{
     
     public SingleTurtle (int id) {
         myId = id;
-        setPosition(HOME); // initializes last position and position property
+        setPosition(HOME);
         setHeading(0);
         show();
         myLines = new LineList();
+        myLineListProperty.setValue(myLines);
         penUp = false;
     }
     
@@ -176,5 +178,9 @@ public class SingleTurtle implements Turtle{
     
     public BooleanProperty getVisibilityProperty() {
         return myVisiblityProperty;
+    }
+    
+    public ObjectProperty<LineList> getLineListProperty () {
+        return myLineListProperty;
     }
 }
