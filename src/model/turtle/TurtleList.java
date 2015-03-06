@@ -2,10 +2,13 @@ package model.turtle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.Property;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -22,24 +25,20 @@ public class TurtleList implements Turtle, Clearable {
     private Map<Integer, SingleTurtle> allTurtlesMap;
     private Map<Integer, SingleTurtle> activeTurtlesMap;
     
-    private ObservableList<SingleTurtle> allTurtles;
+    //private ObservableList<SingleTurtle> allTurtles;
 
     public TurtleList (int id) {
         myId = id;
-        allTurtles = FXCollections.observableArrayList();
-        //adds turtle by default;
-        allTurtles.add(new SingleTurtle(1));
-        
+
         // initialize maps
         allTurtlesMap = new HashMap<Integer, SingleTurtle>();
-        allTurtlesMap.put(allTurtles.get(0).getId(), allTurtles.get(0));
+        allTurtlesMap.put(1, new SingleTurtle(1));
         activeTurtlesMap = allTurtlesMap;
     }
 
     @Override
     public void beDrawn (Drawer drawer) {
-        // could be a map
-        allTurtles.forEach(turtle -> turtle.beDrawn(drawer));
+        allTurtlesMap.values().stream().filter(SingleTurtle::isVisible).forEach(turtle -> turtle.beDrawn(drawer));
     }
 
     public void beCleared (Clearer clearer) {
@@ -61,20 +60,9 @@ public class TurtleList implements Turtle, Clearable {
        }
     }
 
-    public void add (SingleTurtle ... turtles) {
-        allTurtles.addAll(Arrays.asList(turtles));
-    }
 
-    public SingleTurtle get (int i) {
-        return allTurtles.get(i);
-    }
-
-    public int size () {
-        return allTurtles.size();
-    }
-
-    public List<SingleTurtle> getAllTurtles () {
-        return allTurtles;
+    public Collection<SingleTurtle> getAllTurtles () {
+       return allTurtlesMap.values();
     }
 
     // TODO: use matchers to filter turtle ids with given list of ids
@@ -111,14 +99,14 @@ public class TurtleList implements Turtle, Clearable {
     }
     
     @Override
-    public double setVisible () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.setVisible());
+    public double show () {
+        activeTurtlesMap.values().forEach(turtle -> turtle.show());
         return 1;
     }
     
     @Override
-    public double setInvisible () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.setInvisible());
+    public double hide () {
+        activeTurtlesMap.values().forEach(turtle -> turtle.hide());
         return 1;
     }
 
@@ -144,15 +132,21 @@ public class TurtleList implements Turtle, Clearable {
     public int getId () {
         return myId;
     }
+    
+    public void addChangeListener(ChangeListener listener){
+       allTurtlesMap.values().forEach(turtle->{
+           turtle.getHeadingProperty().addListener(listener);
+           turtle.getPositionProperty().addListener(listener);
+           turtle.getVisibilityProperty().addListener(listener);
+       });
+    }
 
     public void addLocationListener (InvalidationListener listener) {
-       allTurtles.forEach(turtle -> turtle.addLocationListener(listener));
+        allTurtlesMap.values().forEach(turtle -> turtle.addLocationListener(listener));
     }
     
     public void addHeadingListener (InvalidationListener listener) {
-        allTurtles.forEach(turtle -> turtle.addHeadingListener(listener));
+        allTurtlesMap.values().forEach(turtle -> turtle.addHeadingListener(listener));
     }
-
-
 
 }

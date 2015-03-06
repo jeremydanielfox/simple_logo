@@ -13,6 +13,6 @@ public class ShowTurtle extends ZeroArgOperation {
 
     @Override
     public double evaluate () {
-        return myTurtle.setVisible();
+        return myTurtle.show();
     }
 }

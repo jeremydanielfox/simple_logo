@@ -1,8 +1,10 @@
 package model.turtle;
 
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point2D;
@@ -14,7 +16,6 @@ import view.Drawer;
 
 
 public class SingleTurtle implements Turtle{
-    private static int ourId = 1;
 
     private Point2D myPosition;
     private Point2D myLastPosition;
@@ -24,21 +25,20 @@ public class SingleTurtle implements Turtle{
     private boolean penUp;
     private int myId;
 
-    private ObjectProperty<Point2D> myPositionProperty;
-    private DoubleProperty myHeadingProperty;
-    private static Point2D HOME = new Point2D(0, 0);
+    private ObjectProperty<Point2D> myPositionProperty = new SimpleObjectProperty<Point2D>();
+    private DoubleProperty myHeadingProperty = new SimpleDoubleProperty();
+    private BooleanProperty myVisiblityProperty = new SimpleBooleanProperty();
+    
+    private static final Point2D HOME = new Point2D(0, 0);
     private static final Mover MOVER = new UnboundedMover();
 
     
     public SingleTurtle (int id) {
         myId = id;
-        myPosition = HOME;
-        myLastPosition = HOME;
-        myPositionProperty = new SimpleObjectProperty<Point2D>(myPosition);
-        myHeading = 0;
-        myHeadingProperty = new SimpleDoubleProperty(myHeading);
+        setPosition(HOME); // initializes last position and position property
+        setHeading(0);
+        show();
         myLines = new LineList();
-        visible = true;
         penUp = false;
     }
     
@@ -94,20 +94,25 @@ public class SingleTurtle implements Turtle{
     }
 
     public void setPosition (Point2D position) {
-        myLastPosition = new Point2D(myPosition.getX(), myPosition.getY());
+        // myPosition will be null first time through
+        Point2D currentPosition = (myPosition == null) ? HOME : myPosition;
+        
+        myLastPosition = new Point2D(currentPosition.getX(), currentPosition.getY());
         myPosition = position;
+        myPositionProperty.setValue(position);
     }
 
     // heading must be between 0 and 360
     public void setHeading (double heading) {
         if (heading >= 0 && heading < 360) {
             myHeading = heading;
+            myHeadingProperty.setValue(heading);
             return;
         }
         if (heading < 0) {
             setHeading(heading + 360);
         }
-        else { // heading must be greater than 360
+        else {
             setHeading(heading - 360);
         }
     }
@@ -132,13 +137,15 @@ public class SingleTurtle implements Turtle{
         return myLines;
     }
 
-    public double setVisible () {
+    public double show () {
         visible = true;
+        myVisiblityProperty.set(true);
         return 1;
     }
     
-    public double setInvisible () {
+    public double hide () {
         visible = false;
+        myVisiblityProperty.set(false);
         return 0;
     }
 
@@ -166,6 +173,10 @@ public class SingleTurtle implements Turtle{
     
     public DoubleProperty getHeadingProperty () {
         return myHeadingProperty;
+    }
+    
+    public BooleanProperty getVisibilityProperty() {
+        return myVisiblityProperty;
     }
 
 }
