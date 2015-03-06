@@ -22,9 +22,9 @@ public final class NodeFactory {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
                               "ClearScreen", "ShowTurtle", "HideTurtle", "SetHeading", "Tell",
-                              "Ask", "ID" };
+                              "Ask"};
         String[] turtleQueries =
-                new String[] { "XCoordinate", "YCoordinate", "Heading" };
+                new String[] { "XCoordinate", "YCoordinate", "Heading", "ID"};
         String[] writerCmds =
                 new String[] { "MakeVariable", "MakeUserInstruction" };
         String[] databaseCmds =

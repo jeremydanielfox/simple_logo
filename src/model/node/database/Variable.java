@@ -17,7 +17,6 @@ public class Variable extends ZeroArgOperation {
     public Variable  (String name, Database database) {
         myName = name;
         myDatabase = database;
-        //myWriter = writer;
     }
 
     @Override
@@ -29,15 +28,11 @@ public class Variable extends ZeroArgOperation {
         else{
             return new Constant("0").evaluate();
         }
- 
-//      EvalNode node =  Optional.of(myName).map(OldDatabase.getInstance()::getVariable)
-//                        .orElseGet( () -> new Constant("0"));
     }
 
     // for DoTimes and For
     public void update (double value) {
         myDatabase.write(new VariableWritable(myName, new Constant(String.valueOf(value))));
-        //OldDatabase.getInstance().putVariable(myName, new Constant(String.valueOf(value)));
     }
 
     @Override

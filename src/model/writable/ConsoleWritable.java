@@ -1,21 +1,8 @@
 package model.writable;
 
-public class ConsoleWritable extends Writable {
+public class ConsoleWritable extends FeedWritable {
 
-    private String myValue;
-
-    public ConsoleWritable(String value){
-            myValue = value;
+    public ConsoleWritable (String value) {
+        super(value);
     }
-
-    @Override
-    public String getName() {
-            return "";
-    }
-
-    @Override
-    public String getValue() {
-            return myValue;
-    }
-
 }

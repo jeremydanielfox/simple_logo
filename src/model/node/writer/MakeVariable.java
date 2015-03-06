@@ -22,16 +22,11 @@ public class MakeVariable extends EvalNode {
     
     @Override
     public double evaluate () {
-        update2();
+        update();
         return getEvalChild("var").evaluate();
     }
 
     private void update () {
-        OldDatabase.getInstance().putVariable(getEvalChild("var").toString(),
-                                           getEvalChild("expr"));
-    }
-    
-    private void update2 () {
         myWriter.write(new VariableWritable(getEvalChild("var").toString(),
                                             getEvalChild("expr")));
     }

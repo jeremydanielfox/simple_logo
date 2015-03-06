@@ -64,6 +64,9 @@ public class View implements WorkspaceCreator {
 			System.out.println("Var Caught");
 			hist.getVarsHistory().beRecorded(myDisplay.getVariableHistorian());
 		});
+		hist.addConsoleListener(c -> {
+		    hist.getConsoleHistory().beRecorded(myDisplay.getSelectedWorkspace().getConsole());
+		});
 		
 	}
 

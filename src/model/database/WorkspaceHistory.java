@@ -30,6 +30,7 @@ public class WorkspaceHistory implements Database {
 		feedHistory = new History("Feed"); // ?
 		varsHistory = new History("Variables");
 		cmdsHistory = new History("Commands");
+		consoleHistory = new History("Console");
 		historiesMap = new HashMap<Class<? extends Writable>, History>();
 		historiesMap.put(FeedWritable.class, feedHistory);
 		historiesMap.put(ConsoleWritable.class, consoleHistory);
@@ -78,6 +79,10 @@ public class WorkspaceHistory implements Database {
 		cmdsHistory.addListener(listener);
 	}
 	
+	public void addConsoleListener(MapChangeListener listener) {
+            consoleHistory.addListener(listener);
+    }
+	
 	public History getFeedHistory() {
 		return feedHistory;
 	}
@@ -89,4 +94,8 @@ public class WorkspaceHistory implements Database {
 	public History getCmdsHistory() {
 		return cmdsHistory;
 	}
+	
+	public History getConsoleHistory() {
+            return consoleHistory;
+    }
 }
