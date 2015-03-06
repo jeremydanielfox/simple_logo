@@ -24,20 +24,22 @@ public class Display {
 	private Scene myScene;
 	private BorderPane myRoot;
 	private LanguageSetter myLangSetter;
+	private WorkspaceCreator myCreator;
 	private TabPane myWorkspaceDisplays;
 	private Collection<WorkspaceDisplay> myWorkspaces;
 	private Feed myFeed;
 	private Model myModel;
 
-	protected Display(LanguageSetter ls) {
+	protected Display(LanguageSetter ls,WorkspaceCreator wc) {
 		myRoot = new BorderPane();
 		myWorkspaces = new ArrayList<>();
 		myLangSetter = ls;
+		myCreator = wc;
 	}
 
-	public static Display getInstance(LanguageSetter ls) {
+	public static Display getInstance(LanguageSetter ls,WorkspaceCreator wc) {
 		if (instance == null)
-			instance = new Display(ls);
+			instance = new Display(ls,wc);
 		return instance;
 	}
 
@@ -47,6 +49,10 @@ public class Display {
 
 	public LanguageSetter getLangSetter() {
 		return this.myLangSetter;
+	}
+	
+	public WorkspaceCreator getWorkspaceCreator() {
+		return this.myCreator;
 	}
 
 	public Scene init(Model model) {
@@ -69,10 +75,6 @@ public class Display {
 	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
 		myWorkspaceDisplays.setTabMinWidth(Integer.parseInt(myValues.getString("TAB_MIN_WIDTH")));
-		
-		//REMNANTS OF MERGE CONFLICT, NOT SURE IF IMPORTANT
-//		makeWorkspaceDisplay(receiver);
-		
 	}
 
 	public void makeWorkspaceDisplay(Receiver receiver, int id) {
@@ -105,7 +107,7 @@ public class Display {
 	}
 	
 	public Drawer getDrawer() {
-		return getSelectedWorkspace().getTurtleView();
+		return getSelectedWorkspace().getDrawer();
 	}
 	
 	public Historian getCommandHistorian() {
@@ -118,5 +120,9 @@ public class Display {
 	
 	public Historian getHistoryHistorian() {
 		return getSelectedWorkspace().getHistoryPane();
+	}
+	
+	public Receiver getReceiver() {
+		return (Receiver) myModel;
 	}
 }

@@ -2,16 +2,15 @@ package model.line;
 
 import java.util.Collections;
 import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
-import model.Clearable;
-import view.Clearer;
 import view.Drawer;
 
 // would belong to a turtle
-public class LineList implements Line, Clearable {
+public class LineList implements Line {
 
 	private ObservableList<SingleLine> myList;
 
@@ -23,14 +22,7 @@ public class LineList implements Line, Clearable {
 	public void beDrawn(Drawer drawer) {
 		myList.forEach(line -> line.beDrawn(drawer));
 	}
-	
 
-        @Override
-        public void beCleared(Clearer clearer) {
-//                myList.clear();
-                clearer.clearLines();
-                
-        }
 
 	public void add(SingleLine line) {
 		myList.add(line);
@@ -58,8 +50,8 @@ public class LineList implements Line, Clearable {
 	public String toString() {
 		return myList.toString();
 	}
-	
+
 	public void addListener(ListChangeListener<? super Line> listener) {
-	    myList.addListener(listener);
+		myList.addListener(listener);
 	}
 }

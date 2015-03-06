@@ -32,7 +32,7 @@ public class View implements WorkspaceCreator {
 		myModel = new Model(new Point2D(Integer.parseInt(offsetAR[0]),
 				Integer.parseInt(offsetAR[1])));
 		myModel.setLanguage(myValues.getString("Language"));
-		myDisplay = Display.getInstance(getLanguageSetter());
+		myDisplay = Display.getInstance(getLanguageSetter(),(WorkspaceCreator)this);
 		Scene scene = myDisplay.init(myModel);
 		makeWorkspace();
 		myStage.setScene(scene);
@@ -61,6 +61,7 @@ public class View implements WorkspaceCreator {
 			hist.getFeedHistory().beRecorded(myDisplay.getHistoryHistorian());
 		});
 		hist.addVarsListener(c -> {
+			System.out.println("Var Caught");
 			hist.getVarsHistory().beRecorded(myDisplay.getVariableHistorian());
 		});
 		

@@ -19,19 +19,20 @@ public class History implements Recordable {
 	@Override
 	public void beRecorded(Historian recorder) {
 		// recorder.record(myMap);
+		recorder.record(myMap);
 	}
 
 	@Override
-	public void addListener(MapChangeListener change) {
+	public void addListener(MapChangeListener listener) {
 		// TODO Auto-generated method stub
-
+		myMap.addListener(listener);
 	}
 
 	public void put(String key, Writable value) {
 		myMap.put(key, value);
 	}
-	
-	public Writable get(String key){
+
+	public Writable get(String key) {
 		return myMap.get(key);
 	}
 

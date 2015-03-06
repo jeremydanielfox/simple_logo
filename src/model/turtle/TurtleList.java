@@ -5,18 +5,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
-import model.Clearable;
 import model.node.CommandList;
-import view.Clearer;
 import view.Drawer;
 
 
 // one per workspace
-public class TurtleList implements Turtle, Clearable {
+public class TurtleList implements Turtle {
 
     private int myId;
     private Map<Integer, SingleTurtle> allTurtlesMap;
@@ -44,11 +43,6 @@ public class TurtleList implements Turtle, Clearable {
     public void beDrawn (Drawer drawer) {
         allTurtlesMap.values().stream().filter(SingleTurtle::isVisible)
                 .forEach(turtle -> turtle.beDrawn(drawer));
-    }
-
-    public void beCleared (Clearer clearer) {
-        clearScreen();
-        clearer.clearTurtles();
     }
 
     public void setActive (List<Integer> idList) {
@@ -229,3 +223,4 @@ public class TurtleList implements Turtle, Clearable {
     }
 
 }
+
