@@ -1,9 +1,12 @@
 package model.node.turtleCommand;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import model.node.ChildBuilder;
 import model.node.EvalNode;
 import model.node.Ids;
+import model.node.Parameters;
+import model.node.basic.Constant;
 import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 import model.turtle.Turtle;
@@ -19,16 +22,28 @@ public class Tell extends EvalNode {
     }
 
     @Override
+
     public double evaluate () {
-        List<Integer> actives = ((Ids) getEvalChild("ids")).getList();
-        myTurtle.setActive(actives);
-        return actives.get(actives.size()-1);
+        List<Integer> actives = getIds();
+        myTurtle.setActive(getIds());
+        return actives.get(actives.size() - 1);
+    }
+
+    // messy, but necessary to reduce duplication
+    protected List<Integer> getIds () {
+        return (List<Integer>) ((Parameters) getEvalChild("ids")).getList().stream()
+                .map(this::convertToInteger).collect(Collectors.toList());
+    }
+
+    protected int convertToInteger (Object id) {
+        Double d = ((EvalNode) id).evaluate();
+        return d.intValue();
     }
 
     @Override
     protected ChildBuilder[] addChildBuilders () {
         return new ChildBuilder[] { new ChildBuilder("listStart", ListStart.class),
-                                    new ChildBuilder("ids", Ids.class),
-                                    new ChildBuilder("listEnd", ListEnd.class)};
+                                   new ChildBuilder("ids", Parameters.class),
+                                   new ChildBuilder("listEnd", ListEnd.class) };
     }
 }

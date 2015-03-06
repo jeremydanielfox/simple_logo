@@ -21,7 +21,7 @@ public final class NodeFactory {
     {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
-                              "ClearScreen", "ShowTurtle", "HideTurtle", "Tell"};
+                              "ClearScreen", "ShowTurtle", "HideTurtle", "Tell", "Ask"};
         String [] writerCmds = 
                 new String[] {"MakeVariable", "MakeUserInstruction" };
         String[] databaseCmds = 

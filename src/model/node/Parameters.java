@@ -6,7 +6,7 @@ import model.node.database.Variable;
 //TODO: decide if should be considered and EvalNode
 public class Parameters extends EvalNode {
 
-    private List<Variable> myList;
+    private List myList;
     
     public Parameters(List<Variable> list){
         myList = list;
@@ -18,7 +18,7 @@ public class Parameters extends EvalNode {
         return null;
     }
     
-    public List<Variable> getList () {
+    public List getList () {
         return myList;
     }
 

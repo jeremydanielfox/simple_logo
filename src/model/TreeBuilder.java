@@ -21,28 +21,32 @@ import Exceptions.UnexpectedEndOfInstructionsException;
 
 
 public class TreeBuilder {
-    
+
     private static Workspace myWorkspace;
 
     public static CommandList build (Workspace workspace, List<TokenProperty> tokenList) {
         myWorkspace = workspace;
         return buildCommandList(tokenList);
     }
-        
-    private static CommandList buildCommandList(List<TokenProperty> tokenList){
+
+    private static CommandList buildCommandList (List<TokenProperty> tokenList) {
         Queue<TokenProperty> tokenQueue = new LinkedList<TokenProperty>(tokenList);
         List<EvalNode> trees = new ArrayList<EvalNode>();
         CommandList root = new CommandList(trees);
-        if (isNextToken(tokenQueue, "[") || isNextToken(tokenQueue, "]")){
-            throw new IncorrectSyntaxException(); // special case of checking first element
+        if (isNextToken(tokenQueue, "[") || isNextToken(tokenQueue, "]")) { throw new IncorrectSyntaxException(); // special
+                                                                                                                  // case
+                                                                                                                  // of
+                                                                                                                  // checking
+                                                                                                                  // first
+                                                                                                                  // element
         }
-        
+
         // build trees until nodeList is empty
         while (!tokenQueue.isEmpty()) {
             TreeNode node = getNextNode(tokenQueue);
             addChildren(tokenQueue, node);
             // special case: future nodes might need to know about new commands
-            if (node instanceof MakeUserInstruction){
+            if (node instanceof MakeUserInstruction) {
                 ((MakeUserInstruction) node).evaluate();
                 continue;
             }
@@ -56,12 +60,9 @@ public class TreeBuilder {
             return;
         }
         EvalNode evalNode = (EvalNode) node;
-        if (evalNode.allChildrenPresent()){
-            return;       
-        }
-        if (tokenQueue.isEmpty()) { 
-            throw new UnexpectedEndOfInstructionsException();
-            // e.g. fd sum 25
+        if (evalNode.allChildrenPresent()) { return; }
+        if (tokenQueue.isEmpty()) { throw new UnexpectedEndOfInstructionsException();
+        // e.g. fd sum 25
         }
         TreeNode childNode = getNextChild(tokenQueue, evalNode);
         evalNode.addChild(childNode);
@@ -73,20 +74,17 @@ public class TreeBuilder {
 
     private static TreeNode getNextChild (Queue<TokenProperty> tokenQueue, EvalNode current) {
         // special case 1:
-        if (current.getNextType().equals(CommandList.class)) {
-            return extractCommandList(tokenQueue);
-        }
+        if (current.getNextType().equals(CommandList.class)) { return extractCommandList(tokenQueue); }
         // special case 2:
-        if (current.getNextType().equals(Parameters.class)) {
-            return extractParameters(tokenQueue);
-        }
-        
-        // special case 3
-        if (current.getNextType().equals(Ids.class)) {
-            return extractIds(tokenQueue);
-        }
-        
-        // default case: 
+        if (current.getNextType().equals(Parameters.class)) { 
+            if (current instanceof MakeUserInstruction){
+                return extractParameters(tokenQueue, Variable.class);
+            } else { // all other instances
+                return extractParameters(tokenQueue, EvalNode.class);
+            }
+         }
+
+        // default case:
         TreeNode child = getNextNode(tokenQueue);
         // checks it's the correct type of node desired
         if (current.getNextType().isAssignableFrom(child.getClass())) {
@@ -94,7 +92,7 @@ public class TreeBuilder {
             return child;
         }
         else {
-            throw new IncorrectSyntaxException(); // e.g. "fd [" or "for [ :var 1 ]" 
+            throw new IncorrectSyntaxException(); // e.g. "fd [" or "for [ :var 1 ]"
         }
     }
 
@@ -110,9 +108,7 @@ public class TreeBuilder {
                                           List<TokenProperty> snippet,
                                           Stack<Integer> bracketChecker) {
         // ran out of nodes
-        if (tokenQueue.isEmpty()) {
-            throw new UnclosedListException();
-        }
+        if (tokenQueue.isEmpty()) { throw new UnclosedListException(); }
 
         // normal case: end of list and all brackets closed
         if (isNextToken(tokenQueue, "]") && bracketChecker.isEmpty()) { return; }
@@ -128,43 +124,60 @@ public class TreeBuilder {
         snippet.add(tokenQueue.poll());
         recursiveExtract(tokenQueue, snippet, bracketChecker);
     }
-    
-    private static Parameters extractParameters (Queue<TokenProperty> tokenQueue){
-        List<Variable> params = new ArrayList<Variable>();
+
+    // generalized, extract Params or Ids
+    private static Parameters extractParameters (Queue<TokenProperty> tokenQueue,
+                                                                Class<? extends TreeNode> type) {
+        List params = new ArrayList();
         if (tokenQueue.isEmpty()) {
             // throw unclosed List exception
         }
         while (!isNextToken(tokenQueue, "]")) {
             TreeNode node = getNextNode(tokenQueue);
-            if (!(node instanceof Variable)){
-                // throw Expected Variable exception
+            if (!(type.isAssignableFrom(node.getClass()))) {
+                throw new IncorrectSyntaxException();
             }
-            params.add((Variable) node);
+            params.add(node);
         }
         return new Parameters(params);
     }
-    
-    private static Ids extractIds (Queue<TokenProperty> tokenQueue){
-        List<Integer> ids = new ArrayList<Integer>();
-        if (tokenQueue.isEmpty()) {
-            // throw unclosed List exception
-        }
-        while (!isNextToken(tokenQueue, "]")) {
-            TreeNode node = getNextNode(tokenQueue);
-            if (!(node instanceof Constant)){
-                // throw Expected Variable exception
-            }
-            Double d= Double.parseDouble(((Constant) node).toString());
-            ids.add(d.intValue());
-        }
-        return new Ids(ids);
-    }
-    
-    private static TreeNode getNextNode(Queue<TokenProperty> tokenQueue){
+
+//    private static Parameters extractParameters (Queue<TokenProperty> tokenQueue) {
+//        List<Variable> params = new ArrayList<Variable>();
+//        if (tokenQueue.isEmpty()) {
+//            // throw unclosed List exception
+//        }
+//        while (!isNextToken(tokenQueue, "]")) {
+//            TreeNode node = getNextNode(tokenQueue);
+//            if (!(node instanceof Variable)) {
+//                // throw Expected Variable exception
+//            }
+//            params.add((Variable) node);
+//        }
+//        return new Parameters(params);
+//    }
+//
+//    private static Ids extractIds (Queue<TokenProperty> tokenQueue) {
+//        List<Integer> ids = new ArrayList<Integer>();
+//        if (tokenQueue.isEmpty()) {
+//            // throw unclosed List exception
+//        }
+//        while (!isNextToken(tokenQueue, "]")) {
+//            TreeNode node = getNextNode(tokenQueue);
+//            if (!(node instanceof Constant)) {
+//                // throw Expected Variable exception
+//            }
+//            Double d = Double.parseDouble(((Constant) node).toString());
+//            ids.add(d.intValue());
+//        }
+//        return new Ids(ids);
+//    }
+
+    private static TreeNode getNextNode (Queue<TokenProperty> tokenQueue) {
         return NodeFactory.get(tokenQueue.poll(), myWorkspace);
     }
-    
-    private static boolean isNextToken(Queue<TokenProperty> tokenQueue, String token){
+
+    private static boolean isNextToken (Queue<TokenProperty> tokenQueue, String token) {
         return tokenQueue.peek().getToken().equals(token);
     }
 }

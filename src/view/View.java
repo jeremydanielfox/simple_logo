@@ -59,8 +59,8 @@ public class View implements WorkspaceCreator {
             System.out.println("triggered2");
             myDisplay.getSelectedWorkspace().getTurtleView()
                     .clearLines();
-            turtles.getAllLines().forEach(linelist -> linelist.beDrawn(myDisplay.getSelectedWorkspace()
-                    .getTurtleView()));
+            turtles.drawLines(myDisplay.getSelectedWorkspace()
+                              .getTurtleView());
         });
     }
 

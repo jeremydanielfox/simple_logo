@@ -1,17 +1,16 @@
 package model.turtle;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
 import model.Clearable;
-import model.line.LineList;
+import model.node.CommandList;
 import view.Clearer;
 import view.Drawer;
 
@@ -22,6 +21,7 @@ public class TurtleList implements Turtle, Clearable {
     private int myId;
     private Map<Integer, SingleTurtle> allTurtlesMap;
     private Map<Integer, SingleTurtle> activeTurtlesMap;
+    private List<Integer> activeIds;
 
     private ChangeListener myTurtleListener;
     private ListChangeListener myLineListener;
@@ -35,16 +35,14 @@ public class TurtleList implements Turtle, Clearable {
         allTurtlesMap = new HashMap<Integer, SingleTurtle>();
         allTurtlesMap.put(1, new SingleTurtle(1));
         activeTurtlesMap = allTurtlesMap;
+        //activeIds = new ArrayList<Integer>();
+        //activeIds.add(1);
     }
 
     @Override
     public void beDrawn (Drawer drawer) {
         allTurtlesMap.values().stream().filter(SingleTurtle::isVisible)
                 .forEach(turtle -> turtle.beDrawn(drawer));
-//        List<SingleTurtle> turtles = allTurtlesMap.values().stream().collect(Collectors.toList());
-//        for (SingleTurtle turtle : turtles) {
-//            turtle.getLines().beDrawn(drawer);
-//        }
     }
 
     public void beCleared (Clearer clearer) {
@@ -55,26 +53,34 @@ public class TurtleList implements Turtle, Clearable {
     public void setActive (List<Integer> idList) {
         activeTurtlesMap = new HashMap<Integer, SingleTurtle>();
         for (int id : idList) {
-            if (allTurtlesMap.containsKey(id)) {
-                activeTurtlesMap.put(id, allTurtlesMap.get(id));
-            }
-            else {
+            if (!(allTurtlesMap.containsKey(id))) {
                 addNewTurtle(id);
             }
+            activeTurtlesMap.put(id, allTurtlesMap.get(id));
         }
     }
+    
+    public double ask (List<Integer> queried, CommandList commands){
+        List<Integer> currentlyActive = new ArrayList<Integer>();
+        currentlyActive.addAll(activeTurtlesMap.keySet());
+        setActive(queried);
+        double result = commands.evaluate();
+        setActive(currentlyActive);
+        return result;
+    }
+    
 
     public Collection<SingleTurtle> getAllTurtles () {
         return allTurtlesMap.values();
     }
-    
-    public List<LineList> getAllLines () {
-        return getAllTurtles().stream().map(SingleTurtle::getLines).collect(Collectors.toList());
+
+    public void drawLines (Drawer drawer) {
+        getAllTurtles().stream().map(SingleTurtle::getLines)
+                .forEach(linelist -> linelist.beDrawn(drawer));
     }
 
     private void addNewTurtle (int id) {
         SingleTurtle turtle = new SingleTurtle(id);
-        activeTurtlesMap.put(id, turtle);
         allTurtlesMap.put(id, turtle);
         addChangeListener(turtle);
         addListChangeListener(turtle);
@@ -152,7 +158,7 @@ public class TurtleList implements Turtle, Clearable {
         // will add change listener to first turtle
         addChangeListener(allTurtlesMap.get(1));
     }
-    
+
     public void setListChangeListener (ListChangeListener listener) {
         myLineListener = listener;
         // will add listchange listener to first turtle
@@ -165,7 +171,7 @@ public class TurtleList implements Turtle, Clearable {
         turtle.getVisibilityProperty().addListener(myTurtleListener);
         turtle.getLineListProperty().addListener(myTurtleListener);
     }
-    
+
     private void addListChangeListener (SingleTurtle turtle) {
         turtle.getLines().addListener(myLineListener);
     }
