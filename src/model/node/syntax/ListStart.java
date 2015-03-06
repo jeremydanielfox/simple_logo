@@ -7,7 +7,7 @@ public class ListStart extends Syntax {
 
     @Override
     public String toString () {
-        return "[" + " ";
+        return "[ ";
     }
     
 }

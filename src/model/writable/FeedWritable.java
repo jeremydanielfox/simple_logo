@@ -7,10 +7,9 @@ public class FeedWritable extends Writable {
 	public FeedWritable(String value){
 		myValue = value;
 	}
-
-	@Override
-	public String getName() {
-		return "";
+	
+	public String getName () {
+	    return "";
 	}
 
 	@Override

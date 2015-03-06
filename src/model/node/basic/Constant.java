@@ -1,5 +1,6 @@
 package model.node.basic;
 
+import java.text.DecimalFormat;
 import model.node.ZeroArgOperation;
 
 
@@ -17,6 +18,11 @@ public class Constant extends ZeroArgOperation {
 
     @Override
     public String toString () {
-        return Double.toString(value) + " ";
+        String result = String.valueOf(value);
+        if (Math.abs(Math.round(value)-value)<.0001){
+            DecimalFormat df = new DecimalFormat("###.#");
+            result = df.format(value);
+        }
+        return String.format("%s ", result);
     }
 }

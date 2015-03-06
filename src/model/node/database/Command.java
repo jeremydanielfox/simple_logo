@@ -29,7 +29,7 @@ public class Command extends EvalNode {
         }
         else{
             verify();
-            params = ((CommandWritable) database.getWritable(name)).getParameters();
+            params = ((CommandWritable) database.getWritable(toString())).getParameters();
             super.setChildBuilders();       
         }
     }
@@ -39,7 +39,7 @@ public class Command extends EvalNode {
         for (int i = 0; i < params.size(); i++) {
             params.get(i).update(getEvalChild(String.format("var%d", i)).evaluate());
         }
-        return ((CommandWritable) database.getWritable(name)).getCommands().evaluate();
+        return ((CommandWritable) database.getWritable(toString())).getCommands().evaluate();
     }
 
     protected boolean beingDefined () {
@@ -56,13 +56,13 @@ public class Command extends EvalNode {
     }
 
     private void verify () {
-        if (database.getWritable(name) == null){
+        if (database.getWritable(toString()) == null){
             throw new UnrecognizedTokenException(name); 
         }
     }
 
     @Override
     public String toString () {
-        return name;
+        return String.format("%s ", name);
     }
 }

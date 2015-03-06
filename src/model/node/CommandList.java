@@ -2,7 +2,7 @@ package model.node;
 
 import java.util.List;
 
-public class CommandList extends EvalNode {
+public class CommandList extends ZeroArgOperation{
     
     List<EvalNode> myList;
     
@@ -19,26 +19,13 @@ public class CommandList extends EvalNode {
         return lastEvaluated;
     }
 
-    // toString will be represented by its children
+    // toString will be represented by its List
     @Override
     public String toString (){
-        return this.childrenToString();
+        String result = "";
+        for (EvalNode node : myList){
+            result += node.toString();
+        }
+        return result;
     }
-    
-    @Override
-    public String childrenToString(){
-    	String s = "";
-    	if (this.hasChildren()){
-    		for (TreeNode tn : this.myList){
-	    		s += tn.toString();
-			} 
-    	}
-	    return s; 
-    }
-
-    @Override
-    protected ChildBuilder[] addChildBuilders () {
-        return new ChildBuilder[0];
-    }
-
 }

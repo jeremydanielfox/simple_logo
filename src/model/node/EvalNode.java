@@ -33,6 +33,10 @@ public abstract class EvalNode extends TreeNode {
 	protected EvalNode getEvalChild(String key) {
 		return (EvalNode) children.get(key);
 	}
+	
+	protected TreeNode getChild(String key){
+	        return children.get(key);
+	}
 
 	public boolean allChildrenPresent() {
 		return childBuilders.isEmpty();
@@ -51,11 +55,19 @@ public abstract class EvalNode extends TreeNode {
 
 	public String toString() {
 		String[] temp = this.getClass().getName().split("\\.");
-		return temp[temp.length - 1] + " " + this.childrenToString();
+		return temp[temp.length - 1] + " " + childrenToString();
 	}
 
 	public boolean hasChildren() {
 		return (children != null);
+	}
+	
+	public String childrenToString(){
+	    String result = "";
+	    for (String child : children.keySet()){
+	        result+=children.get(child).toString();
+	    }
+	    return result;
 	}
 
 }

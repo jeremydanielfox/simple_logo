@@ -1,7 +1,6 @@
 package model.node.turtleCommand;
 
 import model.node.OneArgOperation;
-import model.turtle.SingleTurtle;
 import model.turtle.Turtle;
 
 
