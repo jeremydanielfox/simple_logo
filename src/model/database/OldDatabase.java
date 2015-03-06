@@ -53,14 +53,11 @@ public final class OldDatabase {
     public void putVariable (String name, EvalNode node) {
         varsMap.put(name, node);
         varsHistory.put(name, node.toString());
-        //System.out.println(varsHistory.get(name)); //for testing
-        // TODO: traverse tree to get string representation of nodes
-        // varsHistory.put(name, node.toString());
     }
 
     public void putCommand (String name, List<Variable> params, CommandList list) {
         cmdsMap.put(name, new CommandWrapper(params, list));
-        // TODO: put in cmdsHistory
+        cmdsHistory.put(name, cmdsMap.get(name).toString());
     }
 
 
@@ -93,15 +90,6 @@ public final class OldDatabase {
 	public EvalNode getVariable(String name) {
 		return varsMap.get(name);
 	}
-
-
-
-//	public static synchronized Database getInstance() {
-//		if (instance == null)
-//			instance = new Database();
-//		return instance;
-//	}
-
 
     public CommandWrapper getCommand (String name) {
         return cmdsMap.get(name);
@@ -150,6 +138,18 @@ public final class OldDatabase {
 
         public CommandList getCommandList () {
             return list;
+        }
+        
+        public String toString(){
+        	return listToString(params) + "[ " + list.toString() + "]";
+        }
+        
+        private String listToString(List<Variable> list){
+        	String string = "";
+        	for (Variable s : list){
+        		string += s.toString();
+        	}
+        	return "[ " + string + "] ";
         }
     }
 }
