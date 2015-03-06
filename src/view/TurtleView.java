@@ -235,18 +235,22 @@ public class TurtleView implements Drawer {
 	}
 
 	@Override
-	public void drawTurtle(Point2D location, double heading, boolean visible) {
-		clearTurtles();
-		Image image = turtleImage;
-		myTurtleGC.save(); // saves the current state on stack, including the
-		// current
-		// transform
-		rotate(myTurtleGC, heading,
-				location.getX() + myXOffset.get() + image.getWidth() / 2,
-				location.getY() + myYOffset.get() + image.getHeight() / 2);
-		myTurtleGC.drawImage(image, location.getX() + myXOffset.get(),
-				location.getY() + myYOffset.get());
-		myTurtleGC.restore(); // back to original state (before rotation)
+	public void drawTurtle(Point2D location, double heading, boolean visible,
+			int id) {
+		// clearTurtles();
+		if (visible) {
+			Image image = turtleImage;
+			myTurtleGC.save(); // saves the current state on stack, including
+								// the
+			// current
+			// transform
+			rotate(myTurtleGC, heading, location.getX() + myXOffset.get()
+					+ image.getWidth() / 2, location.getY() + myYOffset.get()
+					+ image.getHeight() / 2);
+			myTurtleGC.drawImage(image, location.getX() + myXOffset.get(),
+					location.getY() + myYOffset.get());
+			myTurtleGC.restore(); // back to original state (before rotation)
+		}
 	}
 
 	@Override
