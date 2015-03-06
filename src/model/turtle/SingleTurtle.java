@@ -14,7 +14,6 @@ import model.turtle.mover.Mover;
 import model.turtle.mover.UnboundedMover;
 import view.Drawer;
 
-
 public class SingleTurtle implements Turtle{
 
     private Point2D myPosition;
@@ -44,7 +43,7 @@ public class SingleTurtle implements Turtle{
     
     @Override
     public void beDrawn (Drawer drawer) {
-        drawer.drawTurtle(myPosition, myHeading, visible);
+        drawer.drawTurtle(myPosition, myHeading);
     }
 
     public void move (PolarVector vector) {
@@ -178,5 +177,4 @@ public class SingleTurtle implements Turtle{
     public BooleanProperty getVisibilityProperty() {
         return myVisiblityProperty;
     }
-
 }

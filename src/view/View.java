@@ -48,7 +48,7 @@ public class View implements WorkspaceCreator {
     }
 
     private void addListeners (TurtleList turtles, LineListCollection lineLists) {
-        turtles.addChangeListener( (obs, ov, nv) -> {
+        turtles.setChangeListener( (obs, ov, nv) -> {
             System.out.println("triggered1");
             myDisplay.getSelectedWorkspace().getTurtleView()
                     .clearTurtles();
@@ -57,10 +57,6 @@ public class View implements WorkspaceCreator {
         });
         lineLists.addListener(c -> {
             System.out.println("triggered2");
-            myDisplay.getSelectedWorkspace().getTurtleView()
-                    .clearTurtles();
-            turtles.beDrawn(myDisplay.getSelectedWorkspace()
-                    .getTurtleView());
             myDisplay.getSelectedWorkspace().getTurtleView()
                     .clearLines();
             lineLists.beDrawn(myDisplay.getSelectedWorkspace()

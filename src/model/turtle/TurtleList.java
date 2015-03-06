@@ -24,8 +24,10 @@ public class TurtleList implements Turtle, Clearable {
     private int myId;
     private Map<Integer, SingleTurtle> allTurtlesMap;
     private Map<Integer, SingleTurtle> activeTurtlesMap;
-    
-    //private ObservableList<SingleTurtle> allTurtles;
+
+    private ChangeListener myListener;
+
+    // private ObservableList<SingleTurtle> allTurtles;
 
     public TurtleList (int id) {
         myId = id;
@@ -38,31 +40,36 @@ public class TurtleList implements Turtle, Clearable {
 
     @Override
     public void beDrawn (Drawer drawer) {
-        allTurtlesMap.values().stream().filter(SingleTurtle::isVisible).forEach(turtle -> turtle.beDrawn(drawer));
+        allTurtlesMap.values().stream().filter(SingleTurtle::isVisible)
+                .forEach(turtle -> turtle.beDrawn(drawer));
     }
 
     public void beCleared (Clearer clearer) {
         clearScreen();
         clearer.clearTurtles();
     }
-    
+
     public void setActive (List<Integer> idList) {
-       activeTurtlesMap = new HashMap<Integer, SingleTurtle>();
-       for (int id: idList){
-           if (allTurtlesMap.containsKey(id)){
-               activeTurtlesMap.put(id, allTurtlesMap.get(id));
-           }
-           else {
-               SingleTurtle turtle = new SingleTurtle(id);
-               activeTurtlesMap.put(id, turtle);
-               allTurtlesMap.put(id, turtle);
-           }
-       }
+        activeTurtlesMap = new HashMap<Integer, SingleTurtle>();
+        for (int id : idList) {
+            if (allTurtlesMap.containsKey(id)) {
+                activeTurtlesMap.put(id, allTurtlesMap.get(id));
+            }
+            else {
+                addNewTurtle(id);
+            }
+        }
     }
 
-
     public Collection<SingleTurtle> getAllTurtles () {
-       return allTurtlesMap.values();
+        return allTurtlesMap.values();
+    }
+
+    private void addNewTurtle (int id) {
+        SingleTurtle turtle = new SingleTurtle(id);
+        activeTurtlesMap.put(id, turtle);
+        allTurtlesMap.put(id, turtle);
+        addChangeListener(turtle);
     }
 
     // TODO: use matchers to filter turtle ids with given list of ids
@@ -97,13 +104,13 @@ public class TurtleList implements Turtle, Clearable {
         activeTurtlesMap.values().forEach(turtle -> turtle.goHome());
         return 0;
     }
-    
+
     @Override
     public double show () {
         activeTurtlesMap.values().forEach(turtle -> turtle.show());
         return 1;
     }
-    
+
     @Override
     public double hide () {
         activeTurtlesMap.values().forEach(turtle -> turtle.hide());
@@ -115,36 +122,39 @@ public class TurtleList implements Turtle, Clearable {
         activeTurtlesMap.values().forEach(turtle -> turtle.setPenUp());
         return 1;
     }
-    
 
     @Override
     public double setPenDown () {
         activeTurtlesMap.values().forEach(turtle -> turtle.setPenDown());
         return 0;
     }
-    
+
     @Override
     public double clearScreen () {
         activeTurtlesMap.values().forEach(turtle -> turtle.clearScreen());
         return 0;
     }
-    
+
     public int getId () {
         return myId;
     }
-    
-    public void addChangeListener(ChangeListener listener){
-       allTurtlesMap.values().forEach(turtle->{
-           turtle.getHeadingProperty().addListener(listener);
-           turtle.getPositionProperty().addListener(listener);
-           turtle.getVisibilityProperty().addListener(listener);
-       });
+
+    public void setChangeListener (ChangeListener listener) {
+        myListener = listener;
+        // will add change listener to first turtle
+        addChangeListener(allTurtlesMap.get(1));
+    }
+
+    private void addChangeListener (SingleTurtle turtle) {
+        turtle.getHeadingProperty().addListener(myListener);
+        turtle.getPositionProperty().addListener(myListener);
+        turtle.getVisibilityProperty().addListener(myListener);
     }
 
     public void addLocationListener (InvalidationListener listener) {
         allTurtlesMap.values().forEach(turtle -> turtle.addLocationListener(listener));
     }
-    
+
     public void addHeadingListener (InvalidationListener listener) {
         allTurtlesMap.values().forEach(turtle -> turtle.addHeadingListener(listener));
     }
