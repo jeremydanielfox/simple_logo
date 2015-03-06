@@ -24,8 +24,6 @@ public class UnboundedMover implements Mover {
         double y = -1 * r * Math.cos(Math.toRadians(turtle.getHeading()));
         Point2D cartesianVector = new Point2D(x, y);
         turtle.setPosition(turtle.getPosition().add(cartesianVector));
-        turtle.getPositionProperty().setValue(turtle.getPosition());
-        turtle.getHeadingProperty().setValue(turtle.getHeading());
         drawLines(turtle);
         
     }

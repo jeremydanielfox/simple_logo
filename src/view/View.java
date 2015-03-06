@@ -42,22 +42,26 @@ public class View implements WorkspaceCreator {
 
     private void initializeWorkspace () {
         Workspace workspace = new Workspace();
-        LineListCollection lineLists = workspace.getLines();
-        TurtleList turtles = workspace.getTurtles();
-        lineLists
-                .addListener(c -> {
-                    System.out.println("triggered1");
-                    myDisplay.getSelectedWorkspace().getTurtleView()
-                            .clearLines();
-                    myDisplay.getSelectedWorkspace().getTurtleView()
-                            .clearTurtles();
-                    lineLists.beDrawn(myDisplay.getSelectedWorkspace()
-                            .getTurtleView());
-                    turtles.beDrawn(myDisplay.getSelectedWorkspace()
-                            .getTurtleView());
-                });
+        addListeners(workspace.getTurtles(), workspace.getLines());
         myDisplay.makeWorkspaceDisplay((Receiver) myModel, workspace.getId());
         myModel.setWorkspace(workspace);
+    }
+
+    private void addListeners (TurtleList turtles, LineListCollection lineLists) {
+        turtles.setChangeListener( (obs, ov, nv) -> {
+            System.out.println("triggered1");
+            myDisplay.getSelectedWorkspace().getTurtleView()
+                    .clearTurtles();
+            turtles.beDrawn(myDisplay.getSelectedWorkspace()
+                    .getTurtleView());
+        });
+        lineLists.addListener(c -> {
+            System.out.println("triggered2");
+            myDisplay.getSelectedWorkspace().getTurtleView()
+                    .clearLines();
+            lineLists.beDrawn(myDisplay.getSelectedWorkspace()
+                    .getTurtleView());
+        });
     }
 
     public LanguageSetter getLanguageSetter () {

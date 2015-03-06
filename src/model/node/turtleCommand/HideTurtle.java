@@ -13,6 +13,6 @@ public class HideTurtle extends ZeroArgOperation {
 
     @Override
     public double evaluate () {
-        return myTurtle.setInvisible();
+        return myTurtle.hide();
     }
 }

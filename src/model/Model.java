@@ -27,6 +27,12 @@ public class Model implements Receiver, LanguageSetter {
     public Model (Point2D offset) {
         myWorkspaces = new ArrayList<Workspace>();
     }
+    
+    public void setLanguage (String language) {
+        myPatterns = makePatterns(language);
+        myPatterns.addAll(makePatterns("resources/languages/Syntax"));
+    }
+    
 
     public void giveText (String text, int id) {
         updateModel(text, id);
@@ -39,13 +45,7 @@ public class Model implements Receiver, LanguageSetter {
         List<TokenProperty> feedList = parser.parse(feed);
         CommandList tree = TreeBuilder.build(currentWorkspace, feedList);
         tree.evaluate();
-
         // Database.getInstance().printVarsHistory(); //for testing
-    }
-
-    public void setLanguage (String language) {
-        myPatterns = makePatterns(language);
-        myPatterns.addAll(makePatterns("resources/languages/Syntax"));
     }
 
     private List<Entry<String, Pattern>> makePatterns (String syntax) {

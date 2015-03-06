@@ -18,9 +18,9 @@ public interface Turtle extends Drawable{
     
     public double clearScreen ();
 
-    public double setVisible ();
+    public double show ();
     
-    public double setInvisible ();
+    public double hide ();
 
     public double setPenUp ();
 
