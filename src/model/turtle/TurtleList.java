@@ -13,7 +13,7 @@ import javafx.geometry.Point2D;
 import model.node.CommandList;
 import view.Drawer;
 
-// one per workspace
+// one per workspace\\
 public class TurtleList implements Turtle {
 
 	private int myId;
@@ -23,6 +23,7 @@ public class TurtleList implements Turtle {
 
 	private ChangeListener myTurtleListener;
 	private ListChangeListener myLineListener;
+private int myCurrentId;
 
 	// private ObservableList<SingleTurtle> allTurtles;
 
@@ -89,7 +90,10 @@ public class TurtleList implements Turtle {
 
 	@Override
 	public void translate(double distance) {
-		activeTurtlesMap.values().forEach(turtle -> turtle.translate(distance));
+		activeTurtlesMap.values().forEach(turtle ->  {
+			myCurrentId = turtle.getId();
+			turtle.translate(distance);
+		});
 	}
 
 	@Override
@@ -176,6 +180,6 @@ public class TurtleList implements Turtle {
 	public void addHeadingListener(InvalidationListener listener) {
 		allTurtlesMap.values().forEach(
 				turtle -> turtle.addHeadingListener(listener));
-	}
 
+	}
 }

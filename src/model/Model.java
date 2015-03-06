@@ -10,62 +10,60 @@ import java.util.regex.Pattern;
 
 import javafx.geometry.Point2D;
 import model.Parser.TokenProperty;
-import model.database.OldDatabase;
 import model.node.CommandList;
 import model.turtle.TurtleList;
-
+import model.writable.FeedWritable;
 
 public class Model implements Receiver, LanguageSetter {
-    private List<Entry<String, Pattern>> myPatterns;
-    private List<Workspace> myWorkspaces;
-    private Workspace currentWorkspace;
+	private List<Entry<String, Pattern>> myPatterns;
+	private List<Workspace> myWorkspaces;
+	private Workspace currentWorkspace;
 
-    public Model (Point2D offset) {
-        myWorkspaces = new ArrayList<Workspace>();
-    }
-    
-    public void setLanguage (String language) {
-        myPatterns = makePatterns(language);
-        myPatterns.addAll(makePatterns("resources/languages/Syntax"));
-    }
-    
+	public Model(Point2D offset) {
+		myWorkspaces = new ArrayList<Workspace>();
+	}
 
-    public void giveText (String text, int id) {
-        updateModel(text, id);
-    }
+	public void setLanguage(String language) {
+		myPatterns = makePatterns(language);
+		myPatterns.addAll(makePatterns("resources/languages/Syntax"));
+	}
 
-    public void updateModel (String feed, int id) {
-        currentWorkspace = myWorkspaces.get(id);
-        currentWorkspace.getWorkspaceHistory().getFeedHistory().put(feed, null);
-        OldDatabase.getInstance().addFeed(feed);
-        Parser parser = new Parser(myPatterns);
-        List<TokenProperty> feedList = parser.parse(feed);
-        CommandList tree = TreeBuilder.build(currentWorkspace, feedList);
-        tree.evaluate();
+	public void giveText(String text, int id) {
+		updateModel(text, id);
+	}
 
-//        OldDatabase.getInstance().printVarsHistory(); //for testing
-//        OldDatabase.getInstance().printCmdsHistory(); //for testing
-    }
+	public void updateModel(String feed, int id) {
+		currentWorkspace = myWorkspaces.get(id);
+		currentWorkspace.getWorkspaceHistory().getFeedHistory()
+				.put("", new FeedWritable(feed));
+		Parser parser = new Parser(myPatterns);
+		List<TokenProperty> feedList = parser.parse(feed);
+		CommandList tree = TreeBuilder.build(currentWorkspace, feedList);
+		tree.evaluate();
 
-    private List<Entry<String, Pattern>> makePatterns (String syntax) {
-        ResourceBundle resources = ResourceBundle.getBundle(syntax);
-        List<Entry<String, Pattern>> patterns = new ArrayList<>();
-        Enumeration<String> iter = resources.getKeys();
-        while (iter.hasMoreElements()) {
-            String key = iter.nextElement();
-            String regex = resources.getString(key);
-            patterns.add(new SimpleEntry<String, Pattern>(
-                    key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
-                                                          // THIS IS THE KEY LINE                   
-        }
-        return patterns;
-    }
+		// OldDatabase.getInstance().printVarsHistory(); //for testing
+		// OldDatabase.getInstance().printCmdsHistory(); //for testing
+	}
 
-    public void setWorkspace (Workspace workspace) {
-        myWorkspaces.add(workspace);
-    }
+	private List<Entry<String, Pattern>> makePatterns(String syntax) {
+		ResourceBundle resources = ResourceBundle.getBundle(syntax);
+		List<Entry<String, Pattern>> patterns = new ArrayList<>();
+		Enumeration<String> iter = resources.getKeys();
+		while (iter.hasMoreElements()) {
+			String key = iter.nextElement();
+			String regex = resources.getString(key);
+			patterns.add(new SimpleEntry<String, Pattern>(key, Pattern.compile(
+					regex, Pattern.CASE_INSENSITIVE)));
+			// THIS IS THE KEY LINE
+		}
+		return patterns;
+	}
 
-    public void initalizeWorkspace (TurtleList turtles) {
-        myWorkspaces.add(new Workspace());
-    }
+	public void setWorkspace(Workspace workspace) {
+		myWorkspaces.add(workspace);
+	}
+
+	public void initalizeWorkspace(TurtleList turtles) {
+		myWorkspaces.add(new Workspace());
+	}
 }
