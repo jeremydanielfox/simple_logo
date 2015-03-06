@@ -84,9 +84,6 @@ public final class OldDatabase {
 //		return instance;
 //	}
 
-
-
-
 	public EvalNode getVariable(String name) {
 		return varsMap.get(name);
 	}
