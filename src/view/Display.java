@@ -75,10 +75,6 @@ public class Display {
 	private void setupWorkspaces(Receiver receiver) {
 		myWorkspaceDisplays = new TabPane();
 		myWorkspaceDisplays.setTabMinWidth(Integer.parseInt(myValues.getString("TAB_MIN_WIDTH")));
-		
-		//REMNANTS OF MERGE CONFLICT, NOT SURE IF IMPORTANT
-//		makeWorkspaceDisplay(receiver);
-		
 	}
 
 	public void makeWorkspaceDisplay(Receiver receiver, int id) {
@@ -111,7 +107,7 @@ public class Display {
 	}
 	
 	public Drawer getDrawer() {
-		return getSelectedWorkspace().getTurtleView();
+		return getSelectedWorkspace().getDrawer();
 	}
 	
 	public Historian getCommandHistorian() {

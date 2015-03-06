@@ -77,13 +77,13 @@ public class WorkspaceConfigMenuMethods {
 		Slider mySlider = makeSlider(PEN_MIN, PEN_MAX);
 		mySlider.valueProperty().addListener(
 				(observable, oldValue, newValue) -> {
-					myDisplay.getSelectedWorkspace().getTurtleView()
+					myDisplay.getSelectedWorkspace().getConfigurable()
 							.setPenWidth(newValue.doubleValue());
 				});
 	}
 
 	private void setBackgroundColor(ColorPicker myColorPicker) {
-		myDisplay.getSelectedWorkspace().getTurtleView()
+		myDisplay.getSelectedWorkspace().getConfigurable()
 				.setBackgroundColor(myColorPicker.getValue());
 		myDisplay.getRoot().getChildren().remove(myColorPicker);
 	}
@@ -94,7 +94,7 @@ public class WorkspaceConfigMenuMethods {
 	}
 
 	private void setPenColor(ColorPicker myColorPicker) {
-		myDisplay.getSelectedWorkspace().getTurtleView()
+		myDisplay.getSelectedWorkspace().getConfigurable()
 				.setPenColor(myColorPicker.getValue());
 		myDisplay.getRoot().getChildren().remove(myColorPicker);
 	}
@@ -110,7 +110,7 @@ public class WorkspaceConfigMenuMethods {
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-			myDisplay.getSelectedWorkspace().getTurtleView().setTurtleImage(image);
+			myDisplay.getSelectedWorkspace().getConfigurable().setTurtleImage(image);
 		} catch (IOException ex) {
 			System.out.println("Error in loading image");
 		}

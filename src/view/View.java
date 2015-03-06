@@ -34,7 +34,6 @@ public class View implements WorkspaceCreator {
 		myModel.setLanguage(myValues.getString("Language"));
 		myDisplay = Display.getInstance(getLanguageSetter(),(WorkspaceCreator)this);
 		Scene scene = myDisplay.init(myModel);
-		// makeWorkspace();
 		makeWorkspace();
 		myStage.setScene(scene);
 		myStage.show();
