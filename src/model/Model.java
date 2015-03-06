@@ -9,9 +9,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import model.Parser.TokenProperty;
+import model.database.Database;
 import model.database.OldDatabase;
 import model.line.LineListCollection;
 import model.node.CommandList;
@@ -45,7 +47,9 @@ public class Model implements Receiver, LanguageSetter {
         List<TokenProperty> feedList = parser.parse(feed);
         CommandList tree = TreeBuilder.build(currentWorkspace, feedList);
         tree.evaluate();
-        // Database.getInstance().printVarsHistory(); //for testing
+
+//        OldDatabase.getInstance().printVarsHistory(); //for testing
+//        OldDatabase.getInstance().printCmdsHistory(); //for testing
     }
 
     private List<Entry<String, Pattern>> makePatterns (String syntax) {
