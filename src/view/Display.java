@@ -27,7 +27,6 @@ public class Display {
 	private WorkspaceCreator myCreator;
 	private TabPane myWorkspaceDisplays;
 	private Collection<WorkspaceDisplay> myWorkspaces;
-	private Feed myFeed;
 	private Model myModel;
 
 	protected Display(LanguageSetter ls,WorkspaceCreator wc) {

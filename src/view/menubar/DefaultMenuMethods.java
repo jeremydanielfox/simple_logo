@@ -2,12 +2,7 @@ package view.menubar;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import model.Receiver;
-import view.Display;
 
 public final class DefaultMenuMethods {
 
