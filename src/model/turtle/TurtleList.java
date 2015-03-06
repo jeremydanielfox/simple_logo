@@ -106,7 +106,10 @@ public class TurtleList implements Turtle, Clearable {
 
     @Override
     public double rotate (double angle) {
-        activeTurtlesMap.values().forEach(turtle -> turtle.rotate(angle));
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.rotate(angle);
+        });
         return angle;
     }
 
@@ -116,45 +119,82 @@ public class TurtleList implements Turtle, Clearable {
         return 0;
     }
 
-    // TODO: fix return value
+    // TODO: fix return value, might have to use sublist
     @Override
     public double goHome () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.goHome());
-        return 0;
+        double result = 0;
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.goHome();
+        });
+        return result;
     }
 
     @Override
     public double show () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.show());
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.show();
+        });
         return 1;
     }
 
     @Override
     public double hide () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.hide());
-        return 1;
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.hide();
+        });
+        return 0;
     }
 
     @Override
     public double setPenUp () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.setPenUp());
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.setPenUp();
+        });
         return 1;
     }
 
     @Override
     public double setPenDown () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.setPenDown());
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.setPenDown();
+        });
         return 0;
     }
+    
 
     @Override
-    public double clearScreen () {
-        activeTurtlesMap.values().forEach(turtle -> turtle.clearScreen());
-        return 0;
+    public double setHeading (double heading) {
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.setHeading(heading);
+        });
+        return heading;
     }
 
-    public int getId () {
-        return myId;
+    @Override // TODO: fix return value
+    public double clearScreen () {
+        activeTurtlesMap.values().forEach(turtle -> {
+            myCurrentId = turtle.getId();
+            turtle.clearScreen();
+        });
+        return 0;
+    }
+    
+    public Point2D getPosition () {
+        return activeTurtlesMap.get(myCurrentId).getPosition();
+    }
+    
+    public double getHeading () {
+        return activeTurtlesMap.get(myCurrentId).getHeading();
+    }
+
+    public int getCurrentId () {
+        return myCurrentId;
     }
 
     public void setChangeListener (ChangeListener listener) {

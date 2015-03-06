@@ -21,26 +21,33 @@ public final class NodeFactory {
     {
         String[] turtleCmds =
                 new String[] { "Forward", "Backward", "Left", "Right", "PenUp", "PenDown", "Home",
-                              "ClearScreen", "ShowTurtle", "HideTurtle", "Tell", "Ask"};
-        String [] writerCmds = 
-                new String[] {"MakeVariable", "MakeUserInstruction" };
-        String[] databaseCmds = 
-                new String[] {"Command", "Variable" };
-        String[] mathOpCmds = new String[] { "Sum", "Difference", "Product", "Quotient", "Random", "Sine" };
+                              "ClearScreen", "ShowTurtle", "HideTurtle", "SetHeading", "Tell",
+                              "Ask", "ID" };
+        String[] turtleQueries =
+                new String[] { "XCoordinate", "YCoordinate", "Heading" };
+        String[] writerCmds =
+                new String[] { "MakeVariable", "MakeUserInstruction" };
+        String[] databaseCmds =
+                new String[] { "Command", "Variable" };
+        String[] mathOpCmds =
+                new String[] { "Sum", "Difference", "Product", "Quotient", "Random", "Sine" };
         String[] boolCmds = new String[] { "GreaterThan", "LessThan" };
         String[] ctrlStructCmds =
-                new String[] { "Repeat", "DoTimes", "For",  "If", "IfElse" };
+                new String[] { "Repeat", "DoTimes", "For", "If", "IfElse" };
         String[] syntaxCmds = new String[] { "ListStart", "ListEnd" };
         String[] basicCmds = new String[] { "Constant" };
 
         reflectionMap = new HashMap<Wrapper, List<String>>();
-        reflectionMap.put(new Wrapper("turtleCommand", new Class<?> [] {Turtle.class}),
+        reflectionMap.put(new Wrapper("turtleCommand", new Class<?>[] { Turtle.class }),
                           new ArrayList<String>(Arrays.asList(turtleCmds)));
-        reflectionMap.put(new Wrapper("writer", new Class<?> [] {model.database.Writer.class}),
+        reflectionMap.put(new Wrapper("turtleQuery",
+                                      new Class<?>[] { Turtle.class, Database.class }),
+                          new ArrayList<String>(Arrays.asList(turtleQueries)));
+        reflectionMap.put(new Wrapper("writer", new Class<?>[] { model.database.Writer.class }),
                           new ArrayList<String>(Arrays.asList(writerCmds)));
-        reflectionMap.put(new Wrapper("database", new Class<?> [] {String.class, Database.class}),
+        reflectionMap.put(new Wrapper("database", new Class<?>[] { String.class, Database.class }),
                           new ArrayList<String>(Arrays.asList(databaseCmds)));
-        reflectionMap.put(new Wrapper("basic", new Class<?> [] {String.class}),
+        reflectionMap.put(new Wrapper("basic", new Class<?>[] { String.class }),
                           new ArrayList<String>(Arrays.asList(basicCmds)));
         reflectionMap.put(new Wrapper("mathOperation", new Class<?>[0]),
                           new ArrayList<String>(Arrays.asList(mathOpCmds)));
@@ -82,28 +89,42 @@ public final class NodeFactory {
         // require turtle
         else if (wrapper.getPackage().equals("turtleCommand")) {
             try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), workspace.getTurtles());
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
+                                         workspace.getTurtles());
             }
             catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
-        
-        else if (wrapper.getPackage().equals("writer")){
+
+        else if (wrapper.getPackage().equals("turtleQuery")) {
             try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), workspace.getWriter());
+                return reflectionFactory(wrapper.getPackage(), type,wrapper.getArg(),
+                                         new Object[] { workspace.getTurtles(),
+                                                       workspace.getDatabase() });
             }
             catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
-        
-        else if (wrapper.getPackage().equals("database")){
+
+        else if (wrapper.getPackage().equals("writer")) {
             try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), 
-                                         new Object[] {token, workspace.getDatabase()});
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
+                                         workspace.getWriter());
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
+
+        else if (wrapper.getPackage().equals("database")) {
+            try {
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
+                                         new Object[] { token, workspace.getDatabase() });
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -115,7 +136,8 @@ public final class NodeFactory {
         // TODO: look into oodesign pattern, initializing within the node itself
         else {
             try {
-                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(), new Object[0]);
+                return reflectionFactory(wrapper.getPackage(), type, wrapper.getArg(),
+                                         new Object[0]);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -128,8 +150,8 @@ public final class NodeFactory {
     private static TreeNode reflectionFactory (String packageName,
                                                String type,
                                                Class<?>[] argType,
-                                               Object... arg)
-                                                          throws Exception {
+                                               Object ... arg)
+                                                              throws Exception {
         try {
             Class<?> targetClass =
                     Class.forName(String.format("model.node.%s.%s", packageName, type));
@@ -160,7 +182,7 @@ public final class NodeFactory {
 
     static class Wrapper {
         private String name;
-        private Class<?> [] arg;
+        private Class<?>[] arg;
 
         public Wrapper (String packageName, Class<?>[] constructorArg) {
             this.name = packageName;

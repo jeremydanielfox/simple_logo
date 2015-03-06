@@ -104,17 +104,17 @@ public class SingleTurtle implements Turtle{
     }
 
     // heading must be between 0 and 360
-    public void setHeading (double heading) {
+    public double setHeading (double heading) {
         if (heading >= 0 && heading < 360) {
             myHeading = heading;
             myHeadingProperty.setValue(heading);
-            return;
+            return heading;
         }
         if (heading < 0) {
-            setHeading(heading + 360);
+            return setHeading(heading + 360);
         }
         else {
-            setHeading(heading - 360);
+            return setHeading(heading - 360);
         }
     }
 

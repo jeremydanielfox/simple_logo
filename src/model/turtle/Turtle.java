@@ -25,4 +25,10 @@ public interface Turtle extends Drawable{
     public double setPenUp ();
 
     public double setPenDown ();
+    
+    public double setHeading (double arg);
+
+    public Point2D getPosition ();
+    
+    public double getHeading ();
 }

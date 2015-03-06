@@ -20,7 +20,7 @@ public class View implements WorkspaceCreator {
 	private Stage myStage;
 	private Model myModel;
 	private Display myDisplay;
-
+	
 	public View() {
 
 	}
@@ -34,10 +34,12 @@ public class View implements WorkspaceCreator {
 		myModel.setLanguage(myValues.getString("Language"));
 		myDisplay = Display.getInstance(getLanguageSetter());
 		Scene scene = myDisplay.init(myModel);
-		// makeWorkspace();
 		makeWorkspace();
 		myStage.setScene(scene);
-		myStage.show();
+                myStage.show();
+		
+		
+		
 	}
 
 	private void addListeners(TurtleList turtles, WorkspaceHistory hist) {
@@ -61,13 +63,14 @@ public class View implements WorkspaceCreator {
 		hist.addVarsListener(c -> {
 			hist.getVarsHistory().beRecorded(myDisplay.getVariableHistorian());
 		});
+		
 	}
 
 	@Override
 	public void makeWorkspace() {
 		Workspace workspace = new Workspace();
-		addListeners(workspace.getTurtles(),workspace.getWorkspaceHistory());
 		myDisplay.makeWorkspaceDisplay((Receiver) myModel, workspace.getId());
+		addListeners(workspace.getTurtles(),workspace.getWorkspaceHistory());
 		myModel.setWorkspace(workspace);
 	}
 

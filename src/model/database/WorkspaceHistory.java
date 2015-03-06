@@ -2,9 +2,9 @@ package model.database;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javafx.collections.MapChangeListener;
 import model.writable.CommandWritable;
+import model.writable.ConsoleWritable;
 import model.writable.FeedWritable;
 import model.writable.VariableWritable;
 import model.writable.Writable;
@@ -14,8 +14,10 @@ public class WorkspaceHistory implements Database {
 	// private List<String> feedHistory;
 	private Map<Class<? extends Writable>, History> historiesMap;
 	private History feedHistory;
+	private History consoleHistory;
 	private History varsHistory;
 	private History cmdsHistory;
+
 	// private List<ObservableMap<String, Writable>> histories;
 	private boolean definingSignal;
 
@@ -30,6 +32,7 @@ public class WorkspaceHistory implements Database {
 		cmdsHistory = new History("Commands");
 		historiesMap = new HashMap<Class<? extends Writable>, History>();
 		historiesMap.put(FeedWritable.class, feedHistory);
+		historiesMap.put(ConsoleWritable.class, consoleHistory);
 		historiesMap.put(CommandWritable.class, cmdsHistory);
 		historiesMap.put(VariableWritable.class, varsHistory);
 		// histories = new ArrayList<ObservableMap<String, Writable>>();
