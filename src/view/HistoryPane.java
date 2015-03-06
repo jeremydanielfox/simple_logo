@@ -15,7 +15,7 @@ import javafx.scene.text.Font;
 import model.Receiver;
 import model.writable.Writable;
 
-public class HistoryPane implements DataPane {
+public class HistoryPane implements DataPane, Historian {
 	
 	private static final int FONT_SIZE = 30;
 	private Receiver myReceiver;

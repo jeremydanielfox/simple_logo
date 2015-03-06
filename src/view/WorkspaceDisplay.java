@@ -12,6 +12,7 @@ public class WorkspaceDisplay {
 	private TurtleView myTurtleView;
 	private HistoryPane myHistory;
 	private VariablePane myVariables;
+	private CommandPane myCommands;
 	private int myID;
 
 	public WorkspaceDisplay(int id) {
@@ -26,6 +27,7 @@ public class WorkspaceDisplay {
 		Feed feed = new Feed(receiver, this.getID());
 		myRoot.setBottom(feed.getFeed());
 		myRoot.setLeft(makeVariables(receiver, feed));
+		makeCommands(feed);
 		return myRoot;
 	}
 
@@ -39,6 +41,12 @@ public class WorkspaceDisplay {
 		myVariables = new VariablePane(receiver, myID, feed);
 		Node varNode = myVariables.init();
 		return varNode;
+	}
+
+	private Node makeCommands(Feed feed) {
+		myCommands = new CommandPane(feed);
+		Node cmdsNode = myCommands.init();
+		return cmdsNode;
 	}
 
 	private Node makeTurtleView() {
@@ -61,6 +69,10 @@ public class WorkspaceDisplay {
 
 	public HistoryPane getHistoryPane() {
 		return myHistory;
+	}
+
+	public CommandPane getCommandPane() {
+		return myCommands;
 	}
 
 	public int getID() {

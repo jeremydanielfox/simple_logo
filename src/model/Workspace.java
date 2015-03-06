@@ -54,5 +54,9 @@ public class Workspace {
     public Database getDatabase () {
         return (Database) myHistory;
     }
+    
+    public WorkspaceHistory getWorkspaceHistory() {
+    	return myHistory;
+    }
 
 }

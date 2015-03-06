@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class CommandPane implements DataPane {
+public class CommandPane implements DataPane, Historian {
 
 	private Feed myFeed;
 

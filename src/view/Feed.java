@@ -59,12 +59,14 @@ public class Feed {
 		enter = new Button(ENTER_TEXT);
 		enter.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		enter.setOnAction(new EventHandler<ActionEvent>() {
+			
+
 			@Override
 			public void handle(ActionEvent e) {
-				if (prompter.getText() != null)
+				String text = prompter.getText();
+				if (text != null && !text.equals(""))
 					try {
-						String text = prompter.getText();
-						myReceiver.giveText(prompter.getText(), myID);
+						myReceiver.giveText(text, myID);
 					} catch (SlogoException ex) {
 						ErrorDisplay.getInstance().displayError(ex);
 					}

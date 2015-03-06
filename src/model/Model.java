@@ -42,6 +42,7 @@ public class Model implements Receiver, LanguageSetter {
 
     public void updateModel (String feed, int id) {
         currentWorkspace = myWorkspaces.get(id);
+        currentWorkspace.getWorkspaceHistory().getFeedHistory().put(feed, null);
         OldDatabase.getInstance().addFeed(feed);
         Parser parser = new Parser(myPatterns);
         List<TokenProperty> feedList = parser.parse(feed);

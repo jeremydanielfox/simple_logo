@@ -103,4 +103,20 @@ public class Display {
 		}
 		return null;
 	}
+	
+	public Drawer getDrawer() {
+		return getSelectedWorkspace().getTurtleView();
+	}
+	
+	public Historian getCommandHistorian() {
+		return getSelectedWorkspace().getCommandPane();
+	}
+	
+	public Historian getVariableHistorian() {
+		return getSelectedWorkspace().getVariablePane();
+	}
+	
+	public Historian getHistoryHistorian() {
+		return getSelectedWorkspace().getHistoryPane();
+	}
 }

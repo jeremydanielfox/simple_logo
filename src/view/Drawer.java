@@ -9,5 +9,9 @@ public interface Drawer {
 	public void drawLine(Point2D start, Point2D end);
 
 	public void drawTurtle(Point2D location, double heading);
+	
+	public void clearTurtles();
+	
+	public void clearLines();
 
 }

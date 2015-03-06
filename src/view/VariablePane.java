@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import model.Receiver;
 import model.writable.Writable;
 
-public class VariablePane implements DataPane {
+public class VariablePane implements DataPane, Historian {
 
 	private Receiver myReceiver;
 	private BorderPane myRoot;
