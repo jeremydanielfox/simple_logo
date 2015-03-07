@@ -19,7 +19,6 @@ import Exceptions.BadResourcePackageException;
 public class Display {
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/display");
-	private static Display instance;
 
 	private Scene myScene;
 	private BorderPane myRoot;
@@ -34,12 +33,6 @@ public class Display {
 		myWorkspaces = new ArrayList<>();
 		myLangSetter = ls;
 		myCreator = wc;
-	}
-
-	public static Display getInstance(LanguageSetter ls,WorkspaceCreator wc) {
-		if (instance == null)
-			instance = new Display(ls,wc);
-		return instance;
 	}
 
 	public Display getDisplay() {
