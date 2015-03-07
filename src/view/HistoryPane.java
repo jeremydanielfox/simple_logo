@@ -13,6 +13,7 @@ public class HistoryPane extends DataPane implements Historian {
 	public HistoryPane(Receiver receiver, int id) {
 		myReceiver = receiver;
 		myID = id;
+		setInstance(this);
 	}
 
 	public void handleAdd(String name) {
@@ -22,7 +23,8 @@ public class HistoryPane extends DataPane implements Historian {
 
 	@Override
 	public void record(Map<String, Writable> history) {
-		history.forEach((k, v) -> super.getMap().put(k, v.getValue()));
+		history.forEach((k, v) -> super.getList().add(v.getValue()));
+
 	}
 
 }

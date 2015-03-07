@@ -22,6 +22,7 @@ public class VariablePane extends DataPane implements Historian {
 		myReceiver = receiver;
 		myID = id;
 		myFeed = feed;
+		setInstance(this);
 	}
 
 	public void handleEdit(String name) {
@@ -41,17 +42,19 @@ public class VariablePane extends DataPane implements Historian {
 	}
 
 	private void handleEditOutput(String name, String value) {
-		myReceiver.giveText("set " + name + " " + value, myID);
+		myReceiver.giveText("set " + name + value, myID);
 		myStage.close();
 	}
 
 	public void handleAdd(String var) {
 		myFeed.addText(var);
+		super.getListView().getSelectionModel().clearSelection();
 	}
 
 	@Override
 	public void record(Map<String, Writable> history) {
-		history.forEach((k, v) -> super.getMap().put(k, v.getValue()));
+		history.forEach((k, v) -> super.getMap().put(v.getName(), v.getValue()));
+		setList(super.getMap().keySet());
 	}
 
 }

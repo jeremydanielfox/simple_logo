@@ -10,6 +10,7 @@ public class CommandPane extends DataPane implements Historian {
 
 	public CommandPane(Feed feed) {
 		myFeed = feed;
+		setInstance(this);
 	}
 	
 	public void handleAdd(String command) {
@@ -19,7 +20,8 @@ public class CommandPane extends DataPane implements Historian {
 	
 	@Override
 	public void record(Map<String, Writable> history) {
-		history.forEach((k, v) -> super.getMap().put(k, v.getValue()));
+		history.forEach((k, v) -> super.getMap().put(v.getName(), v.getValue()));
+		setList(super.getMap().keySet());
 	}
 
 }

@@ -1,7 +1,9 @@
 package view;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -22,9 +24,17 @@ public class PalletPane extends DataPane implements Historian {
 		myReceiver = receiver;
 		myID = id;
 		myFeed = feed;
+		setInstance(this);
+	}
+	
+	public Node init(String type) {
+		Node myRoot = super.init(type);
+		fillColors("Default");
+		return myRoot;
 	}
 
 	public void handleEdit(String name) {
+		String newName = name.replaceAll("Color", " ");
 		myStage = new Stage();
 		myStage.setMaxHeight(Double.MAX_VALUE);
 		myStage.setMaxWidth(Double.MAX_VALUE);
@@ -37,22 +47,33 @@ public class PalletPane extends DataPane implements Historian {
 		myStage.setScene(myScene);
 		myStage.show();
 		myColorPicker.show();
-		myColorPicker.setOnAction(e -> handleEditOutput(name,
+		myColorPicker.setOnAction(e -> handleEditOutput(newName,
 				myColorPicker.getValue()));
 	}
 
 	private void handleEditOutput(String name, Color value) {
-		myReceiver.giveText(String.format("setpallette " + name + " %f %f %f", value.getRed(), value.getGreen(), value.getBlue()), myID);
+		System.out.println(String.format("setpalette" + name + " %f %f %f", value.getRed(), value.getGreen(), value.getBlue()));
+		myReceiver.giveText(String.format("setpalette" + name + " %f %f %f", value.getRed(), value.getGreen(), value.getBlue()), myID);
 		myStage.close();
 	}
 
 	public void handleAdd(String var) {
-		myFeed.addText(var);
+		myFeed.addText(var.replaceAll("Color", " "));
+		super.getListView().getSelectionModel().clearSelection();
+	}
+	
+	private void fillColors(String source) {
+		ResourceBundle colors = ResourceBundle.getBundle("resources/colors/"+source);
+		for (String key : colors.keySet()) {
+			super.getMap().put(key, colors.getString(key));
+		}
+		setList(super.getMap().keySet());
 	}
 
 	@Override
 	public void record(Map<String, Writable> history) {
-		history.forEach((k, v) -> super.getMap().put(k, v.getValue()));
+		history.forEach((k, v) -> super.getMap().put(v.getName(), v.getValue()));
+		setList(super.getMap().keySet());
 	}
 
 }

@@ -40,7 +40,7 @@ public final class NodeFactory {
         String[] writerCmds =
                 new String[] { "MakeVariable", "MakeUserInstruction" };
         String[] databaseCmds =
-                new String[] { "Command", "Variable" };
+                new String[] { "Command", "Variable", "Pallet" };
         String[] mathOpCmds =
                 new String[] { "Sum", "Difference", "Product", "Quotient", "Random", "Sine" };
         String[] boolCmds = new String[] { "GreaterThan", "LessThan" };

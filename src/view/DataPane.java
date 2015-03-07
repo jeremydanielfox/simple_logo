@@ -2,6 +2,7 @@ package view;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ public abstract class DataPane {
 			.getBundle("resources/values/panes");
 	private VBox myRoot;
 	private ObservableList<String> myList;
+	private DataPane myInstance;
 	private ObservableMap<String, String> myMap = FXCollections
 			.observableHashMap();
 	private ListView<String> myListView;
@@ -64,18 +66,38 @@ public abstract class DataPane {
 	private void buttonMethod(Method method) {
 		if (myListView.getSelectionModel().getSelectedItem() != null) {
 			try {
-				method.invoke(getClass(), myListView.getSelectionModel()
+				method.invoke(myInstance, myListView.getSelectionModel()
 						.getSelectedItem());
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(myList.toString());
+	}
+	
+	public void setInstance(DataPane dp) {
+		this.myInstance = dp;
 	}
 
 	public ObservableMap<String, String> getMap() {
 		return myMap;
+	}
+	
+	public ObservableList<String> getList() {
+		return myList;
+	}
+	
+	public void setList(Collection<String> col) {
+		for (String s : col) {
+			if (!myList.contains(s)) {
+				myList.add(s);
+			}
+		}
+		for (String s : myList) {
+			if (!col.contains(s)) {
+				myList.remove(s);
+			}
+		}
 	}
 	
 	public ListView<String> getListView() {
