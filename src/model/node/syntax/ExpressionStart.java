@@ -2,11 +2,11 @@ package model.node.syntax;
 
 public class ExpressionStart extends Syntax {
 
-	public ExpressionStart() {
-	}
+    public ExpressionStart () {
+    }
 
-	@Override
-	public String toString() {
-		return "(" + " ";
-	}
+    @Override
+    public String toString () {
+        return "( ";
+    }
 }

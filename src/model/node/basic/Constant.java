@@ -3,7 +3,11 @@ package model.node.basic;
 import java.text.DecimalFormat;
 import model.node.ZeroArgOperation;
 
-
+/**
+ * TreeNode representing a constant
+ * @author Nathan Prabhu
+ *
+ */
 public class Constant extends ZeroArgOperation {
 
     private double value;

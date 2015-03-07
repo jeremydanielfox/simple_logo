@@ -2,9 +2,12 @@ package model.turtle.mover;
 
 import model.turtle.PolarVector;
 import model.turtle.SingleTurtle;
-import javafx.geometry.Point2D;
 
-
+/**
+ * Mover that assumes the boundaries of a grid wrap themselves. 
+ * @author Nate
+ *
+ */
 public class WrapMover implements Mover {
 
     @Override

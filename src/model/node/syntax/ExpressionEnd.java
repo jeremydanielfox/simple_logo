@@ -2,11 +2,11 @@ package model.node.syntax;
 
 public class ExpressionEnd extends Syntax {
 
-	public ExpressionEnd() {
-	}
+    public ExpressionEnd () {
+    }
 
-	@Override
-	public String toString() {
-		return ")" + " ";
-	}
+    @Override
+    public String toString () {
+        return ") ";
+    }
 }

@@ -1,6 +1,10 @@
 package model.node;
 
-
+/**
+ * Helper class that defaults a ChildBuilder to two arguments
+ * @author Nathan Prabhu
+ *
+ */
 public abstract class TwoArgOperation extends EvalNode{
     
     @Override

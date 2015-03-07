@@ -2,7 +2,12 @@ package model.database;
 
 import model.writable.Writable;
 
-// needs work
+/**
+ * Interface that allows commands to write to a database
+ * @author Nathan Prabhu
+ *
+ */
+
 public interface Writer {
     
     public void write(Writable writable);

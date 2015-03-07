@@ -1,6 +1,5 @@
 package model.turtle;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -14,7 +13,15 @@ import model.turtle.mover.Mover;
 import model.turtle.mover.UnboundedMover;
 import view.Drawer;
 
-public class SingleTurtle implements Turtle{
+
+/**
+ * Represents a single turtle in the simulation. Turtles can be moved in a variety of ways. They
+ * also have access to their visiblity and whether or not the pen is up or down for them.
+ * 
+ * @author Nathan Prabhu
+ *
+ */
+public class SingleTurtle implements Turtle {
 
     private Point2D myPosition;
     private Point2D myLastPosition;
@@ -27,22 +34,19 @@ public class SingleTurtle implements Turtle{
     private ObjectProperty<Point2D> myPositionProperty = new SimpleObjectProperty<Point2D>();
     private DoubleProperty myHeadingProperty = new SimpleDoubleProperty();
     private BooleanProperty myVisiblityProperty = new SimpleBooleanProperty();
-    private ObjectProperty<LineList> myLineListProperty = new SimpleObjectProperty<LineList>();
-    
+
     private static final Point2D HOME = new Point2D(0, 0);
     private static final Mover MOVER = new UnboundedMover();
 
-    
     public SingleTurtle (int id) {
         myId = id;
         setPosition(HOME);
         setHeading(0);
         show();
         myLines = new LineList();
-        myLineListProperty.setValue(myLines);
         penUp = false;
     }
-    
+
     @Override
     public void beDrawn (Drawer drawer) {
         drawer.drawTurtle(myPosition, myHeading);
@@ -51,14 +55,6 @@ public class SingleTurtle implements Turtle{
     public void move (PolarVector vector) {
         MOVER.moveTurtle(this, vector);
         // update TurtleData, add to list somewhere...
-    }
-    
-    public void addLocationListener(InvalidationListener listener){
-        myPositionProperty.addListener(listener);
-    }
-    
-    public void addHeadingListener(InvalidationListener listener){
-        myHeadingProperty.addListener(listener);
     }
 
     public void translate (double distance) {
@@ -72,7 +68,8 @@ public class SingleTurtle implements Turtle{
 
     public double towards (Point2D target) {
         Point2D deltaVector = myPosition.subtract(target);
-        // TODO: must generate cases for each quadrant type... also cases if angle is multiple of 90 deg
+        // TODO: must generate cases for each quadrant type... also cases if angle is multiple of 90
+        // deg
         return 0;
     }
 
@@ -81,11 +78,11 @@ public class SingleTurtle implements Turtle{
         double r = HOME.distance(getPosition());
         setHeading(0);
         setPosition(HOME);
-        move(new PolarVector(0,0));
+        move(new PolarVector(0, 0));
         return r;
     }
-    
-    public double clearScreen ()  {
+
+    public double clearScreen () {
         myLines.clear();
         return goHome();
     }
@@ -97,7 +94,7 @@ public class SingleTurtle implements Turtle{
     public void setPosition (Point2D position) {
         // myPosition will be null first time through
         Point2D currentPosition = (myPosition == null) ? HOME : myPosition;
-        
+
         myLastPosition = new Point2D(currentPosition.getX(), currentPosition.getY());
         myPosition = position;
         myPositionProperty.setValue(position);
@@ -143,7 +140,7 @@ public class SingleTurtle implements Turtle{
         myVisiblityProperty.set(true);
         return 1;
     }
-    
+
     public double hide () {
         visible = false;
         myVisiblityProperty.set(false);
@@ -154,7 +151,7 @@ public class SingleTurtle implements Turtle{
         penUp = true;
         return 1;
     }
-    
+
     public double setPenDown () {
         penUp = false;
         return 0;
@@ -171,16 +168,12 @@ public class SingleTurtle implements Turtle{
     public ObjectProperty<Point2D> getPositionProperty () {
         return myPositionProperty;
     }
-    
+
     public DoubleProperty getHeadingProperty () {
         return myHeadingProperty;
     }
-    
-    public BooleanProperty getVisibilityProperty() {
+
+    public BooleanProperty getVisibilityProperty () {
         return myVisiblityProperty;
-    }
-    
-    public ObjectProperty<LineList> getLineListProperty () {
-        return myLineListProperty;
     }
 }

@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Point2D;
@@ -14,10 +12,15 @@ import model.node.CommandList;
 import view.Drawer;
 
 
-// one per workspace
+/**
+ * Represents a list of turtles. There is one per workspace. It controls the active turtles, and
+ * also sets listeners to all turtles and their lines.
+ * 
+ * @author Nate
+ *
+ */
 public class TurtleList implements Turtle {
 
-    private int myId;
     private Map<Integer, SingleTurtle> allTurtlesMap;
     private Map<Integer, SingleTurtle> activeTurtlesMap;
     private int myCurrentId;
@@ -25,18 +28,15 @@ public class TurtleList implements Turtle {
     private ChangeListener myTurtleListener;
     private ListChangeListener myLineListener;
 
-    // private ObservableList<SingleTurtle> allTurtles;
-
-    public TurtleList (int id) {
-        myId = id;
-
+    public TurtleList () {
+        
         // initialize maps
         allTurtlesMap = new HashMap<Integer, SingleTurtle>();
         allTurtlesMap.put(1, new SingleTurtle(1));
         activeTurtlesMap = allTurtlesMap;
         myCurrentId = 1;
-        //activeIds = new ArrayList<Integer>();
-        //activeIds.add(1);
+        // activeIds = new ArrayList<Integer>();
+        // activeIds.add(1);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class TurtleList implements Turtle {
             activeTurtlesMap.put(id, allTurtlesMap.get(id));
         }
     }
-    
-    public double ask (List<Integer> queried, CommandList commands){
+
+    public double ask (List<Integer> queried, CommandList commands) {
         List<Integer> currentlyActive = new ArrayList<Integer>();
         currentlyActive.addAll(activeTurtlesMap.keySet());
         setActive(queried);
@@ -63,7 +63,6 @@ public class TurtleList implements Turtle {
         setActive(currentlyActive);
         return result;
     }
-    
 
     public Collection<SingleTurtle> getAllTurtles () {
         return allTurtlesMap.values();
@@ -80,15 +79,6 @@ public class TurtleList implements Turtle {
         addChangeListener(turtle);
         addListChangeListener(turtle);
     }
-
-    // TODO: use matchers to filter turtle ids with given list of ids
-    // public void remove (int... ids){
-    // myList.stream().filter(this:: filterID);
-    // }
-    //
-    // private boolean filterId (int[] ids) {
-    //
-    // }
 
     @Override
     public void translate (double distance) {
@@ -159,7 +149,6 @@ public class TurtleList implements Turtle {
         });
         return 0;
     }
-    
 
     @Override
     public double setHeading (double heading) {
@@ -170,7 +159,8 @@ public class TurtleList implements Turtle {
         return heading;
     }
 
-    @Override // TODO: fix return value
+    @Override
+    // TODO: fix return value
     public double clearScreen () {
         activeTurtlesMap.values().forEach(turtle -> {
             myCurrentId = turtle.getId();
@@ -178,11 +168,11 @@ public class TurtleList implements Turtle {
         });
         return 0;
     }
-    
+
     public Point2D getPosition () {
         return activeTurtlesMap.get(myCurrentId).getPosition();
     }
-    
+
     public double getHeading () {
         return activeTurtlesMap.get(myCurrentId).getHeading();
     }
@@ -197,30 +187,20 @@ public class TurtleList implements Turtle {
         addChangeListener(allTurtlesMap.get(1));
     }
 
+    private void addChangeListener (SingleTurtle turtle) {
+        turtle.getHeadingProperty().addListener(myTurtleListener);
+        turtle.getPositionProperty().addListener(myTurtleListener);
+        turtle.getVisibilityProperty().addListener(myTurtleListener);
+    }
+
     public void setListChangeListener (ListChangeListener listener) {
         myLineListener = listener;
         // will add listchange listener to first turtle
         addListChangeListener(allTurtlesMap.get(1));
     }
 
-    private void addChangeListener (SingleTurtle turtle) {
-        turtle.getHeadingProperty().addListener(myTurtleListener);
-        turtle.getPositionProperty().addListener(myTurtleListener);
-        turtle.getVisibilityProperty().addListener(myTurtleListener);
-        turtle.getLineListProperty().addListener(myTurtleListener);
-    }
-
     private void addListChangeListener (SingleTurtle turtle) {
         turtle.getLines().addListener(myLineListener);
     }
 
-    public void addLocationListener (InvalidationListener listener) {
-        allTurtlesMap.values().forEach(turtle -> turtle.addLocationListener(listener));
-    }
-
-    public void addHeadingListener (InvalidationListener listener) {
-        allTurtlesMap.values().forEach(turtle -> turtle.addHeadingListener(listener));
-    }
-
 }
-

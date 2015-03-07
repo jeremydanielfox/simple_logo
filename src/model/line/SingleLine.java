@@ -6,7 +6,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import view.Drawer;
 
-
+/**
+ * Represents one line drawn by a SingleTurtle
+ * @author Nathan Prabhu
+ *
+ */
 public class SingleLine implements Line,ObservableValue<SingleLine> {
     private Point2D start;
     private Point2D finish;

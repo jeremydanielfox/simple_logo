@@ -1,6 +1,10 @@
 package model.node;
 
-// dummy that is the basest type of Node you could have
+/**
+ * Most base type of Node in the Tree.
+ * @author Nathan Prabhu
+ *
+ */
 public abstract class TreeNode {
     
     public abstract String toString ();

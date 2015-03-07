@@ -13,9 +13,21 @@ import model.database.Database;
 import model.turtle.Turtle;
 
 
+/**
+ * Singleton class to create a node from the given TokenProperty and workspace
+ * 
+ * @author Nathan Prabhu
+ *
+ */
+
 public final class NodeFactory {
 
     private static NodeFactory instance;
+
+    /**
+     * Map to used organize package, constructor argument types, and constructor arguments for each
+     * TokenProperty. When new commands are created, one only needs to add their name to the appropriate String[].
+     */
     private static final Map<ReflectionWrapper, List<String>> reflectionMap;
     static
     {
@@ -79,6 +91,14 @@ public final class NodeFactory {
         return instance;
     }
 
+    /**
+     * The main method used to generate a TreeNode. The TokenProperty is the key and the Workspace
+     * offers potential constructor arguments for each of the nodes.
+     * 
+     * @param tokenProp
+     * @param workspace
+     * @return
+     */
     public static TreeNode get (TokenProperty tokenProp, Workspace workspace) {
         String type = tokenProp.getType();
         String token = tokenProp.getToken();
@@ -139,26 +159,31 @@ public final class NodeFactory {
         throw new RuntimeException();
     }
 
-    static class ReflectionWrapper {
+    /**
+     * A wrapper used as a value in the reflection map
+     * @author Nathan Prabhu
+     *
+     */
+    private static class ReflectionWrapper {
         private String name;
         private Class<?>[] arg;
         private int[] argIndices;
 
-        public ReflectionWrapper (String packageName, Class<?>[] constructorArg, int[] argIndices) {
+        private ReflectionWrapper (String packageName, Class<?>[] constructorArg, int[] argIndices) {
             this.name = packageName;
             this.arg = constructorArg;
             this.argIndices = argIndices;
         }
 
-        public String getPackage () {
+        private String getPackage () {
             return name;
         }
 
-        public Class<?>[] getArgType () {
+        private Class<?>[] getArgType () {
             return arg;
         }
 
-        public int[] getArgIndices () {
+        private int[] getArgIndices () {
             return argIndices;
         }
     }

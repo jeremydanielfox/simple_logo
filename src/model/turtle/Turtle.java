@@ -4,6 +4,11 @@ import model.Drawable;
 import javafx.geometry.Point2D;
 import view.Drawer;
 
+/**
+ * Interface for all turtles. They are drawable
+ * @author Nate
+ *
+ */
 public interface Turtle extends Drawable{
 
     public void beDrawn(Drawer drawer);

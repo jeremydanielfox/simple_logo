@@ -9,6 +9,13 @@ import model.writable.CommandWritable;
 import Exceptions.UnrecognizedTokenException;
 
 
+/**
+ * TreeNode representing any command. There are two cases upon initialization, being defined and
+ * otherwise. It accounts for both.
+ * 
+ * @author Nathan Prabhu
+ *
+ */
 public class Command extends EvalNode {
 
     private String name;
@@ -23,14 +30,14 @@ public class Command extends EvalNode {
         this.name = name;
         this.database = database;
         params = new ArrayList<Variable>();
-        if (beingDefined()){
+        if (beingDefined()) {
             database.setDefiningSignal(false);
             super.setChildBuilders();
         }
-        else{
+        else {
             verify();
             params = ((CommandWritable) database.getWritable(toString())).getParameters();
-            super.setChildBuilders();       
+            super.setChildBuilders();
         }
     }
 
@@ -45,7 +52,7 @@ public class Command extends EvalNode {
     protected boolean beingDefined () {
         return database.getDefiningSignal();
     }
-    
+
     @Override
     public ChildBuilder[] addChildBuilders () {
         List<ChildBuilder> result = new ArrayList<ChildBuilder>();
@@ -56,9 +63,7 @@ public class Command extends EvalNode {
     }
 
     private void verify () {
-        if (database.getWritable(toString()) == null){
-            throw new UnrecognizedTokenException(name); 
-        }
+        if (database.getWritable(toString()) == null) { throw new UnrecognizedTokenException(name); }
     }
 
     @Override

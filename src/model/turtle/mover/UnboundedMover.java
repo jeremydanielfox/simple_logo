@@ -5,6 +5,11 @@ import model.line.SingleLine;
 import model.turtle.PolarVector;
 import model.turtle.SingleTurtle;
 
+/**
+ * A Mover that assumes unbounded boundary/edge conditions
+ * @author Nathan Prabhu
+ *
+ */
 
 public class UnboundedMover implements Mover {
 

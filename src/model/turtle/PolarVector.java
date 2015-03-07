@@ -1,5 +1,10 @@
 package model.turtle;
 
+/**
+ * A Polar Vector that represents a radius and angle.
+ * @author Nate
+ *
+ */
 public class PolarVector {
 	private double myRadius;
 	private double myTheta;

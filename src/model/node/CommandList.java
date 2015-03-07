@@ -2,6 +2,11 @@ package model.node;
 
 import java.util.List;
 
+/**
+ * The root of any tree. It contains a list of commands to run (e.g. [fd 50, rt 90]). 
+ * @author Nathan Prabhu
+ *
+ */
 public class CommandList extends ZeroArgOperation{
     
     List<EvalNode> myList;

@@ -10,7 +10,11 @@ import model.node.syntax.ListEnd;
 import model.node.syntax.ListStart;
 import model.writable.CommandWritable;
 
-
+/**
+ * Defines the "To" command. It has access to the Writer of the WorkspaceHistory.
+ * @author Nate
+ *
+ */
 public class MakeUserInstruction extends EvalNode {
 
     private Writer myWriter;
@@ -21,7 +25,6 @@ public class MakeUserInstruction extends EvalNode {
         myWriter = writer;
     }
 
-    // TODO: determine how command could be unsuccessfully added...
     @Override
     public double evaluate () {
         update();

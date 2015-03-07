@@ -6,6 +6,11 @@ import javafx.collections.ObservableMap;
 import model.writable.Writable;
 import view.Historian;
 
+/**
+ * Keeps track of various histories within the simulation
+ * @author Nate
+ *
+ */
 public class History implements Recordable {
 
 	private String myType;
@@ -18,13 +23,11 @@ public class History implements Recordable {
 
 	@Override
 	public void beRecorded(Historian recorder) {
-		// recorder.record(myMap);
 		recorder.record(myMap);
 	}
 
 	@Override
 	public void addListener(MapChangeListener listener) {
-		// TODO Auto-generated method stub
 		myMap.addListener(listener);
 	}
 

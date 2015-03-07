@@ -9,7 +9,11 @@ import model.writable.FeedWritable;
 import model.writable.VariableWritable;
 import model.writable.Writable;
 
-
+/**
+ * Keeps track of various histories throughout the program, such as feed, console, variables, and commands.
+ * @author Nathan Prabhu
+ *
+ */
 public class WorkspaceHistory implements Database {
 
     private Map<Class<? extends Writable>, History> historiesMap;
