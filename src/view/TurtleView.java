@@ -259,11 +259,4 @@ public class TurtleView implements Drawer, Configurable {
 
 	}
 
-	/**
-	 * Draws a drawable by giving the drawable the drawer
-	 */
-	@Override
-	public void draw(Drawable drawable) {
-		drawable.beDrawn(this);
-	}
 }

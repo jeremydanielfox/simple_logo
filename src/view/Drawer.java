@@ -12,13 +12,6 @@ import model.Drawable;
  */
 public interface Drawer {
 	/**
-	 * Draws a given Drawable
-	 * 
-	 * @param drawable
-	 */
-	public void draw(Drawable drawable);
-
-	/**
 	 * Draws a line given a start and end point
 	 * 
 	 * @param start
