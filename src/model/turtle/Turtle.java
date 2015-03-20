@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece
+// Jeremy Fox
 package model.turtle;
 
 import model.Drawable;
@@ -6,6 +8,7 @@ import view.Drawer;
 
 /**
  * Interface for all turtles. They are drawable
+ * @author Jeremy
  * @author Nate
  *
  */

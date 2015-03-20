@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece
+// Jeremy Fox
 package view;
 
 import java.util.ResourceBundle;
@@ -25,6 +27,7 @@ import model.line.SingleLine;
  */
 public class TurtleView implements Drawer, Configurable {
 
+	private static final int OFFSET_FACTOR = 20;
 	private static final ResourceBundle myValues = ResourceBundle
 			.getBundle("resources/values/turtleview");
 	private Canvas myLineCanvas;
@@ -63,13 +66,13 @@ public class TurtleView implements Drawer, Configurable {
 		myXOffset.bind(myTurtleCanvas.widthProperty().divide(2));
 		myYOffset.bind(myTurtleCanvas.heightProperty().divide(2));
 		myLineCanvas.widthProperty()
-				.bind(myLayers.widthProperty().subtract(20));
+				.bind(myLayers.widthProperty().subtract(OFFSET_FACTOR));
 		myLineCanvas.heightProperty().bind(
-				myLayers.heightProperty().subtract(20));
+				myLayers.heightProperty().subtract(OFFSET_FACTOR));
 		myTurtleCanvas.widthProperty().bind(
-				myLayers.widthProperty().subtract(20));
+				myLayers.widthProperty().subtract(OFFSET_FACTOR));
 		myTurtleCanvas.heightProperty().bind(
-				myLayers.heightProperty().subtract(20));
+				myLayers.heightProperty().subtract(OFFSET_FACTOR));
 		myLineCanvas.widthProperty().addListener(observable -> redraw());
 		myLineCanvas.heightProperty().addListener(observable -> redraw());
 		myTurtleCanvas.widthProperty().addListener(observable -> redraw());
