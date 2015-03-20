@@ -16,6 +16,13 @@ import javafx.scene.transform.Rotate;
 import model.Drawable;
 import model.line.SingleLine;
 
+/**
+ * Provides the window in which the user can see all drawn objects, including
+ * turtles, lines, and stamps.
+ * 
+ * @author Jeremy, Peter
+ *
+ */
 public class TurtleView implements Drawer, Configurable {
 
 	private static final ResourceBundle myValues = ResourceBundle
@@ -40,6 +47,10 @@ public class TurtleView implements Drawer, Configurable {
 	private static final Color BACKGROUND_COLOR = Color.BLACK;
 	private static final Color PEN_COLOR = Color.PINK;
 
+	/**
+	 * Creates a new TurtleView that is bound to the window size, so that as the
+	 * user adjusts the size of the window, the TurtleView scales appropriately
+	 */
 	public TurtleView() {
 		myLineCanvas = new Canvas();
 		myTurtleCanvas = new Canvas();
@@ -65,23 +76,48 @@ public class TurtleView implements Drawer, Configurable {
 		myTurtleCanvas.heightProperty().addListener(observable -> redraw());
 	}
 
+	/**
+	 * Returns the GraphicsContext associated with the Canvas the Turtles are
+	 * located on
+	 * 
+	 * @return
+	 */
 	public GraphicsContext getTurtleGraphicsContext() {
 		return myTurtleGC;
 	}
 
+	/**
+	 * Returns the GraphicsContext associated with the Canvas the Lines are
+	 * located on
+	 * 
+	 * @return
+	 */
 	public GraphicsContext getLineGraphicsContext() {
 		return myLineGC;
 	}
 
+	/**
+	 * Returns the Canvas the Turtles are drawn on
+	 * 
+	 * @return
+	 */
 	public Canvas getTurtleCanvas() {
 		return myTurtleCanvas;
 	}
 
+	/**
+	 * Allows for the canvas to be resized if the user adjusts the size of the
+	 * window
+	 */
 	private void redraw() {
 		myBackground.setHeight(myLineCanvas.getHeight());
 		myBackground.setWidth(myLineCanvas.getWidth());
 	}
 
+	/**
+	 * Initializes the appropriate GraphicsContexts, setting appropriate colors
+	 * and strokes
+	 */
 	private void setupGraphicsContext() {
 		myLineGC = myLineCanvas.getGraphicsContext2D();
 		myLineGC.setStroke(PEN_COLOR);
@@ -89,30 +125,41 @@ public class TurtleView implements Drawer, Configurable {
 		setPenWidth(LINE_WIDTH);
 	}
 
+	/**
+	 * Sets the Pen color by setting the stroke in the Line GraphicsContext
+	 */
 	public void setPenColor(Color color) {
 		myLineGC.setStroke(color);
 	}
 
+	/**
+	 * Sets the Pen Width by adjusting line width in the Line GraphicsContext
+	 */
 	public void setPenWidth(double width) {
 		myLineGC.setLineWidth(width);
 	}
 
+	/**
+	 * Sets the background color by coloring the rectangle (background) located
+	 * behind the canvases
+	 */
 	public void setBackgroundColor(Color color) {
 		myBackground.setFill(color);
 	}
 
+	/**
+	 * Returns the stackpane containing all viewable objects
+	 */
 	public Node getView() {
 		return myLayers;
 	}
 
+	/**
+	 * Sets the instance variable associated with the Turtle image to the image
+	 * the is given
+	 */
 	public void setTurtleImage(Image img) {
 		turtleImage = img;
-	}
-
-	public void drawLines(SingleLine current) {
-		clearLines();
-		myLineGC.strokeLine(current.getStart().getX(), current.getStart()
-				.getY(), current.getFinish().getX(), current.getFinish().getY());
 	}
 
 	/**
@@ -164,23 +211,29 @@ public class TurtleView implements Drawer, Configurable {
 				r.getTx(), r.getTy());
 	}
 
+	/**
+	 * Erases all onscreen turtles by clearing a rectangle on the turtle Canvas
+	 * that is the size of the canvas.
+	 */
 	@Override
 	public void clearTurtles() {
 		myTurtleGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
 	}
 
+	/**
+	 * Erases all onscreen lines by clearing a rectangle on the Line Canvas that
+	 * is the size of the canvas
+	 */
 	@Override
 	public void clearLines() {
 		myLineGC.clearRect(0, 0, myTurtleCanvas.getWidth(),
 				myTurtleCanvas.getHeight());
 	}
 
-	// @Override
-	// public void clear (Clearable clearable) {
-	// clearable.beCleared(this);
-	// }
-
+	/**
+	 * Draws a line from a given start to a given end on the Line Canvas
+	 */
 	@Override
 	public void drawLine(Point2D start, Point2D end) {
 		myLineGC.strokeLine(start.getX() + myXOffset.get() + turtleXOffset,
@@ -189,15 +242,14 @@ public class TurtleView implements Drawer, Configurable {
 						+ myYOffset.get() + turtleYOffset);
 	}
 
+	/**
+	 * Draws a turtle at a given location and rotated at a given heading
+	 */
 	@Override
 	public void drawTurtle(Point2D location, double heading) {
-		// clearTurtles();
-
 		Image image = turtleImage;
 		myTurtleGC.save(); // saves the current state on stack, including
-							// the
-		// current
-		// transform
+							// the current transform
 		rotate(myTurtleGC, heading,
 				location.getX() + myXOffset.get() + image.getWidth() / 2,
 				location.getY() + myYOffset.get() + image.getHeight() / 2);
@@ -207,6 +259,9 @@ public class TurtleView implements Drawer, Configurable {
 
 	}
 
+	/**
+	 * Draws a drawable by giving the drawable the drawer
+	 */
 	@Override
 	public void draw(Drawable drawable) {
 		drawable.beDrawn(this);

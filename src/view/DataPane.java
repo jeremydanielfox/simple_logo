@@ -17,6 +17,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+/**
+ * 
+ * @author Peter
+ *
+ */
 public abstract class DataPane {
 
 	private static final ResourceBundle myValues = ResourceBundle
@@ -74,7 +79,7 @@ public abstract class DataPane {
 			}
 		}
 	}
-	
+
 	public void setInstance(DataPane dp) {
 		this.myInstance = dp;
 	}
@@ -82,11 +87,11 @@ public abstract class DataPane {
 	public ObservableMap<String, String> getMap() {
 		return myMap;
 	}
-	
+
 	public ObservableList<String> getList() {
 		return myList;
 	}
-	
+
 	public void setList(Collection<String> col) {
 		for (String s : col) {
 			if (!myList.contains(s)) {
@@ -99,7 +104,7 @@ public abstract class DataPane {
 			}
 		}
 	}
-	
+
 	public ListView<String> getListView() {
 		return myListView;
 	}

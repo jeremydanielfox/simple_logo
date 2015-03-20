@@ -5,6 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * A Singleton that displays given errors in a pop-up screen.
+ * 
+ * @author Jeremy
+ *
+ */
 public class ErrorDisplay {
 	private static Stage myStage;
 	private static Scene myScene;
@@ -27,14 +33,24 @@ public class ErrorDisplay {
 		setupDisplay();
 	}
 
+	/**
+	 * Checks to see if an ErrorDisplay has been created before. If it has, it
+	 * returns that one. Otherwise, it creates a new one and returns it.
+	 * 
+	 * @return
+	 */
 	protected static ErrorDisplay getInstance() {
 		if (instance == null)
 			instance = new ErrorDisplay();
 		return instance;
 	}
-	
+
+	/**
+	 * Sets up appropriate qualities of the ErrorDisplay
+	 */
 	private void setupDisplay() {
-		myErrorLabel.setWrapText(true);;
+		myErrorLabel.setWrapText(true);
+		;
 	}
 
 	/**

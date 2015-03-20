@@ -7,7 +7,11 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import model.Receiver;
-
+/**
+ * Represents the front end analogue of the Workspace, containing the Drawer, all HistoryPanes, and the Feed
+ * @author Jeremy
+ *
+ */
 public class WorkspaceDisplay {
 
 	private BorderPane myRoot;
@@ -21,11 +25,18 @@ public class WorkspaceDisplay {
 	private int myID;
 	private final int TAB_MIN_WIDTH = 30;
 	private final int CONSOLE_WIDTH = 350;
-
+/**
+ * Creates a new WorkspaceDisplay with the given ID
+ * @param id
+ */
 	public WorkspaceDisplay(int id) {
 		myID = id;
 	}
-
+/**
+ * Initializes all workspace components.
+ * @param receiver
+ * @return
+ */
 	public Node init(Receiver receiver) {
 		myRoot = new BorderPane();
 		myHistories = new TabPane();

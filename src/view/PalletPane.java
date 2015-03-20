@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 import model.Receiver;
 import model.writable.Writable;
 
+/**
+ * 
+ * @author Peter
+ *
+ */
 public class PalletPane extends DataPane implements Historian {
 
 	private Receiver myReceiver;
@@ -26,7 +31,7 @@ public class PalletPane extends DataPane implements Historian {
 		myFeed = feed;
 		setInstance(this);
 	}
-	
+
 	public Node init(String type) {
 		Node myRoot = super.init(type);
 		fillColors("Default");
@@ -52,8 +57,10 @@ public class PalletPane extends DataPane implements Historian {
 	}
 
 	private void handleEditOutput(String name, Color value) {
-		System.out.println(String.format("setpalette" + name + " %f %f %f", value.getRed(), value.getGreen(), value.getBlue()));
-		myReceiver.giveText(String.format("setpalette" + name + " %f %f %f", value.getRed(), value.getGreen(), value.getBlue()), myID);
+		System.out.println(String.format("setpalette" + name + " %f %f %f",
+				value.getRed(), value.getGreen(), value.getBlue()));
+		myReceiver.giveText(String.format("setpalette" + name + " %f %f %f",
+				value.getRed(), value.getGreen(), value.getBlue()), myID);
 		myStage.close();
 	}
 
@@ -61,9 +68,10 @@ public class PalletPane extends DataPane implements Historian {
 		myFeed.addText(var.replaceAll("Color", " "));
 		super.getListView().getSelectionModel().clearSelection();
 	}
-	
+
 	private void fillColors(String source) {
-		ResourceBundle colors = ResourceBundle.getBundle("resources/colors/"+source);
+		ResourceBundle colors = ResourceBundle.getBundle("resources/colors/"
+				+ source);
 		for (String key : colors.keySet()) {
 			super.getMap().put(key, colors.getString(key));
 		}

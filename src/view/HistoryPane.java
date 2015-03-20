@@ -5,8 +5,13 @@ import java.util.Map;
 import model.Receiver;
 import model.writable.Writable;
 
+/**
+ * 
+ * @author Peter
+ *
+ */
 public class HistoryPane extends DataPane implements Historian {
-	
+
 	private Receiver myReceiver;
 	private int myID;
 
@@ -17,8 +22,8 @@ public class HistoryPane extends DataPane implements Historian {
 	}
 
 	public void handleAdd(String name) {
-			myReceiver.giveText(name, myID);
-			super.getListView().getSelectionModel().clearSelection();
+		myReceiver.giveText(name, myID);
+		super.getListView().getSelectionModel().clearSelection();
 	}
 
 	@Override

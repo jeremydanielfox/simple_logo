@@ -3,7 +3,11 @@ package view;
 import java.util.Map;
 
 import model.writable.Writable;
-
+/**
+ * 
+ * @author Peter
+ *
+ */
 public class CommandPane extends DataPane implements Historian {
 
 	private Feed myFeed;

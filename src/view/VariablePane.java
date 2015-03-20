@@ -10,7 +10,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Receiver;
 import model.writable.Writable;
-
+/**
+ * 
+ * @author Peter
+ *
+ */
 public class VariablePane extends DataPane implements Historian {
 
 	private Receiver myReceiver;
