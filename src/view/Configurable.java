@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Map;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -45,4 +46,6 @@ public interface Configurable {
 	 * @param img
 	 */
 	public void setTurtleImage(Image img);
+	
+	public Map<Integer,Image> getTurtles();
 }

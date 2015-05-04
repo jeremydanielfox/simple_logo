@@ -49,7 +49,7 @@ public class SingleTurtle implements Turtle {
 
     @Override
     public void beDrawn (Drawer drawer) {
-        drawer.drawTurtle(myPosition, myHeading);
+        drawer.drawTurtle(myPosition, myHeading, myId);
     }
 
     public void move (PolarVector vector) {

@@ -1,7 +1,6 @@
 package view;
 
 import javafx.geometry.Point2D;
-import model.Drawable;
 
 /**
  * The Visitor part of the Visitor pattern, the Drawer takes in Drawable objects
@@ -25,7 +24,7 @@ public interface Drawer {
 	 * @param location
 	 * @param heading
 	 */
-	public void drawTurtle(Point2D location, double heading);
+	public void drawTurtle(Point2D location, double heading, int id);
 
 	/**
 	 * Clears all turtles
